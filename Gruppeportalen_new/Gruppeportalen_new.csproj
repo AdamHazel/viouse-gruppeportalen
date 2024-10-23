@@ -26,4 +26,9 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\NormalUser\Data\" />
+    <Folder Include="Areas\OrganisationUser\Data\" />
+  </ItemGroup>
+
 </Project>

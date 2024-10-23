@@ -1,4 +1,6 @@
-﻿using Gruppeportalen_new.Models;
+﻿using Gruppeportalen_new.Areas.NormalUser.Models;
+using Gruppeportalen_new.Areas.OrganisationUser.Models;
+using Gruppeportalen_new.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,4 +12,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
+    public DbSet<NormalUser> NormalUsers { get; set; }
+    public DbSet<OrganisationUser> OrganisationUsers { get; set; }
 }
