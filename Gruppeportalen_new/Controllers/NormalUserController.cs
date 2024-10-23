@@ -19,7 +19,6 @@ public class NormalUserController : Controller
     [Authorize]
     public IActionResult Index()
     {
-        
         return View();
     }
     
