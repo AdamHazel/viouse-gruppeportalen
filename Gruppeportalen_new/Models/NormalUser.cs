@@ -7,28 +7,27 @@ public class NormalUser
     [ForeignKey("ApplicationUser")]
     public string Id {get; set;}
     [Required]
-    [MaxLength(30)]
+    [StringLength(30)]
     public string Firstname { get; set; } = string.Empty;
 
     [Required] 
-    [MaxLength(30)] 
+    [StringLength(30)] 
     public string Lastname { get; set; } = string.Empty;
 
     [Required]
-    [MaxLength(50)]
+    [StringLength(50)]
     public string Address { get; set; } = String.Empty;
 
     [Required]
-    [MaxLength(30)]
+    [StringLength(30)]
     public string City { get; set; } = String.Empty;
 
     [Required]
-    [MinLength(4)]
-    [MaxLength(4)]
+    [StringLength(4)]
     public string Postcode { get; set; } = String.Empty;
 
     [Required]
-    [MaxLength(30)]
+    [StringLength(30)]
     public string Telephone { get; set; } = String.Empty;
 
     [DataType(DataType.Date)]

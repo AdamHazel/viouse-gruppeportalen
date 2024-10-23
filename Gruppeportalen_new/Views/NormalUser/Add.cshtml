@@ -11,6 +11,13 @@
 
     <form asp-action="Add" method="post">
         <div>
+            <label asp-for="Id" class=""></label>
+            <input type="text" asp-for="Id" value="@Model.Id" readonly>
+            <span asp-validation-for="Firstname" class="text-danger"></span>
+            <br/>
+        </div>
+        
+        <div>
             <label asp-for="Firstname" class="">First name</label>
             <input type="text" asp-for="Firstname"/>
             <span asp-validation-for="Firstname" class="text-danger"></span>

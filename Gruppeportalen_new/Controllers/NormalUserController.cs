@@ -1,5 +1,6 @@
 ﻿using Gruppeportalen_new.Data;
 using Gruppeportalen_new.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,24 +20,35 @@ public class NormalUserController : Controller
     [Authorize]
     public IActionResult Index()
     {
+        var user = _um.GetUserAsync(User).Result;
+
+        // Can change this to redirect to an error page maybe?
+        if (user.TypeOfUser == "CentralOrganisation")
+            return RedirectToAction(nameof(Index), nameof(OrganisationUser));
+        
+        if (_db.NormalUsers.Find(user.Id) == null)
+            return RedirectToAction(nameof(Add));
+        
         return View();
     }
     
+    [Authorize]
     [HttpGet]
     public IActionResult Add()
     {
-        return View(new NormalUser()); 
+        var user = _um.GetUserAsync(User).Result;
+        
+        return View(new NormalUser{Id = user.Id}); 
     }
     
-    
+    [Authorize]
     [HttpPost]
     public IActionResult Add(NormalUser normalUser)
     {
         if (!ModelState.IsValid)
+        { 
             return View(normalUser);
-        
-        var user = _um.GetUserAsync(User).Result;
-        normalUser.Id = user.Id;
+        }
         
         _db.NormalUsers.Add(normalUser);
         _db.SaveChanges();

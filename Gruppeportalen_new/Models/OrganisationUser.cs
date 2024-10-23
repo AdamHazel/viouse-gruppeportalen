@@ -5,8 +5,9 @@ namespace Gruppeportalen_new.Models;
 
 public class OrganisationUser
 {
+    [Key]
     [ForeignKey("ApplicationUser")]
-    public string Id {get; set;}
+    public string UserId {get; set;}
     
     [Required]
     [StringLength(100)]
