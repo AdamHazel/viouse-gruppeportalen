@@ -22,7 +22,7 @@ public class NormalUserController : Controller
         return View();
     }
     
-    [ HttpGet]
+    [HttpGet]
     public IActionResult Add()
     {
         return View(new NormalUser()); 
