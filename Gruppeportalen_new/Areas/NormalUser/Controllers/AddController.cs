@@ -6,29 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gruppeportalen_new.Areas.NormalUser.Controllers;
 
-public class NormalUserController : Controller
+[Area("NormalUser")]
+public class AddController : Controller
 {
+
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
-    public NormalUserController(ApplicationDbContext db, UserManager<ApplicationUser> um)
+    public AddController(ApplicationDbContext db, UserManager<ApplicationUser> um)
     {
         _db = db;
         _um = um;
     }
+
+
+    [ HttpGet]
     public IActionResult Index()
     {
-        return View();
-    }
-
-    [Authorize, HttpGet]
-    public IActionResult Add()
-    {
-        return View(new Models.NormalUser()); 
+        return View(new Gruppeportalen_new.Areas.NormalUser.Models.NormalUser()); 
     }
     
-    [Authorize]
+    
     [HttpPost]
-    public IActionResult Add(Models.NormalUser normalUser)
+    public IActionResult Index(Gruppeportalen_new.Areas.NormalUser.Models.NormalUser normalUser)
     {
         var user = _um.GetUserAsync(User).Result;
         normalUser.Id = user.Id;

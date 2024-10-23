@@ -31,4 +31,14 @@
     <Folder Include="Areas\OrganisationUser\Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\NormalUser\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\NormalUser\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Areas\NormalUser\Views\Home\Add.cshtml" />
+    <AdditionalFiles Include="Areas\NormalUser\Views\Home\Index.cshtml" />
+  </ItemGroup>
+
 </Project>

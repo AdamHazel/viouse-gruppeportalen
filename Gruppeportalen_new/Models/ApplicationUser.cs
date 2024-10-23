@@ -8,10 +8,5 @@ namespace Gruppeportalen_new.Models;
 
 public class ApplicationUser : IdentityUser
 {
-    public UserType UserType{ get; set; }
-}
-public enum UserType
-{
-    OrganisationUser,
-    PrivateUser
+    public string TypeOfUser { get; set; }=string.Empty;
 }
