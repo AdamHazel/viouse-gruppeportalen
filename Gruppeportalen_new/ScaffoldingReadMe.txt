@@ -1,3 +1,4 @@
+
 Scaffolding has generated all the files and added the required dependencies.
 
 However the Application's Startup code may require additional changes for things to work end to end.

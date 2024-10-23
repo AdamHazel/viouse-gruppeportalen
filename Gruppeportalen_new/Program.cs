@@ -24,8 +24,9 @@ using (var services = app.Services.CreateScope())
     
     // For initialising roles and users at the start of program
     var um = services.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var rm = services.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     
-    ApplicationDbInitialiser.Initialize(db, um);
+    ApplicationDbInitialiser.Initialize(db, um, rm);
 }
 
 

@@ -5,11 +5,11 @@ namespace Gruppeportalen_new.Data;
 
 public class ApplicationDbInitialiser
 {
-    public static void Initialize(ApplicationDbContext db, UserManager<ApplicationUser> um)
+    public static void Initialize(ApplicationDbContext db, UserManager<ApplicationUser> um, RoleManager<IdentityRole> rm)
     {
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
-        
+
        var user = new ApplicationUser {UserName = "user@uia.no", Email = "user@uia.no", EmailConfirmed = true, UserType =UserType.PrivateUser};
         um.CreateAsync(user, "Password1.").Wait();
         
