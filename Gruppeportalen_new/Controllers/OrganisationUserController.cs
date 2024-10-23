@@ -1,10 +1,10 @@
-using Gruppeportalen_new.Data;
+﻿using Gruppeportalen_new.Data;
 using Gruppeportalen_new.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gruppeportalen_new.Areas.OrganisationUser.Controllers;
+namespace Gruppeportalen_new.Controllers;
 
 public class OrganisationUserController : Controller
 {
@@ -23,12 +23,12 @@ public class OrganisationUserController : Controller
     [Authorize, HttpGet]
     public IActionResult Add()
     {
-        return View(new Models.OrganisationUser()); 
+        return View(new OrganisationUser()); 
     }
     
     [Authorize]
     [HttpPost]
-    public IActionResult Add(Models.OrganisationUser organisationUser)
+    public IActionResult Add(OrganisationUser organisationUser)
     {
         var user = _um.GetUserAsync(User).Result;
         organisationUser.Id = user.Id;
@@ -38,5 +38,6 @@ public class OrganisationUserController : Controller
 
         return RedirectToAction("Index");
     }
-
+    
+    
 }

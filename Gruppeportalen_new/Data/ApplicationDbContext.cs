@@ -1,8 +1,8 @@
-﻿using Gruppeportalen_new.Areas.NormalUser.Models;
-using Gruppeportalen_new.Areas.OrganisationUser.Models;
+﻿
 using Gruppeportalen_new.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using NormalUser = Gruppeportalen_new.Models.NormalUser;
 
 namespace Gruppeportalen_new.Data;
 
