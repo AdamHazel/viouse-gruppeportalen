@@ -1,0 +1,43 @@
+﻿@model CentralOrganisation
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+<h2>We need more information about your organisation...</h2>
+<div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh; width: 100%">
+
+    <form asp-action="Index" style="width: 50%;">
+        <div>
+            <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+            <input  asp-for="Id" value="@Model.Id" readonly/>
+            <span asp-validation-for="Id" class="text-danger"></span>
+            <br/>
+        </div>
+
+        <div>
+            <label asp-for="OrganisationNumber" class="col-sm-2 col-form-label"></label>
+            <input class="form-control" style="width: 100%;" asp-for="OrganisationNumber"/>
+            <span asp-validation-for="OrganisationNumber" class="text-danger"></span>
+            <br/>
+        </div>
+
+        <div>
+            <label asp-for="OrganisationName" class="col-sm-2 col-form-label"></label>
+            <input class="form-control" style="width: 100%;" asp-for="OrganisationName"/>
+            <span asp-validation-for="OrganisationName" class="text-danger"></span>
+            <br/>
+        </div>
+
+        <div class="text-center" style="width: 100%;">
+            <input type="submit" class="btn btn-primary" value="Add Organisation" />
+        </div>
+    </form>
+
+    <br/>
+    <div class="text-center" style="width: 50%;">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Back to User</a>
+    </div>
+</div>
