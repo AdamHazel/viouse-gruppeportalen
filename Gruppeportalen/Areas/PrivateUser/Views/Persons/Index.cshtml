@@ -1,8 +1,34 @@
-@model System.Collections.Generic.ICollection<Gruppeportalen.Areas.PrivateUser.Models.Person>
+@model IEnumerable<Gruppeportalen.Areas.PrivateUser.Models.Person>
 
-@{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
-}
+<h2>Personer tilknyttet din bruker</h2>
 
-<h2>Mine brukere</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Fornavn</th>
+        <th>Etternavn</th>
+        <th>Adresse</th>
+        <th>By</th>
+        <th>Postkode</th>
+        <th>Fødselsdato</th>
+        <th>Handlinger</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var person in Model)
+    {
+        <tr>
+            <td>@person.Firstname</td>
+            <td>@person.Lastname</td>
+            <td>@person.Address</td>
+            <td>@person.City</td>
+            <td>@person.Postcode</td>
+            <td>@person.DateOfBirth.ToString("dd.MM.yyyy")</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@person.Id" class="btn btn-primary btn-sm">Rediger</a>
+                <a asp-action="Delete" asp-route-id="@person.Id" class="btn btn-danger btn-sm">Slett</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

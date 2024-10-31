@@ -1,8 +1,10 @@
-﻿using Gruppeportalen.Data;
+﻿using System.Security.Claims;
+using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
 
@@ -16,7 +18,7 @@ public class HomeController : Controller
     {
         _db = db;
         _um = um;
-    }   // GET
+    }   
     
     public IActionResult Index()
     {
@@ -31,4 +33,6 @@ public class HomeController : Controller
         
         return View();
     }
+
+    
 }

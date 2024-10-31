@@ -1,8 +1,48 @@
-@model PrivateUser
+@model Gruppeportalen.Areas.ViewModels.ApplicationPrivateUserViewModel
 
-@{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
-}
+<h2>Brukerdetaljer</h2>
 
-<h2>Min side</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Felt</th>
+        <th>Verdi</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>E-post</td>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <td>Telefonnummer</td>
+        <td>@Model.Telephone</td>
+    </tr>
+    <tr>
+        <td>Fornavn</td>
+        <td>@Model.Firstname</td>
+    </tr>
+    <tr>
+        <td>Etternavn</td>
+        <td>@Model.Lastname</td>
+    </tr>
+    <tr>
+        <td>Adresse</td>
+        <td>@Model.Address</td>
+    </tr>
+    <tr>
+        <td>By</td>
+        <td>@Model.City</td>
+    </tr>
+    <tr>
+        <td>Postkode</td>
+        <td>@Model.Postcode</td>
+    </tr>
+    <tr>
+        <td>Fødselsdato</td>
+        <td>@Model.DateOfBirth.ToString("dd.MM.yyyy")</td>
+    </tr>
+    </tbody>
+</table>
+
+<a asp-action="Edit" class="btn btn-primary">Rediger</a>
