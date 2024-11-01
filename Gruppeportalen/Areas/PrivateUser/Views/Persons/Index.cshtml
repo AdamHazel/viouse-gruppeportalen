@@ -26,7 +26,13 @@
             <td>@person.DateOfBirth.ToString("dd.MM.yyyy")</td>
             <td>
                 <a asp-action="Edit" asp-route-id="@person.Id" class="btn btn-primary btn-sm">Rediger</a>
-                <a asp-action="Delete" asp-route-id="@person.Id" class="btn btn-danger btn-sm">Slett</a>
+                @if (person.PrimaryPerson == false)
+                {
+                    <form asp-action="Delete" asp-route-id="@person.Id" method="post" style="display:inline;" onsubmit="return confirm('Er du sikker på at du vil slette denne personen?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Slett</button>
+                    </form>
+                }
+
             </td>
         </tr>
     }

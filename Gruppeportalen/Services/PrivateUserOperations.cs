@@ -20,14 +20,11 @@ public class PrivateUserOperations
 
     public async Task<PrivateUser> CreatePrivateUserWithPerson(PrivateUser privateUser)
     {
-        // Sjekker at nødvendige felter i PrivateUser er satt
         if (privateUser == null) throw new ArgumentNullException(nameof(privateUser));
-
-        // Oppretter og lagrer PrivateUser først
+        
         _db.PrivateUsers.Add(privateUser);
         await _db.SaveChangesAsync();
-
-        // Opprett Person tilknyttet til den lagrede PrivateUser
+        
         var person = new Person
         {
             Firstname = privateUser.Firstname,
@@ -36,35 +33,34 @@ public class PrivateUserOperations
             City = privateUser.City,
             Postcode = privateUser.Postcode,
             DateOfBirth = privateUser.DateOfBirth,
-            PrivateUserId = privateUser.Id
+            PrivateUserId = privateUser.Id,
+            PrimaryPerson = true
         };
 
-        // Legg til Person og i listen under Private User og lagrer Person i tabellen
+      
         _db.Persons.Add(person);
         privateUser.Persons.Add(person);
         await _db.SaveChangesAsync();
 
         return privateUser;
     }
-
-
+    
+    
+    
     public async Task AddPersonToPrivateUser(string privateUserId, Person person)
     {
-        // Hent PrivateUser fra databasen
         var privateUser = await _db.PrivateUsers
             .Include(p => p.Persons)
             .FirstOrDefaultAsync(p => p.Id == privateUserId);
 
         if (privateUser == null)
             throw new Exception("Private User not found");
-
-        //Detter PrivateUSerId på personopbjektet. 
+        
         person.PrivateUserId = privateUserId;
-        // Legg til ny Person til Persons-liste og lagre
         privateUser.Persons.Add(person);
         await _db.SaveChangesAsync();
     }
-    
+
 
     public async Task<ApplicationPrivateUserViewModel> GetUserDetails(string userId)
     {
@@ -90,33 +86,134 @@ public class PrivateUserOperations
         };
     }
 
-     public async Task<bool> EditUserDetails(ApplicationPrivateUserViewModel viewModel)
+    public async Task<Person> getPersonDetails(string personId)
+    {
+        var person = await _db.Persons.FirstOrDefaultAsync(p => p.Id == personId);
+        if (person == null)
+        {
+            return null;
+        }
+
+        return new Person
+        {
+            Firstname = person.Firstname,
+            Lastname = person.Lastname,
+            Address = person.Address,
+            City = person.City,
+            Postcode = person.Postcode,
+            DateOfBirth = person.DateOfBirth
+        };
+    }
+    public async Task EditPerson(Person person)
+    {
+        var existingPerson = await _db.Persons
+            .Include(p => p.PrivateUser)
+            .FirstOrDefaultAsync(p => p.Id == person.Id);
+
+        if (existingPerson == null)
+        {
+            throw new Exception("Person not found");
+        }
+
+        existingPerson.Firstname = person.Firstname;
+        existingPerson.Lastname = person.Lastname;
+        existingPerson.Address = person.Address;
+        existingPerson.City = person.City;
+        existingPerson.Postcode = person.Postcode;
+        existingPerson.DateOfBirth = person.DateOfBirth;
+
+        if (existingPerson.PrimaryPerson && existingPerson.PrivateUser != null)
+        {
+            var privateUser = existingPerson.PrivateUser;
+            privateUser.Firstname = person.Firstname;
+            privateUser.Lastname = person.Lastname;
+            privateUser.Address = person.Address;
+            privateUser.City = person.City;
+            privateUser.Postcode = person.Postcode;
+            privateUser.DateOfBirth = person.DateOfBirth;
+        
+            _db.PrivateUsers.Update(privateUser);
+        }
+
+        _db.Persons.Update(existingPerson);
+        await _db.SaveChangesAsync();
+    }
+
+    
+
+    public async Task EditUserDetails(ApplicationPrivateUserViewModel viewModel)
     {
         var applicationUser = await _um.Users.FirstOrDefaultAsync(u => u.Id == viewModel.Id);
-        var privateUser = await _db.PrivateUsers.FirstOrDefaultAsync(p => p.Id == viewModel.Id);
+        var privateUser = await _db.PrivateUsers
+            .Include(p => p.Persons) 
+            .FirstOrDefaultAsync(u => u.Id == viewModel.Id);
 
         if (applicationUser == null || privateUser == null)
         {
-            return false;
+            throw new Exception("ApplicationUser or PrivateUser not found with ID: " + viewModel.Id);
         }
+
+        var person = privateUser.Persons.FirstOrDefault();
+        if (person == null)
+        {
+            throw new Exception("No Person record found associated with this PrivateUser");
+        }
+        
         applicationUser.Email = viewModel.Email;
         var result = await _um.UpdateAsync(applicationUser);
         if (!result.Succeeded)
         {
-            return false;
+            throw new Exception("Failed to update ApplicationUser");
         }
         
-        privateUser.Telephone = viewModel.Telephone; 
+        privateUser.Telephone = viewModel.Telephone;
         privateUser.Firstname = viewModel.Firstname;
-        privateUser.Lastname= viewModel.Lastname;
-        privateUser.Address= viewModel.Address;
-        privateUser.City= viewModel.City;
-        privateUser.Postcode= viewModel.Postcode;
-        privateUser.DateOfBirth= viewModel.DateOfBirth;
-        
-        _db.PrivateUsers.Update(privateUser);
-        await _db.SaveChangesAsync();
+        privateUser.Lastname = viewModel.Lastname;
+        privateUser.Address = viewModel.Address;
+        privateUser.City = viewModel.City;
+        privateUser.Postcode = viewModel.Postcode;
+        privateUser.DateOfBirth = viewModel.DateOfBirth;
 
-        return true;
+        _db.PrivateUsers.Update(privateUser);
+
+        var primaryPerson = privateUser.Persons.FirstOrDefault(p => p.PrimaryPerson);
+        if (primaryPerson != null)
+        {
+            primaryPerson.Firstname = viewModel.Firstname;
+            primaryPerson.Lastname = viewModel.Lastname;
+            primaryPerson.Address = viewModel.Address;
+            primaryPerson.City = viewModel.City;
+            primaryPerson.Postcode = viewModel.Postcode;
+            primaryPerson.DateOfBirth = viewModel.DateOfBirth;
+
+            _db.Persons.Update(primaryPerson);
+        }
+
+        _db.Persons.Update(person);
+        await _db.SaveChangesAsync();
     }
+
+    public async Task DeletePerson(string personId)
+    {
+        var deleteperson = await _db.Persons.FirstOrDefaultAsync(p => p.Id == personId);
+        if (deleteperson == null)
+        {
+            throw new Exception("Person not found");
+        }
+        if (deleteperson.PrimaryPerson)
+        {
+            throw new Exception($"Person {deleteperson.Firstname} {deleteperson.Lastname} cannot be deleted");
+        }
+
+        try
+        {
+            _db.Persons.Remove(deleteperson);
+            await _db.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex)
+        {
+            throw new Exception("Failed to delete Person", ex);
+        }
+    }
+    
 }

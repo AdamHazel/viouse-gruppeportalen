@@ -31,6 +31,7 @@ public class Person
 
     [DataType(DataType.Date)]
     public DateTime DateOfBirth { get; set; }
+    public bool PrimaryPerson { get; set; } = false;
     
     public string PrivateUserId { get; set; }
     

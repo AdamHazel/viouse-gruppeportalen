@@ -47,7 +47,8 @@ public class PersonsController : Controller
     [HttpPost]
     public async Task<IActionResult> Add(Person person)
     {
-      /*  if (!ModelState.IsValid)
+       // ModelState.Remove("Id");
+       /* if (!ModelState.IsValid)
         {
             return View("Add", person);
         }*/
@@ -57,4 +58,36 @@ public class PersonsController : Controller
         return RedirectToAction("Index");
 
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(string id)
+    {
+        var person = await _privateUserOperations.getPersonDetails(id);
+        if (person == null)
+            return NotFound();
+            
+        return View("Edit", person);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(Person person)
+    {
+        /*ModelState.Remove("Id");
+        if (!ModelState.IsValid)
+        {
+            return View(person);
+        }*/
+        
+        await _privateUserOperations.EditPerson(person);
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        _privateUserOperations.DeletePerson(id);
+        return RedirectToAction("Index");
+    }
+
+
 }
