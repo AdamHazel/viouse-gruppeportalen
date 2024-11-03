@@ -1,0 +1,17 @@
+﻿@model List<LocalGroup>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Local group</h2>
+
+@foreach (var group in Model)
+{
+    <partial name="_LocalgroupOverviewPartial" model="group"/>
+}
+
+<div>
+    <a asp-action="Add">Add local group</a>
+</div>

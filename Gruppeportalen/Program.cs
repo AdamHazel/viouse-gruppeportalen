@@ -1,8 +1,12 @@
+using Gruppeportalen.Areas.CentralOrganisation.Services.Classes;
+using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
+using Gruppeportalen.Services.Classes;
+using Gruppeportalen.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PrivateUserOperations>();
 
+builder.Services.AddScoped<ILocalGroupService, LocalGroupService>();
+builder.Services.AddTransient<IIdGeneratorService, IdGeneratorService>();
+
 var app = builder.Build();
 
 using (var services = app.Services.CreateScope()) 
@@ -26,6 +33,7 @@ using (var services = app.Services.CreateScope())
     
     // For initialising roles and users at the start of program
     var um = services.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var idService = services.ServiceProvider.GetRequiredService<IIdGeneratorService>();
     
     ApplicationDbInitializer.Initialize(db, um);
 }

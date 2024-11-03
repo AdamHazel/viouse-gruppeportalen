@@ -1,0 +1,39 @@
+﻿@model LocalGroup
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Form for adding local group</h2>
+
+<form asp-action="Add">
+    <div>
+        <label asp-for="GroupName"></label>
+        <input type="text" asp-for="GroupName">
+        <span asp-validation-for="GroupName"></span>
+    </div>
+    <div>
+        <label asp-for="Address"></label>
+        <input type="text" asp-for="Address">
+        <span asp-validation-for="Address"></span>
+    </div>
+    <div>
+        <label asp-for="City"></label>
+        <input type="text" asp-for="City">
+        <span asp-validation-for="City"></span>
+    </div>
+    <div>
+        <label asp-for="County"></label>
+        <input type="text" asp-for="County">
+        <span asp-validation-for="County"></span>
+    </div>
+    <div>
+        <label asp-for="Postcode"></label>
+        <input type="text" asp-for="Postcode">
+        <span asp-validation-for="Postcode"></span>
+    </div>
+    <div>
+        <input type="submit" value="Opprett lokallag">
+    </div>
+</form>

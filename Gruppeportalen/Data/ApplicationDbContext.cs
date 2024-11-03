@@ -15,8 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<PrivateUser> PrivateUsers { get; set; }
     public DbSet<CentralOrganisation> CentralOrganisations { get; set; }
-    
     public DbSet<Person> Persons { get; set; }
-    
+    public DbSet<LocalGroup> LocalGroups { get; set; }
 
 }
