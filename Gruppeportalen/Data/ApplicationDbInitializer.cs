@@ -7,7 +7,7 @@ namespace Gruppeportalen.Data;
 
 public class ApplicationDbInitializer
 {
-    public static void Initialize(ApplicationDbContext db, UserManager<ApplicationUser> um)
+    public static void Initialize(ApplicationDbContext db, UserManager<ApplicationUser> um, IIdGeneratorService idGenerator)
     {
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();

@@ -8,6 +8,11 @@
 <h2>Form for adding local group</h2>
 
 <form asp-action="Add">
+    @*<div>
+        <label asp-for="Id"></label>
+        <input type="text" asp-for="Id" value="@Model.Id" readonly>
+        <span asp-validation-for="GroupName"></span>
+    </div>*@
     <div>
         <label asp-for="GroupName"></label>
         <input type="text" asp-for="GroupName">

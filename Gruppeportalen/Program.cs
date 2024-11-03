@@ -35,7 +35,7 @@ using (var services = app.Services.CreateScope())
     var um = services.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var idService = services.ServiceProvider.GetRequiredService<IIdGeneratorService>();
     
-    ApplicationDbInitializer.Initialize(db, um);
+    ApplicationDbInitializer.Initialize(db, um, idService);
 }
 
 // Configure the HTTP request pipeline.

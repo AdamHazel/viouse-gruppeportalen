@@ -2,6 +2,7 @@
 using Gruppeportalen.Areas.CentralOrganisation.Services.Classes;
 using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Gruppeportalen.Models;
+using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ public class LocalgroupController : Controller
 {
     private readonly UserManager<ApplicationUser> _um;
     private readonly ILocalGroupService _lgs;
+    private readonly IIdGeneratorService _idGenerator;
 
-    public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs)
+    public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs, IIdGeneratorService idGenerator)
     {
         _um = um;
         _lgs = lgs;
+        _idGenerator = idGenerator;
     }
     
     public IActionResult Index()
@@ -31,7 +34,7 @@ public class LocalgroupController : Controller
     [HttpGet]
     public IActionResult Add()
     {
-        return View(new LocalGroup());
+        return View(new LocalGroup() );
     }
 
     [HttpPost]
