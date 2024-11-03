@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Gruppeportalen.HelperClasses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Gruppeportalen.Models;
@@ -123,8 +124,8 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.TypeOfUser = Input.TypeOfUser switch
                 {
-                    "PrivateUser" => "PrivateUser",
-                    "CentralOrganisation" => "CentralOrganisation",
+                    Constants.Privateuser => Constants.Privateuser,
+                    Constants.Centralorg => Constants.Centralorg,
                     _ => user.TypeOfUser
                 };
                 

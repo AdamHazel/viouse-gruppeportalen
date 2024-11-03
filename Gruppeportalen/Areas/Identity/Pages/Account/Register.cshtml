@@ -1,4 +1,5 @@
 ﻿@page
+@using Gruppeportalen.HelperClasses
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -30,9 +31,9 @@
             <div class="form-floating mb-3">
                 <fieldset>
                     <legend>What type of user are you?</legend>
-                    <input asp-for="Input.TypeOfUser" class="" aria-required="true" id="Normal" type="radio" value="PrivateUser">
+                    <input asp-for="Input.TypeOfUser" class="" aria-required="true" id="Normal" type="radio" value="@Constants.Privateuser">
                     <label for="Normal">Private user</label>
-                    <input asp-for="Input.TypeOfUser" class="" aria-required="true" id="CentralOrg" type="radio" value="CentralOrganisation">
+                    <input asp-for="Input.TypeOfUser" class="" aria-required="true" id="CentralOrg" type="radio" value="@Constants.Centralorg">
                     <label for="CentralOrg">Central Organisation</label>
                 </fieldset>
             </div>

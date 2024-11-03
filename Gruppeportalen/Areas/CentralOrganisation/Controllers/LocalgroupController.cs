@@ -1,4 +1,5 @@
-﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
+﻿using Gruppeportalen.Areas.CentralOrganisation.HelperClasses;
+using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Areas.CentralOrganisation.Services.Classes;
 using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Gruppeportalen.Models;
@@ -11,19 +12,20 @@ namespace Gruppeportalen.Areas.CentralOrganisation.Controllers;
 
 [Area("CentralOrganisation")]
 [Authorize]
+[CentralOrgUserCheckFactory]
+
 public class LocalgroupController : Controller
 {
     private readonly UserManager<ApplicationUser> _um;
     private readonly ILocalGroupService _lgs;
-    private readonly IIdGeneratorService _idGenerator;
 
-    public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs, IIdGeneratorService idGenerator)
+
+    public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs)
     {
         _um = um;
         _lgs = lgs;
-        _idGenerator = idGenerator;
     }
-    
+
     public IActionResult Index()
     {
         var organization = _um.GetUserAsync(User).Result;

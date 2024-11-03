@@ -1,4 +1,5 @@
-﻿using Gruppeportalen.Data;
+﻿using Gruppeportalen.Areas.CentralOrganisation.HelperClasses;
+using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,8 @@ namespace Gruppeportalen.Areas.CentralOrganisation.Controllers;
 
 [Authorize]
 [Area("CentralOrganisation")]
+[CentralOrgUserCheckFactory]
+
 public class AddController : Controller
 {
     private readonly ApplicationDbContext _db;

@@ -33,9 +33,8 @@ using (var services = app.Services.CreateScope())
     
     // For initialising roles and users at the start of program
     var um = services.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    var idService = services.ServiceProvider.GetRequiredService<IIdGeneratorService>();
     
-    ApplicationDbInitializer.Initialize(db, um, idService);
+    ApplicationDbInitializer.Initialize(db, um);
 }
 
 // Configure the HTTP request pipeline.

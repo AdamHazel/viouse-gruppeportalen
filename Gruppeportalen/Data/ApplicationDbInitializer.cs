@@ -1,4 +1,5 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
+using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -7,15 +8,15 @@ namespace Gruppeportalen.Data;
 
 public class ApplicationDbInitializer
 {
-    public static void Initialize(ApplicationDbContext db, UserManager<ApplicationUser> um, IIdGeneratorService idGenerator)
+    public static void Initialize(ApplicationDbContext db, UserManager<ApplicationUser> um)
     {
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
         
-        var user = new ApplicationUser {UserName = "user@uia.no", Email = "user@uia.no", EmailConfirmed = true, TypeOfUser = "CentralOrganisation"};
+        var user = new ApplicationUser {UserName = "user@uia.no", Email = "user@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
         um.CreateAsync(user, "Password1.").Wait();
         
-        var user2 = new ApplicationUser {UserName = "user2@uia.no", Email = "user2@uia.no", EmailConfirmed = true, TypeOfUser = "CentralOrganisation"};
+        var user2 = new ApplicationUser {UserName = "user2@uia.no", Email = "user2@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
         um.CreateAsync(user2, "Password1.").Wait();
         
         var cUser = new CentralOrganisation {Id = user.Id, OrganisationName = "Test Org", OrganisationNumber = "12345678"};
