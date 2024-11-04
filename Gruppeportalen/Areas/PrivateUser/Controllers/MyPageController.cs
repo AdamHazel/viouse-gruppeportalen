@@ -26,10 +26,10 @@ public class MyPageController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var viewModel = await _privateUserOperations.GetUserDetails(userId);
+        var viewModel = _privateUserOperations.GetUserDetails(userId);
 
         if (viewModel == null)
             return NotFound();
@@ -38,10 +38,10 @@ public class MyPageController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit()
+    public IActionResult Edit()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var viewModel = await _privateUserOperations.GetUserDetails(userId);
+        var viewModel = _privateUserOperations.GetUserDetails(userId);
         if (viewModel == null)
             return NotFound();
 
@@ -49,7 +49,7 @@ public class MyPageController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(ApplicationPrivateUserViewModel viewModel)
+    public IActionResult Edit(ApplicationPrivateUser viewModel)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         viewModel.Id = userId;
@@ -60,7 +60,7 @@ public class MyPageController : Controller
             return View(viewModel);
         }
 
-        await _privateUserOperations.EditUserDetails(viewModel);
+        _privateUserOperations.EditUserDetails(viewModel);
         return RedirectToAction("Index", "MyPage");
     }
 }

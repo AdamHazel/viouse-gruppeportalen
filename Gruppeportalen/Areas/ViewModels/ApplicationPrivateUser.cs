@@ -1,6 +1,6 @@
 namespace Gruppeportalen.Areas.ViewModels;
 
-public class ApplicationPrivateUserViewModel
+public class ApplicationPrivateUser
 {
     // Felter fra ApplicationUser
     public string Id { get; set; }

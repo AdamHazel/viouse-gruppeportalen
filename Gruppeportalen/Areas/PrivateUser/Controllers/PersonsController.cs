@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
+
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
 [Area("PrivateUser")]
 public class PersonsController : Controller
@@ -23,12 +25,12 @@ public class PersonsController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
         var privateUserId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
-        var privateUser = await _db.PrivateUsers
+        var privateUser = _db.PrivateUsers
             .Include(u => u.Persons)
-            .FirstOrDefaultAsync(u => u.Id == privateUserId);
+            .FirstOrDefault(u => u.Id == privateUserId);
 
         if (privateUser == null)
         {
@@ -45,7 +47,7 @@ public class PersonsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(Person person)
+    public IActionResult Add(Person person)
     {
        // ModelState.Remove("Id");
        /* if (!ModelState.IsValid)
@@ -54,15 +56,15 @@ public class PersonsController : Controller
         }*/
      
         var privateUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        await _privateUserOperations.AddPersonToPrivateUser(privateUserId, person);
+        _privateUserOperations.AddPersonToPrivateUser(privateUserId, person);
         return RedirectToAction("Index");
 
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit(string id)
+    public IActionResult Edit(string id)
     {
-        var person = await _privateUserOperations.getPersonDetails(id);
+        var person = _privateUserOperations.getPersonDetails(id);
         if (person == null)
             return NotFound();
             
@@ -70,7 +72,7 @@ public class PersonsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(Person person)
+    public IActionResult Edit(Person person)
     {
         /*ModelState.Remove("Id");
         if (!ModelState.IsValid)
@@ -78,12 +80,12 @@ public class PersonsController : Controller
             return View(person);
         }*/
         
-        await _privateUserOperations.EditPerson(person);
+        _privateUserOperations.EditPerson(person);
         return RedirectToAction("Index");
     }
 
     [HttpPost]
-    public async Task<IActionResult> Delete(string id)
+    public IActionResult Delete(string id)
     {
         _privateUserOperations.DeletePerson(id);
         return RedirectToAction("Index");

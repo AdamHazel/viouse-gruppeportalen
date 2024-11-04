@@ -18,61 +18,68 @@ public class PrivateUserOperations
         _um = um;
     }
 
-    public async Task<PrivateUser> CreatePrivateUserWithPerson(PrivateUser privateUser)
+    public PrivateUser CreatePrivateUserWithPerson(PrivateUser privateUser)
     {
         if (privateUser == null) throw new ArgumentNullException(nameof(privateUser));
-        
-        _db.PrivateUsers.Add(privateUser);
-        await _db.SaveChangesAsync();
-        
-        var person = new Person
+
+        try
         {
-            Firstname = privateUser.Firstname,
-            Lastname = privateUser.Lastname,
-            Address = privateUser.Address,
-            City = privateUser.City,
-            Postcode = privateUser.Postcode,
-            DateOfBirth = privateUser.DateOfBirth,
-            PrivateUserId = privateUser.Id,
-            PrimaryPerson = true
-        };
+            _db.PrivateUsers.Add(privateUser);
+            _db.SaveChanges(); 
+            var person = new Person
+            {
+                Firstname = privateUser.Firstname,
+                Lastname = privateUser.Lastname,
+                Address = privateUser.Address,
+                City = privateUser.City,
+                Postcode = privateUser.Postcode,
+                DateOfBirth = privateUser.DateOfBirth,
+                PrivateUserId = privateUser.Id,
+                PrimaryPerson = true
+            };
+            _db.Persons.Add(person);
+            privateUser.Persons.Add(person);
+            _db.SaveChanges(); 
 
-      
-        _db.Persons.Add(person);
-        privateUser.Persons.Add(person);
-        await _db.SaveChangesAsync();
-
-        return privateUser;
+            return privateUser; 
+        }
+        catch (DbUpdateException ex)
+        {
+            return null; 
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
+
     
-    
-    
-    public async Task AddPersonToPrivateUser(string privateUserId, Person person)
+    public void  AddPersonToPrivateUser(string privateUserId, Person person)
     {
-        var privateUser = await _db.PrivateUsers
+        var privateUser = _db.PrivateUsers
             .Include(p => p.Persons)
-            .FirstOrDefaultAsync(p => p.Id == privateUserId);
+            .FirstOrDefault(p => p.Id == privateUserId);
 
         if (privateUser == null)
             throw new Exception("Private User not found");
         
         person.PrivateUserId = privateUserId;
         privateUser.Persons.Add(person);
-        await _db.SaveChangesAsync();
+        _db.SaveChangesAsync();
     }
 
 
-    public async Task<ApplicationPrivateUserViewModel> GetUserDetails(string userId)
+    public ApplicationPrivateUser GetUserDetails(string userId)
     {
-        var applicationUser = await _um.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        var privateUser = await _db.PrivateUsers.FirstOrDefaultAsync(p => p.Id == userId);
+        var applicationUser = _um.Users.FirstOrDefault(u => u.Id == userId);
+        var privateUser = _db.PrivateUsers.FirstOrDefault(p => p.Id == userId);
 
         if (applicationUser == null || privateUser == null)
         {
             return null;
         }
 
-        return new ApplicationPrivateUserViewModel
+        return new ApplicationPrivateUser
         {
             Id = applicationUser.Id,
             Email = applicationUser.Email,
@@ -86,9 +93,9 @@ public class PrivateUserOperations
         };
     }
 
-    public async Task<Person> getPersonDetails(string personId)
+    public Person getPersonDetails(string personId)
     {
-        var person = await _db.Persons.FirstOrDefaultAsync(p => p.Id == personId);
+        var person = _db.Persons.FirstOrDefault(p => p.Id == personId);
         if (person == null)
         {
             return null;
@@ -104,11 +111,11 @@ public class PrivateUserOperations
             DateOfBirth = person.DateOfBirth
         };
     }
-    public async Task EditPerson(Person person)
+    public void EditPerson(Person person)
     {
-        var existingPerson = await _db.Persons
+        var existingPerson = _db.Persons
             .Include(p => p.PrivateUser)
-            .FirstOrDefaultAsync(p => p.Id == person.Id);
+            .FirstOrDefault(p => p.Id == person.Id);
 
         if (existingPerson == null)
         {
@@ -136,17 +143,17 @@ public class PrivateUserOperations
         }
 
         _db.Persons.Update(existingPerson);
-        await _db.SaveChangesAsync();
+        _db.SaveChangesAsync();
     }
 
     
 
-    public async Task EditUserDetails(ApplicationPrivateUserViewModel viewModel)
+    public void EditUserDetails(ApplicationPrivateUser viewModel)
     {
-        var applicationUser = await _um.Users.FirstOrDefaultAsync(u => u.Id == viewModel.Id);
-        var privateUser = await _db.PrivateUsers
+        var applicationUser = _um.Users.FirstOrDefault(u => u.Id == viewModel.Id);
+        var privateUser = _db.PrivateUsers
             .Include(p => p.Persons) 
-            .FirstOrDefaultAsync(u => u.Id == viewModel.Id);
+            .FirstOrDefault(u => u.Id == viewModel.Id);
 
         if (applicationUser == null || privateUser == null)
         {
@@ -160,7 +167,7 @@ public class PrivateUserOperations
         }
         
         applicationUser.Email = viewModel.Email;
-        var result = await _um.UpdateAsync(applicationUser);
+        var result = _um.UpdateAsync(applicationUser).Result;
         if (!result.Succeeded)
         {
             throw new Exception("Failed to update ApplicationUser");
@@ -190,12 +197,12 @@ public class PrivateUserOperations
         }
 
         _db.Persons.Update(person);
-        await _db.SaveChangesAsync();
+        _db.SaveChangesAsync();
     }
-
-    public async Task DeletePerson(string personId)
+    
+    public void DeletePerson(string personId)
     {
-        var deleteperson = await _db.Persons.FirstOrDefaultAsync(p => p.Id == personId);
+        var deleteperson = _db.Persons.FirstOrDefault(p => p.Id == personId);
         if (deleteperson == null)
         {
             throw new Exception("Person not found");
@@ -208,7 +215,7 @@ public class PrivateUserOperations
         try
         {
             _db.Persons.Remove(deleteperson);
-            await _db.SaveChangesAsync();
+            _db.SaveChangesAsync();
         }
         catch (DbUpdateException ex)
         {

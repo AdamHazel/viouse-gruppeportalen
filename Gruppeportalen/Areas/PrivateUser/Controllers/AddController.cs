@@ -5,6 +5,7 @@ using Gruppeportalen.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
@@ -25,23 +26,23 @@ public class AddController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
-        var user = await _um.GetUserAsync(User);
+        var user = _um.GetUserAsync(User).Result;;
         
         return View(new Models.PrivateUser { Id = user.Id });
     }
     
     
     [HttpPost]
-    public async Task<IActionResult> Index(Models.PrivateUser privateUser)
+    public IActionResult Index(Models.PrivateUser privateUser)
     {
         if (!ModelState.IsValid)
         { 
             return View(privateUser);
         }
         
-        await _privateUserOperations.CreatePrivateUserWithPerson(privateUser);
+        _privateUserOperations.CreatePrivateUserWithPerson(privateUser);
         
         return RedirectToAction("Index", "Home");
     }
