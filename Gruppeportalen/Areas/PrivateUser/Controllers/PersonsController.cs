@@ -64,7 +64,7 @@ public class PersonsController : Controller
     [HttpGet]
     public IActionResult Edit(string id)
     {
-        var person = _privateUserOperations.getPersonDetails(id);
+        var person = _privateUserOperations.GetPersonDetails(id);
         if (person == null)
             return NotFound();
             
