@@ -1,5 +1,11 @@
 @model Gruppeportalen.Areas.ViewModels.ApplicationPrivateUser
 
+@{
+Layout = "_Layout";
+}
+
+@Html.Partial("_PrivateUserSidebar")
+<div class="main-content">
 <h2>Brukerdetaljer</h2>
 
 <table class="table">
@@ -46,3 +52,4 @@
 </table>
 
 <a asp-action="Edit" class="btn btn-primary">Rediger</a>
+</div>

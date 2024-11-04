@@ -1,5 +1,12 @@
 @model Person
 
+@{
+Layout = "_Layout";
+}
+
+@Html.Partial("_PrivateUserSidebar")
+
+<div class="main-content">
 <h2>Rediger Brukerinfo</h2>
 
 <form asp-action="Edit" method="post">
@@ -37,3 +44,4 @@
     <button type="submit" class="btn btn-primary">Lagre</button>
     <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
 </form>
+</div>
