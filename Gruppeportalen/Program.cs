@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
-using Gruppeportalen.Services.Classes;
-using Gruppeportalen.Services.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +22,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PrivateUserOperations>();
 
 builder.Services.AddScoped<ILocalGroupService, LocalGroupService>();
-builder.Services.AddTransient<IIdGeneratorService, IdGeneratorService>();
+
 
 var app = builder.Build();
 

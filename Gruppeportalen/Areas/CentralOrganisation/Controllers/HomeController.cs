@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gruppeportalen.Areas.CentralOrganisation.Controllers;
 
 [Area("CentralOrganisation")]
+[Authorize]
 [CentralOrgUserCheckFactory]
 public class HomeController : Controller
 {
@@ -19,15 +20,10 @@ public class HomeController : Controller
         _um = um;
     }
     
-    [Authorize]
     public IActionResult Index()
     {
         var user = _um.GetUserAsync(User).Result;
         
-        /*// Can change this to redirect to an error page maybe?
-        if (user.TypeOfUser == "PrivateUser")
-            return RedirectToAction("Index", "Home", new { area = nameof(PrivateUser)});*/
-
         if (_db.CentralOrganisations.Find(user.Id) == null)
             return RedirectToAction("Index", "Add");
         

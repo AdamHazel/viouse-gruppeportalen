@@ -1,7 +1,8 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
+using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
-using Gruppeportalen.Services.Interfaces;
+
 using Microsoft.AspNetCore.Identity;
 
 namespace Gruppeportalen.Data;
@@ -19,13 +20,16 @@ public class ApplicationDbInitializer
         var user2 = new ApplicationUser {UserName = "user2@uia.no", Email = "user2@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
         um.CreateAsync(user2, "Password1.").Wait();
         
+        var user3 = new ApplicationUser {UserName = "user3@uia.no", Email = "user3@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Privateuser};
+        um.CreateAsync(user3, "Password1.").Wait();
+        
         var cUser = new CentralOrganisation {Id = user.Id, OrganisationName = "Test Org", OrganisationNumber = "12345678"};
         db.CentralOrganisations.Add(cUser);
         
         var cUser2 = new CentralOrganisation {Id = user2.Id, OrganisationName = "Test Org", OrganisationNumber = "1111111"};
         db.CentralOrganisations.Add(cUser2);
         db.SaveChanges();
-
+        
         db.LocalGroups.Add(new LocalGroup
         {
             Address = "Address 1", GroupName = "Group 1", City = "City 1", Postcode = "1111", County = "County 1",

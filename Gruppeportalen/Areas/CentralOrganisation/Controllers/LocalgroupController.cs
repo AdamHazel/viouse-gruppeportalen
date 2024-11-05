@@ -1,9 +1,7 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.HelperClasses;
 using Gruppeportalen.Areas.CentralOrganisation.Models;
-using Gruppeportalen.Areas.CentralOrganisation.Services.Classes;
 using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Gruppeportalen.Models;
-using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +34,7 @@ public class LocalgroupController : Controller
     [HttpGet]
     public IActionResult Add()
     {
-        return View(new LocalGroup() );
+        return View(new LocalGroup());
     }
 
     [HttpPost]

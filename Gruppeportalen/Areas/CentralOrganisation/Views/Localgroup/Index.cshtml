@@ -7,11 +7,15 @@
 
 <h2>Local group</h2>
 
-@foreach (var group in Model)
-{
-    <partial name="_LocalgroupOverviewPartial" model="group"/>
-}
+<div class="groupContainer">
+    @foreach (var group in Model)
+    {   
+        <div class="localGroupBox p-3 m-2">
+            <partial name="_LocalgroupOverviewPartial" model="group"/>
+        </div>
+    }
+</div>
 
 <div>
-    <a asp-action="Add">Add local group</a>
+    <a asp-action="Add" class="btn btn-primary">Legg till nytt lokallag</a>
 </div>

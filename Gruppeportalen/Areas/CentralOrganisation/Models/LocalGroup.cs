@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Gruppeportalen.Areas.CentralOrganisation.Models;
@@ -33,6 +34,7 @@ public class LocalGroup
     [Required]
     [MinLength(4)]
     [MaxLength(4)]
+    [PostcodeFormatNumbersValidation]
     [DisplayName("Postnummer")]
     public string Postcode { get; set; } = string.Empty;
     

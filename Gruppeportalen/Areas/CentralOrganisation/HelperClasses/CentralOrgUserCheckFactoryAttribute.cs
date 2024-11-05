@@ -27,7 +27,7 @@ public class CentralOrgUserCheckFactoryAttribute : TypeFilterAttribute
 
             if (user != null && user.TypeOfUser != Constants.Centralorg)
             {
-                context.Result = new RedirectToActionResult("Index", "Oops", new {area = ""});
+                context.Result = new RedirectToActionResult("Index", "Oopsie", new {area = ""});
             }
         }
     }

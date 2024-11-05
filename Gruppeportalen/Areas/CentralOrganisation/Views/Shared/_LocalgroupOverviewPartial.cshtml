@@ -1,20 +1,24 @@
 ﻿@model LocalGroup
 
-<div>
     <p>@Model.Id</p>
     <p>@Model.GroupName</p>
     <p>@Model.Address</p>
     <p>@Model.City</p>
     <p>@Model.County</p>
     <p>@Model.Postcode</p>
-    <p>
-        @if (!Model.Active)
-        {
-            <span>"Not active"</span>
-        }
-        else
-        {
-            <span>"Active"</span>
-        }
-    </p>
+<p>
+    @if (!Model.Active)
+    {
+        <span class="bg-danger p-1">Not active</span>
+    }
+    else
+    {
+        <span class="bg-success p-1">Active</span>
+    }
+</p>
+<div>
+    <a href="" class="btn btn-primary mx-2">Legg til admin</a>
+    <a href="" class="btn btn-primary mx-2">Rediger</a>
+    <a href="" class="btn btn-dark mx-2">Slett</a>
+    
 </div>
