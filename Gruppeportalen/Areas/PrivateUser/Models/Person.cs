@@ -6,8 +6,7 @@ namespace Gruppeportalen.Areas.PrivateUser.Models;
 public class Person
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public string Id {get; set;}
+    public Guid Id {get; set;} =Guid.NewGuid();
     
     [Required]
     [StringLength(30)]

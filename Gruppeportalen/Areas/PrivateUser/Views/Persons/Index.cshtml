@@ -6,45 +6,15 @@ Layout = "_Layout";
 
 @Html.Partial("_PrivateUserSidebar")
 <div class="main-content">
-<h2>Personer tilknyttet din bruker</h2>
+    <h2>Mine Brukere</h2>
+    <div class="person-list">
+        <a href="@Url.Action("Add", "Persons")" class="btn btn-primary">Legg til ny bruker</a>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Fornavn</th>
-        <th>Etternavn</th>
-        <th>Adresse</th>
-        <th>By</th>
-        <th>Postkode</th>
-        <th>Fødselsdato</th>
-        <th>Handlinger</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var person in Model)
-    {
-    <tr>
-        <td>@person.Firstname</td>
-        <td>@person.Lastname</td>
-        <td>@person.Address</td>
-        <td>@person.City</td>
-        <td>@person.Postcode</td>
-        <td>@person.DateOfBirth.ToString("dd.MM.yyyy")</td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@person.Id" class="btn btn-primary btn-sm">Rediger</a>
-            @if (person.PrimaryPerson == false)
+        <div class="person-cards-container">
+            @foreach (var person in Model)
             {
-            <form asp-action="Delete" asp-route-id="@person.Id" method="post" style="display:inline;" onsubmit="return confirm('Er du sikker på at du vil slette denne personen?');">
-                <button type="submit" class="btn btn-danger btn-sm">Slett</button>
-            </form>
+            @Html.Partial("_PersonCard", person) 
             }
-        </td>
-    </tr>
-    }
-    </tbody>
-</table>
-
-<div class="mt-3">
-    <a asp-action="Add" class="btn btn-success">Legg til person</a>
-</div>
+        </div>
+    </div>
 </div>

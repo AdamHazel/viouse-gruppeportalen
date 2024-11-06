@@ -49,8 +49,8 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult Add(Person person)
     {
-       // ModelState.Remove("Id");
-       /* if (!ModelState.IsValid)
+       /* ModelState.Remove("Id");
+        if (!ModelState.IsValid)
         {
             return View("Add", person);
         }*/
@@ -62,7 +62,7 @@ public class PersonsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Edit(string id)
+    public IActionResult Edit(Guid id)
     {
         var person = _privateUserOperations.GetPersonDetails(id);
         if (person == null)
@@ -74,18 +74,18 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult Edit(Person person)
     {
-        /*ModelState.Remove("Id");
+       ModelState.Remove("Id");
         if (!ModelState.IsValid)
         {
             return View(person);
-        }*/
+        }
         
         _privateUserOperations.EditPerson(person);
         return RedirectToAction("Index");
     }
 
     [HttpPost]
-    public IActionResult Delete(string id)
+    public IActionResult Delete(Guid id)
     {
         _privateUserOperations.DeletePerson(id);
         return RedirectToAction("Index");

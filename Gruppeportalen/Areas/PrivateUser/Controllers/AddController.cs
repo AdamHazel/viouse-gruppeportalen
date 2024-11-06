@@ -37,6 +37,7 @@ public class AddController : Controller
     [HttpPost]
     public IActionResult Index(Models.PrivateUser privateUser)
     {
+        
         if (!ModelState.IsValid)
         { 
             return View(privateUser);

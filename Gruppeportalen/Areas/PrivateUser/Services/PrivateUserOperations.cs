@@ -56,7 +56,6 @@ public class PrivateUserOperations
 
     
     
-    
     public void AddPersonToPrivateUser(string privateUserId, Person person)
     {
         try
@@ -67,11 +66,11 @@ public class PrivateUserOperations
 
             if (privateUser == null)
                 throw new Exception("Private User not found");
-
+            
             person.PrivateUserId = privateUserId;
-            privateUser.Persons.Add(person);
+            _db.Persons.Add(person); 
 
-            _db.SaveChanges();
+            _db.SaveChanges(); 
         }
         catch (DbUpdateException ex)
         {
@@ -82,7 +81,7 @@ public class PrivateUserOperations
             Console.WriteLine($"En feil oppstod: {ex.Message}");
         }
     }
-    
+
 
     public ApplicationPrivateUser GetUserDetails(string userId)
     {
@@ -116,7 +115,7 @@ public class PrivateUserOperations
     }
 
 
-    public Person GetPersonDetails(string personId)
+    public Person GetPersonDetails(Guid personId)
     {
         try
         {
@@ -175,8 +174,7 @@ public class PrivateUserOperations
             Console.WriteLine($"En uventet feil oppstod: {ex.Message}");
         }
     }
-
-
+    
     
 
    public void EditUserDetails(ApplicationPrivateUser viewModel)
@@ -234,7 +232,7 @@ public class PrivateUserOperations
     }
 }
 
-public void DeletePerson(string personId)
+public void DeletePerson(Guid personId)
 {
     try
     {

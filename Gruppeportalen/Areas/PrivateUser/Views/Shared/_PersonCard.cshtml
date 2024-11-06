@@ -1,0 +1,35 @@
+@model Person 
+<link rel="stylesheet" href="~/css/personcard.css" />
+
+<div class="person-card">
+    <div class="person-header">
+        <h3>@Model.Firstname @Model.Lastname</h3>
+    </div>
+    <div class="person-details">
+        <p><strong>Fødselsdato:</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")</p>
+        <p><strong>Adresse:</strong> @Model.Address</p>
+        <p><strong>Postnummer:</strong> @Model.Postcode</p>
+        <p><strong>Sted:</strong> @Model.City</p>
+    </div>
+    
+    <div class="person-memberships">
+        <h4>Medlem i</h4>
+    </div>
+
+    <div class="person-actions">
+        <form asp-action="Edit" method="get">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-warning">Rediger</button>
+        </form>
+        
+        @if (!Model.PrimaryPerson) {
+        <button class="btn btn-warning">Overfør</button>
+        <button class="btn btn-warning">Del</button>
+        
+            <form asp-action="Delete" method="post" onsubmit="return confirm('Er du sikker på at du vil slette denne personen?');">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-info">Slett</button>
+            </form>
+        }
+    </div>
+</div>
