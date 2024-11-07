@@ -5,9 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
-
+using Microsoft.Extensions.Logging; // For logging
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure logging to show more detailed logs
+builder.Logging.ClearProviders(); // Clear default providers
+builder.Logging.AddConsole(); // Add console logging
+builder.Logging.AddDebug(); // Add debug logging
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -39,6 +44,7 @@ using (var services = app.Services.CreateScope())
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else
