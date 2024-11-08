@@ -39,6 +39,9 @@
                 <button type="button" class="btn btn-primary" onclick="registerUser(@Constants.Privateuser)">Register as Private User</button>
                 <button type="button" class="btn btn-secondary" onclick="registerUser(@Constants.Centralorg)">Register Organization</button>
             </div>
+            
+            <!-- Confirmation Link -->
+            <div id="confirmationLinkContainer"></div>
 
             <!-- Private User Fields -->
             <div id="privateForm" style="display:none;">
@@ -105,18 +108,18 @@
     <script>
         function registerUser(userType) {
             document.getElementById('typeOfUser').value = userType;
-    
+        
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
-    
+        
             if (password !== confirmPassword) {
                 alert("Passwords do not match!");
                 return;
             }
-    
+        
             const formData = new URLSearchParams(new FormData(document.getElementById('registerForm')));
-    
+        
             fetch('/Identity/Account/RegisterPartial', {
                 method: 'POST',
                 headers: {
@@ -129,7 +132,8 @@
             .then(data => {
                 if (data.success) {
                     document.getElementById('userId').value = data.userId;
-    
+        
+                    // Show additional form fields based on user type
                     if (userType === 'PrivateUser') {
                         document.getElementById('privateForm').style.display = 'block';
                         document.getElementById('organizationForm').style.display = 'none';
@@ -137,6 +141,10 @@
                         document.getElementById('organizationForm').style.display = 'block';
                         document.getElementById('privateForm').style.display = 'none';
                     }
+        
+                    // Display email confirmation link
+                    const confirmationLinkHtml = `<p>Please confirm your email: <a href="${data.confirmationUrl}" onclick="confirmEmail(event, '${data.confirmationUrl}')">click here</a></p>`;
+                    document.getElementById("confirmationLinkContainer").innerHTML = confirmationLinkHtml;
                 } else {
                     alert(data.errors.join("\n") || "An error occurred");
                 }
@@ -146,6 +154,7 @@
                 alert("An unexpected error occurred: " + error.message);
             });
         }
+
         
      function completePrivateUserRegistration() {
                  const formData = new URLSearchParams(new FormData(document.getElementById('registerForm')));
@@ -196,6 +205,28 @@
                      alert("An unexpected error occurred: " + error.message);
                  });
              }
+             
+             function confirmEmail(event, confirmationUrl) {
+                         event.preventDefault(); // Prevent link from navigating away
+             
+                         fetch(confirmationUrl, {
+                             method: 'GET', // Use GET request for confirmation
+                         })
+                         .then(response => response.json())
+                         .then(data => {
+                             if (data.success) {
+                                 alert("Email confirmed successfully!");
+                             } else {
+                                 alert(data.message || "Invalid confirmation request.");
+                             }
+                         })
+                         .catch(error => {
+                             console.error("Error confirming email:", error);
+                             alert("An error occurred while confirming the email.");
+                         });
+                     }
+
+
 
     </script>
 
