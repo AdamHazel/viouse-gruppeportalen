@@ -1,8 +1,7 @@
 ﻿@page
-@using Gruppeportalen.HelperClasses
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+ViewData["Title"] = "Register";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -20,7 +19,7 @@
             <!-- Basic Registration Fields -->
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" id="email"/>
-                <label asp-for="Input.Email">Email</label>
+                <label asp-for="Input.Email">E-mail</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
@@ -36,10 +35,10 @@
 
             <!-- User Type Selection -->
             <div class="mb-3 text-center">
-                <button type="button" class="btn btn-primary" onclick="registerUser(@Constants.Privateuser)">Register as Private User</button>
-                <button type="button" class="btn btn-secondary" onclick="registerUser(@Constants.Centralorg)">Register Organization</button>
+                <button type="button" class="btn btn-primary" onclick="registerUser('PrivateUser')">Register as Private User</button>
+                <button type="button" class="btn btn-secondary" onclick="registerUser('OrganizationUser')">Register Organization</button>
             </div>
-            
+
             <!-- Confirmation Link -->
             <div id="confirmationLinkContainer"></div>
 
@@ -62,6 +61,7 @@
                     <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
+                    <small class="text-muted">If you don't have a Norwegian phone number, please include your country code.</small>
                     <input asp-for="Input.Telephone" class="form-control" placeholder="Telephone" id="telephone"/>
                     <label asp-for="Input.Telephone">Telephone</label>
                     <span asp-validation-for="Input.Telephone" class="text-danger"></span>
@@ -104,35 +104,35 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
-    <script>
-        function registerUser(userType) {
-            document.getElementById('typeOfUser').value = userType;
-        
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-        
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
-                return;
-            }
-        
-            const formData = new URLSearchParams(new FormData(document.getElementById('registerForm')));
-        
-            fetch('/Identity/Account/RegisterPartial', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                },
-                body: formData.toString()
-            })
+<partial name="_ValidationScriptsPartial"/>
+<script>
+    function registerUser(userType) {
+        document.getElementById('typeOfUser').value = userType;
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        const formData = new URLSearchParams(new FormData(document.getElementById('registerForm')));
+
+        fetch('/Identity/Account/RegisterPartial', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: formData.toString()
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     document.getElementById('userId').value = data.userId;
-        
+
                     // Show additional form fields based on user type
                     if (userType === 'PrivateUser') {
                         document.getElementById('privateForm').style.display = 'block';
@@ -141,7 +141,7 @@
                         document.getElementById('organizationForm').style.display = 'block';
                         document.getElementById('privateForm').style.display = 'none';
                     }
-        
+
                     // Display email confirmation link
                     const confirmationLinkHtml = `<p>Please confirm your email: <a href="${data.confirmationUrl}" onclick="confirmEmail(event, '${data.confirmationUrl}')">click here</a></p>`;
                     document.getElementById("confirmationLinkContainer").innerHTML = confirmationLinkHtml;
@@ -153,81 +153,81 @@
                 console.error("Unexpected error:", error);
                 alert("An unexpected error occurred: " + error.message);
             });
-        }
-
-        
-     function completePrivateUserRegistration() {
-                 const formData = new URLSearchParams(new FormData(document.getElementById('registerForm')));
-                 fetch('/Identity/Account/RegisterPrivateUser', {
-                     method: 'POST',
-                     headers: {
-                         'Content-Type': 'application/x-www-form-urlencoded',
-                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                     },
-                     body: formData.toString()
-                 })
-                 .then(response => response.json())
-                 .then(data => {
-                     if (data.success) {
-                         alert("Registration completed successfully!");
-                         window.location.href = "/Home";
-                     } else {
-                         alert(data.errors.join("\n"));
-                     }
-                 })
-                 .catch(error => {
-                     console.error("Unexpected error:", error);
-                     alert("An unexpected error occurred: " + error.message);
-                 });
-             }
-     
-             function completeOrganizationUserRegistration() {
-                 const formData = new URLSearchParams(new FormData(document.getElementById('registerForm')));
-                 fetch('/Identity/Account/RegisterOrganizationUser', {
-                     method: 'POST',
-                     headers: {
-                         'Content-Type': 'application/x-www-form-urlencoded',
-                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                     },
-                     body: formData.toString()
-                 })
-                 .then(response => response.json())
-                 .then(data => {
-                     if (data.success) {
-                         alert("Registration completed successfully!");
-                         window.location.href = "/Home";
-                     } else {
-                         alert(data.errors.join("\n"));
-                     }
-                 })
-                 .catch(error => {
-                     console.error("Unexpected error:", error);
-                     alert("An unexpected error occurred: " + error.message);
-                 });
-             }
-             
-             function confirmEmail(event, confirmationUrl) {
-                         event.preventDefault(); // Prevent link from navigating away
-             
-                         fetch(confirmationUrl, {
-                             method: 'GET', // Use GET request for confirmation
-                         })
-                         .then(response => response.json())
-                         .then(data => {
-                             if (data.success) {
-                                 alert("Email confirmed successfully!");
-                             } else {
-                                 alert(data.message || "Invalid confirmation request.");
-                             }
-                         })
-                         .catch(error => {
-                             console.error("Error confirming email:", error);
-                             alert("An error occurred while confirming the email.");
-                         });
-                     }
+    }
 
 
+    function completePrivateUserRegistration() {
+        const formData = new URLSearchParams(new FormData(document.getElementById('registerForm')));
+        fetch('/Identity/Account/RegisterPrivateUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: formData.toString()
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Registration completed successfully!");
+                    window.location.href = "/Home";
+                } else {
+                    alert(data.errors.join("\n"));
+                }
+            })
+            .catch(error => {
+                console.error("Unexpected error:", error);
+                alert("An unexpected error occurred: " + error.message);
+            });
+    }
 
-    </script>
+    function completeOrganizationUserRegistration() {
+        const formData = new URLSearchParams(new FormData(document.getElementById('registerForm')));
+        fetch('/Identity/Account/RegisterOrganizationUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: formData.toString()
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Registration completed successfully!");
+                    window.location.href = "/Home";
+                } else {
+                    alert(data.errors.join("\n"));
+                }
+            })
+            .catch(error => {
+                console.error("Unexpected error:", error);
+                alert("An unexpected error occurred: " + error.message);
+            });
+    }
+
+    function confirmEmail(event, confirmationUrl) {
+        event.preventDefault(); // Prevent link from navigating away
+
+        fetch(confirmationUrl, {
+            method: 'GET', // Use GET request for confirmation
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Email confirmed successfully!");
+                } else {
+                    alert(data.message || "Invalid confirmation request.");
+                }
+            })
+            .catch(error => {
+                console.error("Error confirming email:", error);
+                alert("An error occurred while confirming the email.");
+            });
+    }
+
+
+
+</script>
 
 }
