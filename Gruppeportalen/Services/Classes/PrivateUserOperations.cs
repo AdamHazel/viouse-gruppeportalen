@@ -325,9 +325,83 @@ public class PrivateUserOperations : IPrivateUserOperations
         return _db.PrivateUsers.Any(u => u.Id == id);
     }
 
+
     public PrivateUser? GetPrivateUser(string id)
     {
         return _db.PrivateUsers.FirstOrDefault(u => u.Id == id);
     }
+
+    
+
+    public void SharePersonWithUser(string email, Guid personId)
+    {
+        try
+        {
+            var applicationUser = _um.Users.FirstOrDefault(u => u.Email == email);
+
+            if (applicationUser == null)
+                throw new("Ingen bruker funnet med den angitte e-mailadressen");
+
+            var privateUser = _db.PrivateUsers.FirstOrDefault(pu => pu.Id == applicationUser.Id);
+
+            if (privateUser == null)
+            {
+                throw new("Ingen privat bruker funnet for denne e-mailadressen");
+            }
+            
+            var person = _db.Persons
+                .Include(p => p.SharedPersons)
+                .FirstOrDefault(p => p.Id == personId);
+            
+            if (person == null)
+                throw new("Person ikke funnet.");
+
+            if (person.SharedPersons.Count >= 2)
+                throw new("Denne personen er allerede delt med 2 brukere.");
+
+            var sharedPerson = new SharedPerson
+            {
+                PrivateUserId = privateUser.Id,
+                PersonId = personId
+            };
+            _db.SharedPersons.Add(sharedPerson);
+            _db.SaveChanges();
+        }
+        catch (DbUpdateException ex)
+        {
+            throw new Exception("En uventet feil oppstod:", ex);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"En uventet feil oppstod: {ex.Message}");
+            throw; 
+        }
+    }
+
+    public List<Person> GetAllPersons(string privateUserId)
+    {
+        try
+        {
+            var privateUser = _db.PrivateUsers
+                .Include(pu => pu.Persons)
+                .Include(pu => pu.SharedPersons)
+                .ThenInclude(sp => sp.Person)
+                .FirstOrDefault(pu => pu.Id == privateUserId);
+            
+            if (privateUser == null)
+                return new List<Person>();
+            
+            var persons = privateUser.Persons.ToList();
+            persons.AddRange(privateUser.SharedPersons.Select(sp => sp.Person));
+
+            return persons;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"En feil oppstod: {ex.Message}");
+            return new List<Person>(); 
+        }
+    }
+
     
 }

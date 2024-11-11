@@ -36,4 +36,9 @@ public class Person
     public string? PrivateUserId { get; set; }
     public Gruppeportalen.Models.PrivateUser? PrivateUser { get; set; }
     
+    public string PrivateUserId { get; set; }
+    
+    public Gruppeportalen.Models.PrivateUser PrivateUser { get; set; }
+    public ICollection<SharedPerson> SharedPersons { get; set; } = new List<SharedPerson>();
+    
 }

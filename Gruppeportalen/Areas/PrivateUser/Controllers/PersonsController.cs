@@ -47,8 +47,9 @@ public class PersonsController : Controller
         {
             return NotFound();
         }
+        var persons = _privateUserOperations.GetAllPersons(privateUserId);
 
-        return View(privateUser.Persons);
+        return View(persons);
     }
 
     [HttpGet]
@@ -100,4 +101,12 @@ public class PersonsController : Controller
         _privateUserOperations.DeletePerson(id);
         return RedirectToAction("Index");
     }
+
+    [HttpPost]
+    public IActionResult SharePerson(string email, Guid personId)
+    {
+        _privateUserOperations.SharePersonWithUser(email, personId);
+        return RedirectToAction("Index");
+    }
+    
 }

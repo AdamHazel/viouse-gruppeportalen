@@ -42,6 +42,7 @@ public class PrivateUser
 
     public ApplicationUser? ApplicationUser{ get; set; }
     public ICollection<Person> Persons { get; set; } = new List<Person>();
-    
-    
+
+    public ICollection<SharedPerson> SharedPersons { get; set; } = new List<SharedPerson>();
+
 }
