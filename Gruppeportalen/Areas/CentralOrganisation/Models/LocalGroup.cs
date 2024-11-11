@@ -23,12 +23,12 @@ public class LocalGroup
     
     [Required]
     [StringLength(30)]
-    [DisplayName("By")]
+    [DisplayName("Sted")]
     public string City { get; set; } = string.Empty;
     
     [Required]
     [StringLength(20)]
-    [DisplayName("Sted")]
+    [DisplayName("Fylke")]
     public string County { get; set; } = string.Empty;
 
     [Required]

@@ -27,6 +27,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PrivateUserOperations>();
 
 builder.Services.AddScoped<ILocalGroupService, LocalGroupService>();
+builder.Services.AddScoped<ILocalGroupAdminService, LocalGroupAdminService>();
 
 
 var app = builder.Build();

@@ -44,17 +44,56 @@ public class LocalGroupService : ILocalGroupService
             return false;
         }
     }
-    
 
+    private bool _updateLocalGroup(LocalGroup lg)
+    {
+        try
+        {
+            _db.LocalGroups.Update(lg);
+            if (_db.SaveChanges() > 0)
+                return true;
+            else
+                throw new DbUpdateException("Failed to update group in db");
+        }
+        catch (DbUpdateException)
+        {
+            _logger.LogError("Failed to add group to db");
+            return false;
+        }
+    }
+    
     public bool AddNewLocalGroup(LocalGroup localGroup, string organisationId)
     {
         localGroup.CentralOrganisationId = organisationId;
         return _addGroupToDb(localGroup);
     }
 
-    public List<LocalGroup> GetLocalGroups(string organisationId)
+    public LocalGroup? GetLocalGroupById(Guid id)
     {
-        var groups = _db.LocalGroups.Where(g => g.CentralOrganisationId == organisationId).ToList();
+        return _db.LocalGroups.FirstOrDefault(g => g.Id == id);
+    }
+
+    public bool UpdateLocalGroup(LocalGroup lg)
+    {
+        var localGroup = GetLocalGroupById(lg.Id);
+        if (localGroup == null)
+            return false;
+        else
+        {
+            localGroup.GroupName = lg.GroupName;
+            localGroup.Address = lg.Address;
+            localGroup.Postcode = lg.Postcode;
+            localGroup.City = lg.City;
+            localGroup.County = lg.County;
+            return _updateLocalGroup(localGroup);
+        }
+    }
+    public List<LocalGroup>? GetLocalGroups(string organisationId)
+    {
+        var groups = _db.LocalGroups
+            .Where(g => g.CentralOrganisationId == organisationId)
+            .OrderBy(g => g.GroupName)
+            .ToList();
         return groups;
     }
    

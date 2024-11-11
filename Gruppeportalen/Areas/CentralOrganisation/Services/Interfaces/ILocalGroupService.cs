@@ -6,8 +6,9 @@ public interface ILocalGroupService
 {
   
     bool AddNewLocalGroup(LocalGroup localGroup, string organisationId);
-    
-    List<LocalGroup> GetLocalGroups(string organisationId);
-    public List<string> GetAllCounties();
+    LocalGroup? GetLocalGroupById(Guid id);
 
+    bool UpdateLocalGroup(LocalGroup localGroup);
+    
+    List<LocalGroup>? GetLocalGroups(string organisationId);
 }

@@ -17,8 +17,8 @@
     }
 </p>
 <div>
-    <a href="" class="btn btn-primary mx-2">Legg til admin</a>
-    <a href="" class="btn btn-primary mx-2">Rediger</a>
+    <a class="btn btn-primary mx-2" asp-route-id="@Model.Id" asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="AddAdmin">Legg til admin</a>
+    <a class="btn btn-primary mx-2" asp-route-id="@Model.Id" asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="Edit" >Rediger</a>
     <a href="" class="btn btn-dark mx-2">Slett</a>
-    
+
 </div>

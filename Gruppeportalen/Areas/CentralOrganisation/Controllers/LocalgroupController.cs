@@ -15,12 +15,14 @@ public class LocalgroupController : Controller
 {
     private readonly UserManager<ApplicationUser> _um;
     private readonly ILocalGroupService _lgs;
+    private readonly ILocalGroupAdminService _lgas;
 
 
-    public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs)
+    public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs, ILocalGroupAdminService adminService)
     {
         _um = um;
         _lgs = lgs;
+        _lgas = adminService;
     }
 
 
@@ -57,9 +59,55 @@ public class LocalgroupController : Controller
 
         return View(group);
     }
+    
+    [HttpGet]
+    public IActionResult Edit(Guid id)
+    {
+        var lg = _lgs.GetLocalGroupById(id);
+        if (lg == null)
+            return BadRequest("Unable to find local group");
+        return View(lg);
+    }
 
-   
+    [HttpPost]
+    public IActionResult Edit(LocalGroup group)
+    {
+        if (!ModelState.IsValid)
+        {
+           return View(group);
+        }
+        
+        if(_lgs.UpdateLocalGroup(group))
+            return RedirectToAction(nameof(Index));
+        else
+        {
+            return BadRequest("Error happened when updating local group.");
+        }
+    }
 
+    [HttpGet]
+    public IActionResult AddAdmin(Guid id)
+    {
+        return View(new AdminCreator {LocalGroupId = id});
+    }
+
+    [HttpPost]
+    public IActionResult AddAdmin(AdminCreator adminCreator)
+    {
+        
+        if (adminCreator.LocalGroupId == Guid.Empty)
+            return BadRequest("Id empty");
+        
+        if (ModelState.IsValid)
+        {
+            if (_lgas.AddAdminToLocalGroupByEmail(adminCreator.AdminEmail, adminCreator.LocalGroupId))
+                return RedirectToAction(nameof(Index));
+            else
+            {
+                return BadRequest("Error happened when assigning admin to Local group.");
+            }
+        }
+        
+        return View(adminCreator);
+    }
 }
-
-
