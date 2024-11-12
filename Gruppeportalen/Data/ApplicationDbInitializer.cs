@@ -42,13 +42,13 @@ public class ApplicationDbInitializer
         db.LocalGroups.Add(new LocalGroup
         {
             Address = "Address 1", GroupName = "Group 1", City = "City 1", Postcode = "1111", County = "Oslo",
-            CentralOrganisationId = cUser.Id
+            CentralOrganisationId = cUser.Id, Active = true
         });
         
         db.LocalGroups.Add(new LocalGroup
         {
             Address = "Address 2", GroupName = "Group 2", City = "City 2", Postcode = "2222", County = "Oslo",
-            CentralOrganisationId = cUser.Id
+            CentralOrganisationId = cUser.Id, Active = true
         });
         
         db.LocalGroups.Add(new LocalGroup

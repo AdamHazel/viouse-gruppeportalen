@@ -59,9 +59,8 @@ public class LocalGroupService : ILocalGroupService
     }
     public IEnumerable<LocalGroup> GetAllLocalGroups()
     {
-        return _db.LocalGroups.ToList();
+        return _db.LocalGroups.Where(g => g.Active).ToList();
     }
-
 
     public List<string> GetAllCounties()
     {
@@ -70,7 +69,7 @@ public class LocalGroupService : ILocalGroupService
     
     public IEnumerable<LocalGroup> SearchLocalGroups(string query, string county)
     {
-        var localGroups = _db.LocalGroups.AsQueryable();
+        var localGroups = _db.LocalGroups.Where(g => g.Active).AsQueryable();
 
         if (!string.IsNullOrEmpty(query))
         {
