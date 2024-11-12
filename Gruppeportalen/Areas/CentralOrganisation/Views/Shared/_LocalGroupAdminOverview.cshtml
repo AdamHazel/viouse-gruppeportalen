@@ -1,0 +1,17 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model List<ApplicationUser>
+
+@if (Model.IsNullOrEmpty())
+{
+    <p> Dette lokallaget har ingen admins</p>
+}
+else
+{
+    foreach (var user in Model)
+    {
+        <div>
+            <span>@user.Email</span>
+            <span><a href="" class="btn btn-danger mt-3">Fjern admin</a></span>
+        </div>
+    }
+}

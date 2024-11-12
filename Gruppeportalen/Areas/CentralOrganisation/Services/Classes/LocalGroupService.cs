@@ -70,7 +70,9 @@ public class LocalGroupService : ILocalGroupService
 
     public LocalGroup? GetLocalGroupById(Guid id)
     {
-        return _db.LocalGroups.FirstOrDefault(g => g.Id == id);
+        return _db.LocalGroups
+            .Include(g=>g.LocalGroupAdmins)
+            .FirstOrDefault(g => g.Id == id);
     }
 
     public bool UpdateLocalGroup(LocalGroup lg)
@@ -95,10 +97,5 @@ public class LocalGroupService : ILocalGroupService
             .OrderBy(g => g.GroupName)
             .ToList();
         return groups;
-    }
-   
-    public List<string> GetAllCounties()
-    {
-        return new List<string>(Constants.Counties); 
     }
 }

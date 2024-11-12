@@ -20,4 +20,23 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<LocalGroupAdmin> LocalGroupAdmins { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        
+        builder.Entity<LocalGroupAdmin>()
+            .HasKey(lga => new { lga.LocalGroupId, lga.UserId });
+        
+        builder.Entity<LocalGroupAdmin>()
+            .HasOne(lga => lga.LocalGroup)
+            .WithMany(lg => lg.LocalGroupAdmins)
+            .HasForeignKey(lga => lga.LocalGroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<LocalGroupAdmin>()
+            .HasOne(lga => lga.User)
+            .WithMany(pu => pu.LocalGroupAdmins)
+            .HasForeignKey(lga => lga.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Models;
 
 namespace Gruppeportalen.Areas.PrivateUser.Models;
@@ -39,4 +40,6 @@ public class PrivateUser
 
     public ApplicationUser? ApplicationUser{ get; set; }
     public ICollection<Person> Persons { get; set; } = new List<Person>();
+    
+    
 }

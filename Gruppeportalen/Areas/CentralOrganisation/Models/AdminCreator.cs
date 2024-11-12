@@ -8,6 +8,7 @@ public class AdminCreator
 {
     [Required]
     [PrivateUserExistsValidation]
+    [AdminAlreadyAssignedValidation]
     public string AdminEmail { get; set; } = string.Empty;
     
     public Guid LocalGroupId { get; set; }

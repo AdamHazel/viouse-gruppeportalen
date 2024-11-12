@@ -1,0 +1,15 @@
+﻿@model AdminCreator
+
+<form asp-action="AddAdmin" id="adminForm">
+    <div class="form-group">
+        <input type="hidden" class="form-control" asp-for="LocalGroupId">
+        <span asp-validation-for="LocalGroupId"></span>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control emailInput" asp-for="AdminEmail">
+        <span asp-validation-for="AdminEmail"></span>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Legg til admin</button>
+</form>
+
+

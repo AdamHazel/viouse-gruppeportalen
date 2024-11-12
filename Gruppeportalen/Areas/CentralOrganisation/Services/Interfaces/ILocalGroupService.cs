@@ -1,4 +1,5 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
+using Gruppeportalen.Models;
 
 namespace Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 
@@ -11,4 +12,5 @@ public interface ILocalGroupService
     bool UpdateLocalGroup(LocalGroup localGroup);
     
     List<LocalGroup>? GetLocalGroups(string organisationId);
+    
 }

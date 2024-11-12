@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace Gruppeportalen.Areas.CentralOrganisation.Models;
@@ -39,7 +40,7 @@ public class LocalGroup
     public string Postcode { get; set; } = string.Empty;
     
     // Foreign key
-    [ForeignKey("CentralOrganisation")]
+    [ForeignKey(nameof(Organisation))]
     public string? CentralOrganisationId { get; set; }
     public CentralOrganisation? Organisation { get; set; }
     
@@ -49,5 +50,6 @@ public class LocalGroup
     
     // Values for running of local group
     public bool Active { get; set; } = false;
-
+    
+    public ICollection<LocalGroupAdmin> LocalGroupAdmins { get; set; } = new List<LocalGroupAdmin>();
 }

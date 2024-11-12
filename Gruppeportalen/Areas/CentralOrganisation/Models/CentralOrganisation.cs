@@ -7,7 +7,7 @@ namespace Gruppeportalen.Areas.CentralOrganisation.Models;
 public class CentralOrganisation
 {
     [Key]
-    [ForeignKey("ApplicationUser")]
+    [ForeignKey(nameof(ApplicationUser))]
     public string Id {get; set;}
     
     [Required]
@@ -17,7 +17,6 @@ public class CentralOrganisation
     [Required]
     [MaxLength(100)]
     public string OrganisationName { get; set; } = string.Empty;
-    
     
     public ApplicationUser? ApplicationUser { get; set; }
 }

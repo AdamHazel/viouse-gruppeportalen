@@ -1,5 +1,6 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.HelperClasses;
 using Gruppeportalen.Areas.CentralOrganisation.Models;
+using Gruppeportalen.Areas.CentralOrganisation.Models.ViewModels;
 using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Gruppeportalen.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -63,10 +64,19 @@ public class LocalgroupController : Controller
     [HttpGet]
     public IActionResult Edit(Guid id)
     {
-        var lg = _lgs.GetLocalGroupById(id);
-        if (lg == null)
+        var viewModel = new EditLocalGroupViewModel
+        {
+            LocalGroup = _lgs.GetLocalGroupById(id),
+            AdminCreator = new AdminCreator {LocalGroupId = id},
+            LocalGroupAdmins = new List<ApplicationUser>(),
+        };
+        
+        if (viewModel.LocalGroup == null)
             return BadRequest("Unable to find local group");
-        return View(lg);
+
+        viewModel.LocalGroupAdmins = _lgas.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
+        
+        return View(viewModel);
     }
 
     [HttpPost]
@@ -74,7 +84,15 @@ public class LocalgroupController : Controller
     {
         if (!ModelState.IsValid)
         {
-           return View(group);
+            var viewModel = new EditLocalGroupViewModel
+            {
+                LocalGroup = group,
+                AdminCreator = new AdminCreator {LocalGroupId = group.Id},
+                LocalGroupAdmins = new List<ApplicationUser>(),
+            };
+            
+            viewModel.LocalGroupAdmins = _lgas.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
+            return View(viewModel);
         }
         
         if(_lgs.UpdateLocalGroup(group))
@@ -85,12 +103,6 @@ public class LocalgroupController : Controller
         }
     }
 
-    [HttpGet]
-    public IActionResult AddAdmin(Guid id)
-    {
-        return View(new AdminCreator {LocalGroupId = id});
-    }
-
     [HttpPost]
     public IActionResult AddAdmin(AdminCreator adminCreator)
     {
@@ -98,16 +110,26 @@ public class LocalgroupController : Controller
         if (adminCreator.LocalGroupId == Guid.Empty)
             return BadRequest("Id empty");
         
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            if (_lgas.AddAdminToLocalGroupByEmail(adminCreator.AdminEmail, adminCreator.LocalGroupId))
-                return RedirectToAction(nameof(Index));
-            else
+            var viewModel = new EditLocalGroupViewModel
             {
-                return BadRequest("Error happened when assigning admin to Local group.");
-            }
+                LocalGroup = _lgs.GetLocalGroupById(adminCreator.LocalGroupId),
+                AdminCreator = adminCreator,
+                LocalGroupAdmins = new List<ApplicationUser>(),
+            };
+            
+            viewModel.LocalGroupAdmins = _lgas.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
+            return View(nameof(Edit), viewModel);
         }
-        
-        return View(adminCreator);
+
+        if (_lgas.AddAdminToLocalGroupByEmail(adminCreator.AdminEmail, adminCreator.LocalGroupId))
+        {
+            return RedirectToAction(nameof(Edit), new {id = adminCreator.LocalGroupId});
+        }
+        else
+        {
+            return BadRequest("Error happened when assigning admin to Local group.");
+        }
     }
 }
