@@ -10,7 +10,6 @@ namespace Gruppeportalen.Areas.CentralOrganisation.Controllers;
 
 [Area("CentralOrganisation")]
 [Authorize]
-[CentralOrgUserCheckFactory]
 
 public class LocalgroupController : Controller
 {
@@ -24,6 +23,8 @@ public class LocalgroupController : Controller
         _lgs = lgs;
     }
 
+    [CentralOrgUserCheckFactory]
+
     public IActionResult Index()
     {
         var organization = _um.GetUserAsync(User).Result;
@@ -31,11 +32,17 @@ public class LocalgroupController : Controller
         return View(groups);
     }
 
+    [CentralOrgUserCheckFactory]
+
     [HttpGet]
     public IActionResult Add()
+    
     {
+        ViewBag.Counties = _lgs.GetAllCounties();
         return View(new LocalGroup());
     }
+
+    [CentralOrgUserCheckFactory]
 
     [HttpPost]
     public IActionResult Add(LocalGroup group)
@@ -51,7 +58,26 @@ public class LocalgroupController : Controller
                 return BadRequest("Error happened when using Local group service.");
             }
         }
-        
+
         return View(group);
     }
+
+    public IActionResult Search()
+    {
+        ViewBag.Counties = _lgs.GetAllCounties();
+        
+        var groups = _lgs.GetAllLocalGroups();
+        return View(groups);
+    }
+
+
+    [HttpGet]
+    public IActionResult SearchLocalGroups(string query, string county)
+    {
+        var allGroups = _lgs.SearchLocalGroups(query, county);
+        return PartialView("_LocalGroupCardList", allGroups);
+    }
+
 }
+
+

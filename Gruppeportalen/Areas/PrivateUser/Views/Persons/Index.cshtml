@@ -4,17 +4,21 @@
 Layout = "_Layout";
 }
 
-@Html.Partial("_PrivateUserSidebar")
+<div class="main-container">
+<div class="sidebar">
+    @Html.Partial("_PrivateUserSidebar")
+</div>
 <div class="main-content">
     <h2>Mine Brukere</h2>
     <div class="person-list">
         <a href="@Url.Action("Add", "Persons")" class="btn btn-primary">Legg til ny bruker</a>
 
-        <div class="person-cards-container">
+        <div class="cards-container">
             @foreach (var person in Model)
             {
-            @Html.Partial("_PersonCard", person) 
+                @Html.Partial("_PersonCard", person) 
             }
         </div>
     </div>
+</div>
 </div>

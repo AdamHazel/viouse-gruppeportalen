@@ -1,5 +1,5 @@
 
-.person-card {
+.card {
     width: 350px;
     background-color: #e0e0e0;
     border-radius: 10px;
@@ -7,16 +7,16 @@
     margin: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.person-header {
+.card-header {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.person-details, .person-memberships, .person-actions {
+.card-details, .card-memberships, .card-actions {
     margin-top: 10px;
 }
-.person-actions {
+.card-actions {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
@@ -26,8 +26,26 @@
     display: inline-block;
 }
 
-.person-cards-container {
+.cards-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.localgroup-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.join-button {
+    background-color: #FFA07A;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }

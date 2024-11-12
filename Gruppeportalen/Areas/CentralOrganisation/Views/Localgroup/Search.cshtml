@@ -1,0 +1,37 @@
+@model IEnumerable<Gruppeportalen.Areas.CentralOrganisation.Models.LocalGroup>
+
+@{
+ViewBag.Title = "Lokallag";
+Layout = "_Layout";
+}
+
+        <div class="localgroup-search-page">
+            <h2 class="page-title">Lokallag</h2>
+
+            <div class="search-filter-section">
+                <div class="search-bar form-group">
+                    <label for="search">Søk etter lokallag:</label>
+                    <input type="text" id="search" class="form-control" placeholder="Skriv inn lokallagsnavn"/>
+                </div>
+
+                <div class="county-filter form-group">
+                    <label for="countyDropdown">Velg fylke:</label>
+                    <select id="countyDropdown" class="form-control">
+                        <option value="">Alle fylker</option>
+                        @foreach (var county in ViewBag.Counties as List<string>)
+                        {
+                            <option value="@county">@county</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="cards-container" id="localGroupsContainer">
+                @foreach (var group in Model)
+                {
+                    @Html.Partial("_LocalGroupCard", group)
+                }
+            </div>
+        </div>
+
+<script src="~/js/search.js"></script>

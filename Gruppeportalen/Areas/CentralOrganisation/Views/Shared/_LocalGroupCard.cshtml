@@ -1,0 +1,20 @@
+@model Gruppeportalen.Areas.CentralOrganisation.Models.LocalGroup
+<link rel="stylesheet" href="~/css/personcard.css" />
+
+<div class="card">
+    <div class="card-header">
+        <img src="~/images/logo-placeholder.png" alt="Logo" class="localgroup-logo" />
+        <h3>@Model.GroupName</h3>
+    </div>
+    <div class="card-details">
+        <p>@Model.Description</p>
+    </div>
+    <div class="card-memberships">
+        <p><strong>Priser:</strong></p>
+        <p>Enkeltmedlemskap: </p>
+        <p>Familiemedlemskap: </p>
+    </div>
+    <div class="card-actions">
+        <button class="join-button">Bli Medlem</button>
+    </div>
+</div>

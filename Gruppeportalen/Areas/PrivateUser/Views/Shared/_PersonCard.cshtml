@@ -1,22 +1,22 @@
 @model Person 
 <link rel="stylesheet" href="~/css/personcard.css" />
 
-<div class="person-card">
-    <div class="person-header">
+<div class="card">
+    <div class="card-header">
         <h3>@Model.Firstname @Model.Lastname</h3>
     </div>
-    <div class="person-details">
+    <div class="card-details">
         <p><strong>Fødselsdato:</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")</p>
         <p><strong>Adresse:</strong> @Model.Address</p>
         <p><strong>Postnummer:</strong> @Model.Postcode</p>
         <p><strong>Sted:</strong> @Model.City</p>
     </div>
     
-    <div class="person-memberships">
+    <div class="card-memberships">
         <h4>Medlem i</h4>
     </div>
 
-    <div class="person-actions">
+    <div class="card-actions">
         <form asp-action="Edit" method="get">
             <input type="hidden" name="id" value="@Model.Id" />
             <button type="submit" class="btn btn-warning">Rediger</button>

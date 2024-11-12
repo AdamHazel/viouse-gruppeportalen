@@ -3,9 +3,12 @@ ViewBag.Title = "Private User Index";
 Layout = "_Layout";
 }
 
-@Html.Partial("_PrivateUserSidebar")
-
-<div class="main-content">
-    <h2>Private User Index</h2>
+<div class="main-container">
+    <div class="sidebar">
+        @Html.Partial("_PrivateUserSidebar")
+    </div>
+    <div class="main-content">
+        <h2>Private User Index</h2>
+    </div>
 </div>
 
