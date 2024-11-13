@@ -4,7 +4,7 @@ async function searchLocalGroups() {
     const container = document.getElementById('localGroupsContainer');
 
     try {
-        const response = await fetch(`/CentralOrganisation/Localgroup/SearchLocalGroups?query=${encodeURIComponent(searchQuery)}&county=${encodeURIComponent(countyDropdown)}`);
+        const response = await fetch(`/PrivateUser/Search/SearchLocalGroups?query=${encodeURIComponent(searchQuery)}&county=${encodeURIComponent(countyDropdown)}`);
         if (!response.ok) {
             console.error(response.statusText);
             return;

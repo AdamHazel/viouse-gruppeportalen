@@ -18,6 +18,7 @@ public class HomeController : Controller
     {
         _db = db;
         _um = um;
+        
     }   
     
     public IActionResult Index()

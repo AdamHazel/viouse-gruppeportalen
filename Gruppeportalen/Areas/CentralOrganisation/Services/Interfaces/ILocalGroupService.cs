@@ -8,11 +8,6 @@ public interface ILocalGroupService
     bool AddNewLocalGroup(LocalGroup localGroup, string organisationId);
     
     List<LocalGroup> GetLocalGroups(string organisationId);
-    
-    IEnumerable<LocalGroup> GetAllLocalGroups();
-    
+    public List<string> GetAllCounties();
 
-    List<string> GetAllCounties();
-
-    IEnumerable<LocalGroup> SearchLocalGroups(string query, string county);
 }

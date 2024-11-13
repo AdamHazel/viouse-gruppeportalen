@@ -10,7 +10,7 @@ namespace Gruppeportalen.Areas.CentralOrganisation.Controllers;
 
 [Area("CentralOrganisation")]
 [Authorize]
-
+[CentralOrgUserCheckFactory]
 public class LocalgroupController : Controller
 {
     private readonly UserManager<ApplicationUser> _um;
@@ -23,7 +23,6 @@ public class LocalgroupController : Controller
         _lgs = lgs;
     }
 
-    [CentralOrgUserCheckFactory]
 
     public IActionResult Index()
     {
@@ -31,18 +30,15 @@ public class LocalgroupController : Controller
         var groups = _lgs.GetLocalGroups(organization.Id);
         return View(groups);
     }
-
-    [CentralOrgUserCheckFactory]
+    
 
     [HttpGet]
     public IActionResult Add()
     
     {
-        ViewBag.Counties = _lgs.GetAllCounties();
         return View(new LocalGroup());
     }
-
-    [CentralOrgUserCheckFactory]
+    
 
     [HttpPost]
     public IActionResult Add(LocalGroup group)
@@ -62,21 +58,7 @@ public class LocalgroupController : Controller
         return View(group);
     }
 
-    public IActionResult Search()
-    {
-        ViewBag.Counties = _lgs.GetAllCounties();
-        
-        var groups = _lgs.GetAllLocalGroups();
-        return View(groups);
-    }
-
-
-    [HttpGet]
-    public IActionResult SearchLocalGroups(string query, string county)
-    {
-        var allGroups = _lgs.SearchLocalGroups(query, county);
-        return PartialView("_LocalGroupCardList", allGroups);
-    }
+   
 
 }
 

@@ -74,11 +74,11 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult Edit(Person person)
     {
-       ModelState.Remove("Id");
+     /*  ModelState.Remove("Id");
         if (!ModelState.IsValid)
         {
             return View(person);
-        }
+        }*/
         
         _privateUserOperations.EditPerson(person);
         return RedirectToAction("Index");

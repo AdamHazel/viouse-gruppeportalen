@@ -1,6 +1,7 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Data;
+using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +20,7 @@ public class LocalGroupService : ILocalGroupService
     
     private readonly ApplicationDbContext _db;
     private readonly ILogger<LocalGroupService> _logger;
-    private readonly List<string> _counties = new List<string> { "Akershus", "Oslo", "Vestland", "Trøndelag", "Innlandet", "Agder", "Østfold", "Møre og Romsdalen", "Buskerud", "Vestfold", "Nordland", "Telemark", "Troms", "Finnmark"};
-    
+   
     
     public LocalGroupService(ApplicationDbContext db, ILogger<LocalGroupService> logger)
     {
@@ -57,31 +57,9 @@ public class LocalGroupService : ILocalGroupService
         var groups = _db.LocalGroups.Where(g => g.CentralOrganisationId == organisationId).ToList();
         return groups;
     }
-    public IEnumerable<LocalGroup> GetAllLocalGroups()
-    {
-        return _db.LocalGroups.Where(g => g.Active).ToList();
-    }
-
+   
     public List<string> GetAllCounties()
     {
-        return new List<string>(_counties); 
-    }
-    
-    public IEnumerable<LocalGroup> SearchLocalGroups(string query, string county)
-    {
-        var localGroups = _db.LocalGroups.Where(g => g.Active).AsQueryable();
-
-        if (!string.IsNullOrEmpty(query))
-        {
-            localGroups = localGroups.Where(g => g.GroupName.ToLower().Contains(query.ToLower()));
-        }
-
-        if (!string.IsNullOrEmpty(county))
-        {
-            localGroups = localGroups.Where(g => g.County.ToLower() == county.ToLower());
-        }
-
-        var result = localGroups.ToList();
-        return result;
+        return new List<string>(Constants.Counties); 
     }
 }

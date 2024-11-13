@@ -1,0 +1,49 @@
+
+
+using System.Security.Claims;
+using Gruppeportalen.Data;
+using Gruppeportalen.Models;
+using Gruppeportalen.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace Gruppeportalen.Areas.PrivateUser.Controllers;
+
+[Authorize]
+[Area("PrivateUser")]
+public class SearchController : Controller
+{
+    private readonly ApplicationDbContext _db;
+    private readonly UserManager<ApplicationUser> _um;
+    private readonly PrivateUserOperations _privateUserOperations;
+    public SearchController(ApplicationDbContext db, UserManager<ApplicationUser> um, PrivateUserOperations privateUserOperations)
+    {
+        _db = db;
+        _um = um;
+        _privateUserOperations = privateUserOperations;
+    }   
+    
+
+    
+    
+ public IActionResult Index()
+    {
+        ViewBag.Counties = _privateUserOperations.GetAllCounties();
+      
+        
+        var groups = _privateUserOperations.GetAllLocalGroups();
+        return View(groups);
+    }
+
+
+    [HttpGet]
+    public IActionResult SearchLocalGroups(string query, string county)
+    {
+        var allGroups = _privateUserOperations.SearchLocalGroups(query, county);
+        return PartialView("_LocalGroupCardList", allGroups);
+    }
+
+    
+}

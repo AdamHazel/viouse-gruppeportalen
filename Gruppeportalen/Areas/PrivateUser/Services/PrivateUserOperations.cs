@@ -1,6 +1,8 @@
+using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Areas.ViewModels;
 using Gruppeportalen.Data;
+using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -257,6 +259,33 @@ public void DeletePerson(Guid personId)
         Console.WriteLine($"En uventet feil oppstod: {ex.Message}");
         throw; 
     }
+}
+public IEnumerable<LocalGroup> GetAllLocalGroups()
+{
+    return _db.LocalGroups.Where(g => g.Active).ToList();
+}
+
+public List<string> GetAllCounties()
+{
+    return new List<string>(Constants.Counties); 
+}
+    
+public IEnumerable<LocalGroup> SearchLocalGroups(string query, string county)
+{
+    var localGroups = _db.LocalGroups.Where(g => g.Active).AsQueryable();
+
+    if (!string.IsNullOrEmpty(query))
+    {
+        localGroups = localGroups.Where(g => g.GroupName.ToLower().Contains(query.ToLower()));
+    }
+
+    if (!string.IsNullOrEmpty(county))
+    {
+        localGroups = localGroups.Where(g => g.County.ToLower() == county.ToLower());
+    }
+
+    var result = localGroups.ToList();
+    return result;
 }
 
     

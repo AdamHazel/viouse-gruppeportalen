@@ -25,13 +25,7 @@
     </div>
     <div class="form-group">
         <label asp-for="County"></label>
-        <select asp-for="County" class="form-control">
-            <option value="">Velg fylke</option>
-            @foreach (var county in ViewBag.Counties as List<string>)
-            {
-            <option value="@county">@county</option>
-            }
-        </select>
+        <input type="text" class="form-control"  asp-for="County">
         <span asp-validation-for="County"></span>
     </div>
     <div class="form-group">
