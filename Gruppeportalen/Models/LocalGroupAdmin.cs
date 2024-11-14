@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Gruppeportalen.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gruppeportalen.Areas.CentralOrganisation.Models;
+namespace Gruppeportalen.Models;
 
 [PrimaryKey(nameof(LocalGroupId), nameof(UserId))]
 public class LocalGroupAdmin

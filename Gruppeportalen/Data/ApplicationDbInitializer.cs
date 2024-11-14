@@ -14,6 +14,7 @@ public class ApplicationDbInitializer
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
         
+        
         db.SaveChanges();
     }
 }

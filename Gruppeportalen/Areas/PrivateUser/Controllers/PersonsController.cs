@@ -3,10 +3,10 @@ using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
+using Gruppeportalen.Services.Classes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;

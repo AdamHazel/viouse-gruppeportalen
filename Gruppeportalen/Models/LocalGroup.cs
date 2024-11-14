@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
+using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
-namespace Gruppeportalen.Areas.CentralOrganisation.Models;
+namespace Gruppeportalen.Models;
 
 public class LocalGroup
 {

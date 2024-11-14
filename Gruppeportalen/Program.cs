@@ -1,10 +1,10 @@
-using Gruppeportalen.Areas.CentralOrganisation.Services.Classes;
-using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
+using Gruppeportalen.Services.Classes;
+using Gruppeportalen.Services.Interfaces;
 using Microsoft.Extensions.Logging; // For logging
 
 var builder = WebApplication.CreateBuilder(args);

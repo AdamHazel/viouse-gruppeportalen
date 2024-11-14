@@ -1,13 +1,13 @@
 using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Areas.PrivateUser.Models;
-using Gruppeportalen.Areas.ViewModels;
+using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Data;
 using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gruppeportalen.Services;
+namespace Gruppeportalen.Services.Classes;
 
 public class PrivateUserOperations
 {

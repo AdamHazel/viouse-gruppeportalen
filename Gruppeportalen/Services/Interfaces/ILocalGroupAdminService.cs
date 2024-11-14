@@ -1,7 +1,7 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Models;
 
-namespace Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
+namespace Gruppeportalen.Services.Interfaces;
 
 public interface ILocalGroupAdminService
 {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
-using PrivateUserModel = Gruppeportalen.Areas.PrivateUser.Models.PrivateUser;
+using PrivateUserModel = Gruppeportalen.Models.PrivateUser;
 
 namespace Gruppeportalen.Areas.Identity.Pages.Account
 {

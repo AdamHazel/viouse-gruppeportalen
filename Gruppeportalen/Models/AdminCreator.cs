@@ -2,7 +2,7 @@
 using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gruppeportalen.Areas.CentralOrganisation.Models;
+namespace Gruppeportalen.Models;
 
 public class AdminCreator
 {

@@ -1,14 +1,14 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
-using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Gruppeportalen.Data;
 using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
+using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
 
-namespace Gruppeportalen.Areas.CentralOrganisation.Services.Classes;
+namespace Gruppeportalen.Services.Classes;
 
 public class LocalGroupAdminService : ILocalGroupAdminService
 {

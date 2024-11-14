@@ -1,4 +1,4 @@
-namespace Gruppeportalen.Areas.ViewModels;
+namespace Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 
 public class ApplicationPrivateUser
 {

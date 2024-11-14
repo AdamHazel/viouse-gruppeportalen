@@ -34,5 +34,5 @@ public class Person
     
     public string PrivateUserId { get; set; }
     
-    public PrivateUser PrivateUser { get; set; }
+    public Gruppeportalen.Models.PrivateUser PrivateUser { get; set; }
 }

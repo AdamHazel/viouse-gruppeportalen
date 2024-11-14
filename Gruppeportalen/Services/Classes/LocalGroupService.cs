@@ -1,12 +1,12 @@
-﻿using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
-using Gruppeportalen.Areas.CentralOrganisation.Models;
+﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Data;
 using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
+using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gruppeportalen.Areas.CentralOrganisation.Services.Classes;
+namespace Gruppeportalen.Services.Classes;
 
 class CustomException : Exception
 {

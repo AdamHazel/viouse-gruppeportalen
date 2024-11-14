@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Gruppeportalen.Areas.CentralOrganisation.Models;
+using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Models;
 
-namespace Gruppeportalen.Areas.PrivateUser.Models;
+namespace Gruppeportalen.Models;
 
 public class PrivateUser
 {

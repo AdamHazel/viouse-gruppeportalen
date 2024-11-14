@@ -2,6 +2,7 @@
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
+using Gruppeportalen.Services.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,12 +31,12 @@ public class AddController : Controller
     {
         var user = _um.GetUserAsync(User).Result;;
         
-        return View(new Models.PrivateUser { Id = user.Id });
+        return View(new Gruppeportalen.Models.PrivateUser { Id = user.Id });
     }
     
     
     [HttpPost]
-    public IActionResult Index(Models.PrivateUser privateUser)
+    public IActionResult Index(Gruppeportalen.Models.PrivateUser privateUser)
     {
         
         if (!ModelState.IsValid)
