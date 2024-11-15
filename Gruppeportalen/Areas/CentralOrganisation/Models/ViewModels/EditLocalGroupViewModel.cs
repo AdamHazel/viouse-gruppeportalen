@@ -6,5 +6,5 @@ public class EditLocalGroupViewModel
 {
     public LocalGroup? LocalGroup { get; set; }
     public AdminCreator? AdminCreator { get; set; }
-    public List<ApplicationUser>? LocalGroupAdmins { get; set; }
+    public List<(ApplicationUser, Guid)>? LocalGroupAdmins { get; set; }
 }

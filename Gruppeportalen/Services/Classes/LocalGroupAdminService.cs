@@ -36,7 +36,9 @@ public class LocalGroupAdminService : ILocalGroupAdminService
     
     private LocalGroup? _getLocalGroupById(Guid id)
     {
-        return _db.LocalGroups.FirstOrDefault(g => g.Id == id);
+        return _db.LocalGroups
+            .Include(g => g.LocalGroupAdmins)
+            .FirstOrDefault(g => g.Id == id);
     }
     
     private bool _addAdminToDb(LocalGroupAdmin admin, LocalGroup group, ApplicationUser user)
@@ -49,6 +51,32 @@ public class LocalGroupAdminService : ILocalGroupAdminService
                 return true;
             else
                 throw new DbUpdateException("Failed to add group to db");
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+    }
+
+    private LocalGroupAdmin? _getLocalGroupAdmin(Guid groupId, string userId)
+    {
+        return _db.LocalGroupAdmins.FirstOrDefault(a => a.LocalGroupId == groupId && a.UserId == userId);
+    }
+
+    private bool _removeAdmin(ApplicationUser user, LocalGroup group)
+    {
+        try
+        {
+            var adminToRemove = _getLocalGroupAdmin(group.Id, user.Id);
+            if (adminToRemove == null)
+                throw new DbUpdateException("Did not find admin to remove");
+            
+            group.LocalGroupAdmins.Remove(adminToRemove);
+            user.LocalGroupAdmins.Remove(adminToRemove);
+            if (_db.SaveChanges() > 0)
+                return true;
+            else
+                throw new DbUpdateException("Failed to remove admin from db");
         }
         catch (DbUpdateException)
         {
@@ -77,10 +105,26 @@ public class LocalGroupAdminService : ILocalGroupAdminService
         
         return success;
     }
-    
-    public List<ApplicationUser> GetLocalGroupAdminsByGroup(LocalGroup? group)
+
+    public bool RemoveAdminById(string userId, Guid groupId)
     {
-        var list = new List<ApplicationUser>();
+        bool result = false;
+
+        var user = _getPrivateUserById(userId);
+        var localGroup = _getLocalGroupById(groupId);
+
+        if (localGroup != null || user != null)
+        {
+            if (_removeAdmin(user, localGroup))
+                result = true;
+        }
+
+        return result;
+    }
+    
+    public List<(ApplicationUser, Guid)> GetLocalGroupAdminsByGroup(LocalGroup? group)
+    {
+        var list = new List<(ApplicationUser, Guid)>();
         
         if (group == null)
         {
@@ -91,9 +135,9 @@ public class LocalGroupAdminService : ILocalGroupAdminService
         {
             var user = _getPrivateUserById(record.UserId);
             if (user != null)
-                list.Add(user);
+                list.Add((user, group.Id));
         }
         
-        return list.OrderBy(u => u.Email).ToList(); 
+        return list.OrderBy(u => u.Item1.Email).ToList(); 
     }
 }

@@ -1,5 +1,5 @@
 ﻿@using Microsoft.IdentityModel.Tokens
-@model List<ApplicationUser>
+@model List<(ApplicationUser,Guid)>
 
 @if (Model.IsNullOrEmpty())
 {
@@ -10,8 +10,10 @@ else
     foreach (var user in Model)
     {
         <div>
-            <span>@user.Email</span>
-            <span><a href="" class="btn btn-danger mt-3">Fjern admin</a></span>
+            <span>@user.Item1.Email</span>
+            <span><a asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="RemoveAdmin" 
+                     asp-route-userId="@user.Item1.Id" asp-route-groupId="@user.Item2" 
+                     class="btn btn-danger mt-3">Fjern admin</a></span>
         </div>
     }
 }

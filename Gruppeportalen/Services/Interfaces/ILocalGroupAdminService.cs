@@ -6,7 +6,9 @@ namespace Gruppeportalen.Services.Interfaces;
 public interface ILocalGroupAdminService
 {
     bool AddAdminToLocalGroupByEmail(string email, Guid localGroupId);
+
+    bool RemoveAdminById(string userId, Guid groupId);
     
-    List<ApplicationUser> GetLocalGroupAdminsByGroup(LocalGroup? group);
+    List<(ApplicationUser, Guid)> GetLocalGroupAdminsByGroup(LocalGroup? group);
     
 }

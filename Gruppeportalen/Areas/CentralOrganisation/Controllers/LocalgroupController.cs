@@ -68,7 +68,7 @@ public class LocalgroupController : Controller
         {
             LocalGroup = _lgs.GetLocalGroupById(id),
             AdminCreator = new AdminCreator {LocalGroupId = id},
-            LocalGroupAdmins = new List<ApplicationUser>(),
+            LocalGroupAdmins = new List<(ApplicationUser, Guid)>(),
         };
         
         if (viewModel.LocalGroup == null)
@@ -88,7 +88,7 @@ public class LocalgroupController : Controller
             {
                 LocalGroup = group,
                 AdminCreator = new AdminCreator {LocalGroupId = group.Id},
-                LocalGroupAdmins = new List<ApplicationUser>(),
+                LocalGroupAdmins = new List<(ApplicationUser, Guid)>(),
             };
             
             viewModel.LocalGroupAdmins = _lgas.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
@@ -116,7 +116,7 @@ public class LocalgroupController : Controller
             {
                 LocalGroup = _lgs.GetLocalGroupById(adminCreator.LocalGroupId),
                 AdminCreator = adminCreator,
-                LocalGroupAdmins = new List<ApplicationUser>(),
+                LocalGroupAdmins = new List<(ApplicationUser, Guid)>(),
             };
             
             viewModel.LocalGroupAdmins = _lgas.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
@@ -130,6 +130,21 @@ public class LocalgroupController : Controller
         else
         {
             return BadRequest("Error happened when assigning admin to Local group.");
+        }
+    }
+    
+    public IActionResult RemoveAdmin(Guid groupId, string userId)
+    {
+        if (groupId == Guid.Empty || userId == null)
+            return BadRequest("Unknown local group or admin");
+
+        if (_lgas.RemoveAdminById(userId, groupId))
+        {
+            return RedirectToAction(nameof(Edit), new {id = groupId});
+        }
+        else
+        {
+            return BadRequest("Error happened when removing admin from Local group.");
         }
     }
 }
