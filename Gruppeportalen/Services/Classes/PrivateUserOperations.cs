@@ -58,7 +58,7 @@ public class PrivateUserOperations
 
     
     
-    public void AddPersonToPrivateUser(string privateUserId, Person person)
+    public bool AddPersonToPrivateUser(string privateUserId, Person person)
     {
         try
         {
@@ -70,18 +70,31 @@ public class PrivateUserOperations
                 throw new Exception("Private User not found");
             
             person.PrivateUserId = privateUserId;
-            _db.Persons.Add(person); 
+            _db.Persons.Add(person);
 
-            _db.SaveChanges(); 
+            if (_db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else throw new Exception("Failed to add person to private user");
         }
         catch (DbUpdateException ex)
         {
             Console.WriteLine($"En feil oppstod: {ex.Message}");
+            return false;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"En feil oppstod: {ex.Message}");
+            return false;
         }
+    }
+
+    public bool AddNewPerson(string privateUserId, Person person)
+    {
+        person.PrivateUserId = privateUserId;
+        return AddPersonToPrivateUser(privateUserId, person);
+        
     }
 
 

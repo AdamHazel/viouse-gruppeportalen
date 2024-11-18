@@ -56,16 +56,19 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult Add(Person person)
     {
-       /* ModelState.Remove("Id");
         if (!ModelState.IsValid)
         {
-            return View("Add", person);
-        }*/
-     
-        var privateUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        _privateUserOperations.AddPersonToPrivateUser(privateUserId, person);
+            var privateUser=_um.GetUserAsync(User).Result;
+           
+            if(_privateUserOperations.AddPersonToPrivateUser(privateUser.Id, person));
+            return RedirectToAction(nameof(System.Index));
+        }
+        else
+        {
+            return BadRequest("Error happened when using Private User services");
+        }
+      
         return RedirectToAction("Index");
-
     }
 
     [HttpGet]
@@ -81,12 +84,10 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult Edit(Person person)
     {
-     /*  ModelState.Remove("Id");
         if (!ModelState.IsValid)
         {
             return View(person);
-        }*/
-        
+        }
         _privateUserOperations.EditPerson(person);
         return RedirectToAction("Index");
     }
@@ -97,6 +98,4 @@ public class PersonsController : Controller
         _privateUserOperations.DeletePerson(id);
         return RedirectToAction("Index");
     }
-
-
 }
