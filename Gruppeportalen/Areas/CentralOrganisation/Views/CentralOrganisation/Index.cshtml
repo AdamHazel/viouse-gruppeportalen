@@ -1,0 +1,30 @@
+@model CentralOrganisation
+
+@{
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/personcard.css" />
+    <div class="main-container">
+        <div class="sidebar">
+            @Html.Partial("_CentralOrganisationSidebar")
+        </div>
+        <div class="main-content">
+            <h2>Min Organisasjon</h2>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>@Model.OrganisationName</h3>
+                </div>
+
+                <div class="card-details">
+                    <p><strong>Organisasjonsnummer:</strong> @Model.OrganisationNumber</p>
+                    <p><strong>Emailadresse:</strong> @Model.ApplicationUser.Email</p>
+                </div>
+
+                <div class="card-actions">
+                    <a asp-action="Edit" class="btn btn-primary">Rediger</a>
+                </div>
+            </div>
+        </div>
+    </div>
+

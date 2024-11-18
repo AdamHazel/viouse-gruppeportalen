@@ -17,6 +17,9 @@ public class ApplicationDbInitializer
         var user = new ApplicationUser {UserName = "user@uia.no", Email = "user@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
         um.CreateAsync(user, "Password1.").Wait();
         
+        var user1 = new ApplicationUser {UserName = "user1@uia.no", Email = "user1@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Privateuser};
+        um.CreateAsync(user1, "Password1.").Wait();
+        
         var user2 = new ApplicationUser {UserName = "user2@uia.no", Email = "user2@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
         um.CreateAsync(user2, "Password1.").Wait();
         
@@ -40,6 +43,12 @@ public class ApplicationDbInitializer
             ApplicationUser = user3};
         db.PrivateUsers.Add(pUser);
         db.SaveChanges();
+        
+        var puser1 = new PrivateUser
+        {
+            Id = user1.Id, ApplicationUser = user1, Address = "Snarveien17 B", City = "Grimstad", Postcode = "4885", DateOfBirth = DateTime.Parse("1994-01-20"), Lastname = "Erichen", Firstname = "Nancy"
+        };
+        db.PrivateUsers.Add(puser1);
 
         var pUser2 = new PrivateUser
         {

@@ -1,0 +1,28 @@
+@model CentralOrganisation
+
+@{
+    Layout = "_Layout";
+}
+<div class="main-container">
+    <div class="sidebar">
+        @Html.Partial("_CentralOrganisationSidebar")
+    </div>
+    <div class="main-content">
+        <h2>Rediger Organisasjonsinfo</h2>
+
+        <form asp-action="Edit" method="post">
+            @Html.HiddenFor(model => model.Id)
+            <div class="form-group">
+                <label for="OrganisationName">Organisasjonsnavn</label>
+                <input asp-for="OrganisationName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="OrganisationNumber">Organisasjonsnummer</label>
+                <input asp-for="OrganisationNumber" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Lagre</button>
+            <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
+        </form>
+    </div>
+</div>

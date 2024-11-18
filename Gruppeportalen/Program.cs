@@ -1,3 +1,5 @@
+using Gruppeportalen.Areas.CentralOrganisation.Services.Classes;
+using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Gruppeportalen.Data;
@@ -25,8 +27,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PrivateUserOperations>();
-
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
+builder.Services.AddScoped<ICentralOrganisationService, CentralOrganisationService>();
+
 builder.Services.AddScoped<ILocalGroupService, LocalGroupService>();
 builder.Services.AddScoped<ILocalGroupAdminService, LocalGroupAdminService>();
 builder.Services.AddScoped<IOverviewService, OverviewService>();
