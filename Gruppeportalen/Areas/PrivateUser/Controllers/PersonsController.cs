@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
+
 
 [Authorize]
 [Area("PrivateUser")]
@@ -23,18 +25,19 @@ public class PersonsController : Controller
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
     private readonly PrivateUserOperations _privateUserOperations;
-    
-    public PersonsController(ApplicationDbContext db, UserManager<ApplicationUser> um, PrivateUserOperations privateUserOperations)
+
+    public PersonsController(ApplicationDbContext db, UserManager<ApplicationUser> um,
+        PrivateUserOperations privateUserOperations)
     {
         _db = db;
         _um = um;
         _privateUserOperations = privateUserOperations;
     }
-    
+
     [HttpGet]
     public IActionResult Index()
     {
-        var privateUserId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+        var privateUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var privateUser = _db.PrivateUsers
             .Include(u => u.Persons)
             .FirstOrDefault(u => u.Id == privateUserId);
@@ -52,26 +55,27 @@ public class PersonsController : Controller
     {
         return View(new Person());
     }
+    
 
     [HttpPost]
     public IActionResult Add(Person person)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            var privateUser=_um.GetUserAsync(User).Result;
-           
-            if(_privateUserOperations.AddPersonToPrivateUser(privateUser.Id, person));
-            return RedirectToAction(nameof(System.Index));
-        }
-        else
-        {
-            return BadRequest("Error happened when using Private User services");
-        }
-      
-        return RedirectToAction("Index");
+            var privateUser = _um.GetUserAsync(User).Result;
+
+            if (_privateUserOperations.AddPersonToPrivateUser(privateUser.Id, person)) 
+                return RedirectToAction(nameof(Index));
+
+            else 
+            { 
+                return BadRequest("Error happened when using Private User services"); 
+            } 
+        } 
+        return View(person); 
     }
 
-    [HttpGet]
+[HttpGet]
     public IActionResult Edit(Guid id)
     {
         var person = _privateUserOperations.GetPersonDetails(id);
@@ -84,10 +88,7 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult Edit(Person person)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(person);
-        }
+        if (!ModelState.IsValid) return View("Edit");
         _privateUserOperations.EditPerson(person);
         return RedirectToAction("Index");
     }

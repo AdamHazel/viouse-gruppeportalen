@@ -30,9 +30,10 @@ public class Person
 
     [DataType(DataType.Date)]
     public DateTime DateOfBirth { get; set; }
+    
     public bool PrimaryPerson { get; set; } = false;
+    [ForeignKey(nameof(PrivateUser))]
+    public string? PrivateUserId { get; set; }
+    public Gruppeportalen.Models.PrivateUser? PrivateUser { get; set; }
     
-    public string PrivateUserId { get; set; }
-    
-    public Gruppeportalen.Models.PrivateUser PrivateUser { get; set; }
 }

@@ -11,29 +11,30 @@
     <h2>Legg til ny Person</h2>
 
     <form asp-area="PrivateUser" asp-controller="Persons" asp-action="Add" method="post">
+        @Html.HiddenFor(m => m.PrivateUserId)
         <div class="form-group">
             <label for="Firstname">Fornavn</label>
-            <input type="text" class="form-control" id="Firstname" name="Firstname" value="@Model.Firstname" required />
+            <input type="text" class="form-control" id="Firstname" name="Firstname" value="@Model.Firstname" required/>
         </div>
         <div class="form-group">
             <label for="Lastname">Etternavn</label>
-            <input type="text" class="form-control" id="Lastname" name="Lastname" value="@Model.Lastname" required />
+            <input type="text" class="form-control" id="Lastname" name="Lastname" value="@Model.Lastname" required/>
         </div>
         <div class="form-group">
             <label for="Address">Adresse</label>
-            <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address" />
+            <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address"/>
         </div>
         <div class="form-group">
             <label for="City">By</label>
-            <input type="text" class="form-control" id="City" name="City" value="@Model.City" />
+            <input type="text" class="form-control" id="City" name="City" value="@Model.City"/>
         </div>
         <div class="form-group">
             <label for="Postcode">Postkode</label>
-            <input type="text" class="form-control" id="Postcode" name="Postcode" value="@Model.Postcode" />
+            <input type="text" class="form-control" id="Postcode" name="Postcode" value="@Model.Postcode"/>
         </div>
         <div class="form-group">
             <label for="DateOfBirth">Fødselsdato</label>
-            <input type="date" class="form-control" id="DateOfBirth" name="DateOfBirth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
+            <input type="date" class="form-control" id="DateOfBirth" name="DateOfBirth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")"/>
         </div>
 
         <button type="submit" class="btn btn-primary">Lagre</button>
