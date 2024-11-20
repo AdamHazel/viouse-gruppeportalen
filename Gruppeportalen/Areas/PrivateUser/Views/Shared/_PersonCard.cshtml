@@ -13,8 +13,9 @@
         <p><strong>Postnummer:</strong> @Model.Postcode</p>
         <p><strong>Sted:</strong> @Model.City</p>
     </div>
-    
-    <div class="card-memberships">
+
+
+    <div class="person-memberships">
         <h4>Medlem i</h4>
     </div>
 
@@ -23,20 +24,24 @@
             <input type="hidden" name="id" value="@Model.Id" />
             <button type="submit" class="btn btn-warning">Rediger</button>
         </form>
-        
+
         @if (!Model.PrimaryPerson) {
-            <button class="btn btn-warning">Overfør</button>
-        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#shareModal">Del</button>
-        
-        
-            <form asp-action="Delete" method="post" onsubmit="return confirm('Er du sikker på at du vil slette denne personen?');">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-info">Slett</button>
-            </form>
+        <!-- Del-knapp med data-person-id -->
+        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#shareModal" data-person-id="@Model.Id">Del</button>
+
+        <!-- Overfør-knappen med data-person-id -->
+        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal" data-person-id="@Model.Id">Overfør</button>
+
+        <!-- Slett-knappen -->
+        <form asp-action="Delete" method="post" onsubmit="return confirm('Er du sikker på at du vil slette denne personen?');">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-info">Slett</button>
+        </form>
         }
     </div>
 </div>
 
+<!-- Modal for å dele personen -->
 <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -46,7 +51,8 @@
             </div>
             <div class="modal-body">
                 <form asp-action="SharePerson" method="post">
-                    <input type="hidden" name="personId" value="@Model.Id" />
+                    <!-- Dynamisk oppdatert skjult felt for personId -->
+                    <input type="hidden" id="sharePersonId" name="personId" value="" />
                     <div class="mb-3">
                         <label for="email" class="form-label">E-postadresse</label>
                         <input type="email" class="form-control" name="email" placeholder="E-post til bruker å dele med" required />
@@ -60,3 +66,47 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for å overføre personen -->
+<div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="transferModalLabel">Overfør personen til en annen bruker</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="TransferPerson" method="post">
+                    <!-- Dynamisk oppdatert skjult felt for personId -->
+                    <input type="hidden" id="transferPersonId" name="personId" value="" />
+                    <div class="mb-3">
+                        <label for="transferEmail" class="form-label">E-postadresse til ny eier</label>
+                        <input type="email" class="form-control" id="transferEmail" name="email" placeholder="E-post til ny eier" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                        <button type="submit" class="btn btn-primary">Overfør</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript for å sette riktig personId i delingsmodalen når Del-knappen trykkes
+    const shareModal = document.getElementById('shareModal');
+    shareModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const personId = button.getAttribute('data-person-id');
+        document.getElementById('sharePersonId').value = personId;
+    });
+
+    // JavaScript for å sette riktig personId i overføringsmodalen når Overfør-knappen trykkes
+    const transferModal = document.getElementById('transferModal');
+    transferModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const personId = button.getAttribute('data-person-id');
+        document.getElementById('transferPersonId').value = personId;
+    });
+</script>

@@ -90,7 +90,16 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult Edit(Person person)
     {
+<<<<<<< HEAD
         if (!ModelState.IsValid) return View("Edit");
+=======
+     /*  ModelState.Remove("Id");
+        if (!ModelState.IsValid)
+        {
+            return View(person);
+        }*/
+     
+>>>>>>> 0676374 (Adding changes to nora-VIOUSE-17 in order that a rebase of this branch can work)
         _privateUserOperations.EditPerson(person);
         return RedirectToAction("Index");
     }
@@ -108,5 +117,22 @@ public class PersonsController : Controller
         _privateUserOperations.SharePersonWithUser(email, personId);
         return RedirectToAction("Index");
     }
+
+    [HttpPost]
+    public IActionResult TransferPerson(string email, Guid personId)
+    {
+        try
+        {
+            _privateUserOperations.TransferPerson(email, personId);
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"En feil oppstod under overføringen: {ex.Message}");
+            TempData["ErrorMessage"] = "Kunne ikke overføre personen.";
+            return RedirectToAction("Index");
+        }
+    }
+    
     
 }

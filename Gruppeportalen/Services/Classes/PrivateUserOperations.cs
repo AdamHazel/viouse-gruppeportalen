@@ -403,5 +403,39 @@ public class PrivateUserOperations : IPrivateUserOperations
         }
     }
 
-    
+public void TransferPerson(string newOwnerEmail, Guid personId)
+{
+    try
+    {
+        var newOwnerUser = _um.Users.FirstOrDefault(u => u.Email == newOwnerEmail);
+        if (newOwnerUser == null)
+            throw new Exception("Ingen bruker funnet med den angitte e-postadressen.");
+        
+        var newOwnerPrivateUser = _db.PrivateUsers.FirstOrDefault(pu => pu.Id == newOwnerUser.Id);
+        if (newOwnerPrivateUser == null)
+            throw new Exception("Ingen privat bruker funnet for denne e-postadressen.");
+        
+        var person = _db.Persons.FirstOrDefault(p => p.Id == personId);
+        if (person == null)
+            throw new Exception("Person ikke funnet.");
+
+        if (person.PrivateUserId == newOwnerPrivateUser.Id)
+            throw new Exception("Personen er allerede tilknyttet denne brukeren.");
+
+        person.PrivateUserId = newOwnerPrivateUser.Id;
+
+        _db.SaveChanges();
+    }
+    catch (DbUpdateException ex)
+    {
+        Console.WriteLine($"En databasefeil oppstod: {ex.Message}");
+        throw new Exception("En databasefeil oppstod under overføringen av personen.", ex);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"En feil oppstod: {ex.Message}");
+        throw;
+    }
+}
+
 }
