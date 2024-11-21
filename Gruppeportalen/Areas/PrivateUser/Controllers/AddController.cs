@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Gruppeportalen.Areas.PrivateUser.HelperClasses;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
@@ -13,6 +14,8 @@ namespace Gruppeportalen.Areas.PrivateUser.Controllers;
 
 [Authorize]
 [Area("PrivateUser")]
+[PrivateUserCheckFactory]
+
 public class AddController : Controller
 {
     private readonly ApplicationDbContext _db;

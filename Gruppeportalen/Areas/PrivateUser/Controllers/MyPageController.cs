@@ -1,16 +1,22 @@
 using System.Security.Claims;
+using Gruppeportalen.Areas.PrivateUser.HelperClasses;
 using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
 using Gruppeportalen.Services.Classes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
 
+[Authorize]
 [Area("PrivateUser")]
+[PrivateUserCheckFactory]
+[PrivateUserInformationCheckFactory]
+
 public class MyPageController : Controller
 {
     private readonly ApplicationDbContext _db;

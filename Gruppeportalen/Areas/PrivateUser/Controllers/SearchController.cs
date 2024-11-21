@@ -1,5 +1,3 @@
-
-
 using System.Security.Claims;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
@@ -9,11 +7,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Gruppeportalen.Areas.PrivateUser.HelperClasses;
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
 
 [Authorize]
 [Area("PrivateUser")]
+[PrivateUserCheckFactory]
+[PrivateUserInformationCheckFactory]
+
 public class SearchController : Controller
 {
     private readonly ApplicationDbContext _db;

@@ -85,7 +85,7 @@ public class PrivateUserOperations
     }
 
 
-    public ApplicationPrivateUser GetUserDetails(string userId)
+    public ApplicationPrivateUser? GetUserDetails(string userId)
     {
         try
         {
@@ -180,113 +180,117 @@ public class PrivateUserOperations
     
 
    public void EditUserDetails(ApplicationPrivateUser viewModel)
-{
-    try
     {
-        var applicationUser = _um.Users.FirstOrDefault(u => u.Id == viewModel.Id);
-        var privateUser = _db.PrivateUsers
-            .Include(p => p.Persons)
-            .FirstOrDefault(u => u.Id == viewModel.Id);
+        try
+        {
+            var applicationUser = _um.Users.FirstOrDefault(u => u.Id == viewModel.Id);
+            var privateUser = _db.PrivateUsers
+                .Include(p => p.Persons)
+                .FirstOrDefault(u => u.Id == viewModel.Id);
 
-        if (applicationUser == null || privateUser == null)
-        {
-            throw new Exception($"ApplicationUser or PrivateUser not found with ID: {viewModel.Id}");
-        }
-        var person = privateUser.Persons.FirstOrDefault();
-        if (person == null)
-        {
-            throw new Exception("No Person record found associated with this PrivateUser");
-        }
-        applicationUser.Email = viewModel.Email;
-        var result = _um.UpdateAsync(applicationUser).Result;
-        if (!result.Succeeded)
-        {
-            throw new Exception("Failed to update ApplicationUser");
-        }
-        privateUser.Telephone = viewModel.Telephone;
-        privateUser.Firstname = viewModel.Firstname;
-        privateUser.Lastname = viewModel.Lastname;
-        privateUser.Address = viewModel.Address;
-        privateUser.City = viewModel.City;
-        privateUser.Postcode = viewModel.Postcode;
-        privateUser.DateOfBirth = viewModel.DateOfBirth;
+            if (applicationUser == null || privateUser == null)
+            {
+                throw new Exception($"ApplicationUser or PrivateUser not found with ID: {viewModel.Id}");
+            }
+            var person = privateUser.Persons.FirstOrDefault();
+            if (person == null)
+            {
+                throw new Exception("No Person record found associated with this PrivateUser");
+            }
+            applicationUser.Email = viewModel.Email;
+            var result = _um.UpdateAsync(applicationUser).Result;
+            if (!result.Succeeded)
+            {
+                throw new Exception("Failed to update ApplicationUser");
+            }
+            privateUser.Telephone = viewModel.Telephone;
+            privateUser.Firstname = viewModel.Firstname;
+            privateUser.Lastname = viewModel.Lastname;
+            privateUser.Address = viewModel.Address;
+            privateUser.City = viewModel.City;
+            privateUser.Postcode = viewModel.Postcode;
+            privateUser.DateOfBirth = viewModel.DateOfBirth;
 
-        var primaryPerson = privateUser.Persons.FirstOrDefault(p => p.PrimaryPerson);
-        if (primaryPerson != null)
-        {
-            primaryPerson.Firstname = viewModel.Firstname;
-            primaryPerson.Lastname = viewModel.Lastname;
-            primaryPerson.Address = viewModel.Address;
-            primaryPerson.City = viewModel.City;
-            primaryPerson.Postcode = viewModel.Postcode;
-            primaryPerson.DateOfBirth = viewModel.DateOfBirth;
+            var primaryPerson = privateUser.Persons.FirstOrDefault(p => p.PrimaryPerson);
+            if (primaryPerson != null)
+            {
+                primaryPerson.Firstname = viewModel.Firstname;
+                primaryPerson.Lastname = viewModel.Lastname;
+                primaryPerson.Address = viewModel.Address;
+                primaryPerson.City = viewModel.City;
+                primaryPerson.Postcode = viewModel.Postcode;
+                primaryPerson.DateOfBirth = viewModel.DateOfBirth;
+            }
+            
+            _db.SaveChanges();
         }
+        catch (DbUpdateException ex)
+        {
+            Console.WriteLine($"En feil oppstod: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"En uventet feil oppstod: {ex.Message}");
+        }
+    }
+
+    public void DeletePerson(Guid personId)
+    {
+        try
+        {
+            var deletePerson = _db.Persons.FirstOrDefault(p => p.Id == personId);
+            if (deletePerson == null)
+            {
+                throw new Exception("Person not found");
+            }
+            if (deletePerson.PrimaryPerson)
+            {
+                throw new Exception($"Person {deletePerson.Firstname} {deletePerson.Lastname} cannot be deleted because they are the primary person.");
+            }
+            _db.Persons.Remove(deletePerson);
+            _db.SaveChanges(); 
+        }
+        catch (DbUpdateException ex)
+        {
+            throw new Exception("En uventet feil oppstod:", ex);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"En uventet feil oppstod: {ex.Message}");
+            throw; 
+        }
+    }
+    public IEnumerable<LocalGroup> GetAllLocalGroups()
+    {
+        return _db.LocalGroups.Where(g => g.Active).ToList();
+    }
+
+    public List<string> GetAllCounties()
+    {
+        return new List<string>(Constants.Counties); 
+    }
         
-        _db.SaveChanges();
-    }
-    catch (DbUpdateException ex)
+    public IEnumerable<LocalGroup> SearchLocalGroups(string query, string county)
     {
-        Console.WriteLine($"En feil oppstod: {ex.Message}");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"En uventet feil oppstod: {ex.Message}");
-    }
-}
+        var localGroups = _db.LocalGroups.Where(g => g.Active).AsQueryable();
 
-public void DeletePerson(Guid personId)
-{
-    try
-    {
-        var deletePerson = _db.Persons.FirstOrDefault(p => p.Id == personId);
-        if (deletePerson == null)
+        if (!string.IsNullOrEmpty(query))
         {
-            throw new Exception("Person not found");
+            localGroups = localGroups.Where(g => g.GroupName.ToLower().Contains(query.ToLower()));
         }
-        if (deletePerson.PrimaryPerson)
+
+        if (!string.IsNullOrEmpty(county))
         {
-            throw new Exception($"Person {deletePerson.Firstname} {deletePerson.Lastname} cannot be deleted because they are the primary person.");
+            localGroups = localGroups.Where(g => g.County.ToLower() == county.ToLower());
         }
-        _db.Persons.Remove(deletePerson);
-        _db.SaveChanges(); 
+
+        var result = localGroups.ToList();
+        return result;
     }
-    catch (DbUpdateException ex)
+
+    public bool PrivateUserExists(string id)
     {
-        throw new Exception("En uventet feil oppstod:", ex);
+        return _db.PrivateUsers.Any(u => u.Id == id);
     }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"En uventet feil oppstod: {ex.Message}");
-        throw; 
-    }
-}
-public IEnumerable<LocalGroup> GetAllLocalGroups()
-{
-    return _db.LocalGroups.Where(g => g.Active).ToList();
-}
-
-public List<string> GetAllCounties()
-{
-    return new List<string>(Constants.Counties); 
-}
-    
-public IEnumerable<LocalGroup> SearchLocalGroups(string query, string county)
-{
-    var localGroups = _db.LocalGroups.Where(g => g.Active).AsQueryable();
-
-    if (!string.IsNullOrEmpty(query))
-    {
-        localGroups = localGroups.Where(g => g.GroupName.ToLower().Contains(query.ToLower()));
-    }
-
-    if (!string.IsNullOrEmpty(county))
-    {
-        localGroups = localGroups.Where(g => g.County.ToLower() == county.ToLower());
-    }
-
-    var result = localGroups.ToList();
-    return result;
-}
-
     
 }
