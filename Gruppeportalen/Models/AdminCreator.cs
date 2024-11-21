@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
+using Gruppeportalen.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gruppeportalen.Models;

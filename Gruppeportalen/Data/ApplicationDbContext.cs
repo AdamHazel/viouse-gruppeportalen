@@ -18,6 +18,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Person> Persons { get; set; }
     public DbSet<LocalGroup> LocalGroups { get; set; }
     
+    public DbSet<SharedPerson> SharedPersons { get; set; }
     public DbSet<LocalGroupAdmin> LocalGroupAdmins { get; set; }
     
     public DbSet<MembershipType> MembershipTypes { get; set; }

@@ -118,6 +118,8 @@ public class PersonsController : Controller
         return RedirectToAction("Index");
     }
 
+
+
     [HttpPost]
     public IActionResult TransferPerson(string email, Guid personId)
     {

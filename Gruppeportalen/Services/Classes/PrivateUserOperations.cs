@@ -335,7 +335,6 @@ public class PrivateUserOperations : IPrivateUserOperations
 
     public void SharePersonWithUser(string email, Guid personId)
     {
-        try
         {
             var applicationUser = _um.Users.FirstOrDefault(u => u.Email == email);
 
