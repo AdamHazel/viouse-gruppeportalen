@@ -1,7 +1,10 @@
 ﻿using System.Security.Claims;
 using Gruppeportalen.Areas.PrivateUser.HelperClasses;
+using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
+using Gruppeportalen.Services.Classes;
+using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,23 +19,25 @@ namespace Gruppeportalen.Areas.PrivateUser.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ApplicationDbContext _db;
+    
     private readonly UserManager<ApplicationUser> _um;
-    public HomeController(ApplicationDbContext db, UserManager<ApplicationUser> um)
+    private readonly IOverviewService _os;
+    
+    public HomeController(UserManager<ApplicationUser> um, IOverviewService os)
     {
-        _db = db;
         _um = um;
-        
+        _os = os;
     }   
     
     public IActionResult Index()
     {
         var user = _um.GetUserAsync(User).Result;
-
-        if (_db.PrivateUsers.Find(user.Id) == null)
-            return RedirectToAction("Index", "Add");
+        var overview = new CompleteLocalGroupOverview
+        {
+            UserOverview = _os.GetUserLocalGroupOverview(user.Id),
+        };
         
-        return View();
+        return View(overview);
     }
 
     

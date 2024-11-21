@@ -1,13 +1,21 @@
 ﻿.groupContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-start;
 }
 
 .localGroupBox {
     height: 350px;
     width: 30%;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+.localGroupMiniBox {
+    display: block;
+    height: 150px;
+    width: 25%;
     border: 1px solid black;
     border-radius: 2px;
 }

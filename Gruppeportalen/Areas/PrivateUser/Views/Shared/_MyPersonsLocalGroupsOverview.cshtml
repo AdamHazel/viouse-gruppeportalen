@@ -1,0 +1,22 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model List<Gruppeportalen.Areas.PrivateUser.Models.ViewModels.PersonLocalGroupOverview>
+
+<h2>Mine brukeres lokallag</h2>
+
+@if (Model.IsNullOrEmpty())
+{
+    <p>If you have persons connected your account and they are members of local groups, they will be shown here.</p>
+}
+else
+{
+    <div class="groupContainer">
+        @foreach (var group in Model)
+        {
+            <a href="">
+                <div class="localGroupMiniBox">
+                    <p>@group.LocalGroupName</p>
+                </div>
+            </a>
+        }
+    </div>
+}

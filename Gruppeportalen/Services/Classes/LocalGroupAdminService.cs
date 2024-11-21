@@ -13,25 +13,12 @@ namespace Gruppeportalen.Services.Classes;
 public class LocalGroupAdminService : ILocalGroupAdminService
 {
     private readonly ApplicationDbContext _db;
+    private readonly IApplicationUserService _au;
 
-    public LocalGroupAdminService(ApplicationDbContext db)
+    public LocalGroupAdminService(ApplicationDbContext db, IApplicationUserService au)
     {
         _db = db;
-    }
-    
-    private ApplicationUser? _getPrivateUserByEmail(string emailAddress)
-    {
-        var pu = _db.Users
-            .FirstOrDefault(u => u.Email == emailAddress && u.TypeOfUser== Constants.Privateuser);
-        return pu;
-    }
-    
-    private ApplicationUser? _getPrivateUserById(string userId)
-    {
-        var pu = _db.Users
-            .Include(g => g.LocalGroupAdmins)
-            .FirstOrDefault(u => u.Id == userId && u.TypeOfUser== Constants.Privateuser);
-        return pu;
+        _au = au;
     }
     
     private LocalGroup? _getLocalGroupById(Guid id)
@@ -90,7 +77,7 @@ public class LocalGroupAdminService : ILocalGroupAdminService
 
         if (localGroupId != Guid.Empty)
         {
-            var pu = _getPrivateUserByEmail(email.ToLower());
+            var pu = _au.GetPrivateUserByEmail(email.ToLower());
             var lg = _getLocalGroupById(localGroupId);
             
             if (pu != null && lg != null)
@@ -110,7 +97,7 @@ public class LocalGroupAdminService : ILocalGroupAdminService
     {
         bool result = false;
 
-        var user = _getPrivateUserById(userId);
+        var user = _au.GetPrivateUserById(userId);
         var localGroup = _getLocalGroupById(groupId);
 
         if (localGroup != null || user != null)
@@ -133,7 +120,7 @@ public class LocalGroupAdminService : ILocalGroupAdminService
         
         foreach (var record in group.LocalGroupAdmins)
         {
-            var user = _getPrivateUserById(record.UserId);
+            var user = _au.GetPrivateUserById(record.UserId);
             if (user != null)
                 list.Add((user, group.Id));
         }

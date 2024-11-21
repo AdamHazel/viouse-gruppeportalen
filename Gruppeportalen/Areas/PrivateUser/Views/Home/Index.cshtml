@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Gruppeportalen.Areas.PrivateUser.Models.ViewModels.CompleteLocalGroupOverview
+
+@{
 ViewBag.Title = "Private User Index";
 Layout = "_Layout";
 }
@@ -8,7 +10,8 @@ Layout = "_Layout";
         @Html.Partial("_PrivateUserSidebar")
     </div>
     <div class="main-content">
-        <h2>Private User Index</h2>
+        <partial name ="_MyLocalGroupsOverview" model="@Model.UserOverview" />
+        <partial name = "_MyPersonsLocalGroupsOverview" model = "@Model.PersonOverview"/>
     </div>
 </div>
 

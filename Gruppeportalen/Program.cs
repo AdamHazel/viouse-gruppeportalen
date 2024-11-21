@@ -26,8 +26,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PrivateUserOperations>();
 
+builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<ILocalGroupService, LocalGroupService>();
 builder.Services.AddScoped<ILocalGroupAdminService, LocalGroupAdminService>();
+builder.Services.AddScoped<IOverviewService, OverviewService>();
+
 
 
 var app = builder.Build();
