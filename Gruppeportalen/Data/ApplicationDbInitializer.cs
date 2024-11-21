@@ -29,6 +29,14 @@ public class ApplicationDbInitializer
         var cUser2 = new CentralOrganisation {Id = user2.Id, OrganisationName = "Test Org", OrganisationNumber = "1111111"};
         db.CentralOrganisations.Add(cUser2);
         db.SaveChanges();
+
+        var pUser = new PrivateUser
+        {
+            Id = user3.Id, Firstname = "Adam", Lastname = "Hazel", DateOfBirth = new DateTime(1992, 01, 01),
+            Telephone = "40567892", Address = "Random address", City = "Homborsund", Postcode = "9999",
+            ApplicationUser = user3};
+        db.PrivateUsers.Add(pUser);
+        db.SaveChanges();
         
         db.LocalGroups.Add(new LocalGroup
         {
