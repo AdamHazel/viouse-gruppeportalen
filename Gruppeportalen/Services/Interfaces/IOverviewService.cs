@@ -5,5 +5,7 @@ namespace Gruppeportalen.Services.Interfaces;
 
 public interface IOverviewService
 {
-    List<UserLocalGroupOverview>? GetUserLocalGroupOverview(string userId);
+    List<AdminLocalGroupOverview>? GetAdminLocalGroupOverview(string userId);
+    
+    List<(ApplicationUser, Guid)> GetLocalGroupAdminsByGroup(LocalGroup? group);
 }

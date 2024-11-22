@@ -9,6 +9,4 @@ public interface ILocalGroupAdminService
 
     bool RemoveAdminById(string userId, Guid groupId);
     
-    List<(ApplicationUser, Guid)> GetLocalGroupAdminsByGroup(LocalGroup? group);
-    
 }

@@ -19,25 +19,17 @@ namespace Gruppeportalen.Areas.PrivateUser.Controllers;
 
 public class HomeController : Controller
 {
-    
     private readonly UserManager<ApplicationUser> _um;
-    private readonly IOverviewService _os;
     
-    public HomeController(UserManager<ApplicationUser> um, IOverviewService os)
+    public HomeController(UserManager<ApplicationUser> um)
     {
         _um = um;
-        _os = os;
+        
     }   
     
     public IActionResult Index()
     {
-        var user = _um.GetUserAsync(User).Result;
-        var overview = new CompleteLocalGroupOverview
-        {
-            UserOverview = _os.GetUserLocalGroupOverview(user.Id),
-        };
-        
-        return View(overview);
+        return View();
     }
 
     

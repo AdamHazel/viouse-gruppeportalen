@@ -1,7 +1,5 @@
-﻿@model Gruppeportalen.Areas.PrivateUser.Models.ViewModels.CompleteLocalGroupOverview
-
-@{
-ViewBag.Title = "Private User Index";
+﻿@{
+ViewBag.Title = "Min side";
 Layout = "_Layout";
 }
 
@@ -9,9 +7,14 @@ Layout = "_Layout";
     <div class="sidebar">
         @Html.Partial("_PrivateUserSidebar")
     </div>
-    <div class="main-content">
-        <partial name ="_MyLocalGroupsOverview" model="@Model.UserOverview" />
-        <partial name = "_MyPersonsLocalGroupsOverview" model = "@Model.PersonOverview"/>
+    <div>
+        <a class="btn btn-primary" asp-area="PrivateUser" asp-controller="MyPage" asp-action="Index">
+            <div>Gå til profil</div>
+        </a>
+
+        <a class="btn btn-primary" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="Index">
+            <div>Gå til mine lokallag</div>
+        </a>
     </div>
 </div>
 

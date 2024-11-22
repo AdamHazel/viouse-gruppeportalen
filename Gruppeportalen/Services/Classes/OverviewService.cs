@@ -17,16 +17,16 @@ public class OverviewService : IOverviewService
         _au = au;
     }
     
-    public List<UserLocalGroupOverview>? GetUserLocalGroupOverview(string userId)
+    public List<AdminLocalGroupOverview>? GetAdminLocalGroupOverview(string userId)
     {
-        var overviews = new List<UserLocalGroupOverview>();
+        var overviews = new List<AdminLocalGroupOverview>();
         var user = _au.GetPrivateUserById(userId);
 
         if (user != null)
         {
             foreach (var admin in user.LocalGroupAdmins)
             {
-                var overview = new UserLocalGroupOverview();
+                var overview = new AdminLocalGroupOverview();
                 var group = _lgs.GetLocalGroupById(admin.LocalGroupId);
                 if (group != null)
                 {
@@ -43,5 +43,24 @@ public class OverviewService : IOverviewService
          *      Need to check local groups again to find the groups that the user/person is a member in
          */
         return overviews.OrderBy(lg => lg.LocalGroupName).ToList();
+    }
+    
+    public List<(ApplicationUser, Guid)> GetLocalGroupAdminsByGroup(LocalGroup? group)
+    {
+        var list = new List<(ApplicationUser, Guid)>();
+        
+        if (group == null)
+        {
+            return list;
+        }
+        
+        foreach (var record in group.LocalGroupAdmins)
+        {
+            var user = _au.GetPrivateUserById(record.UserId);
+            if (user != null)
+                list.Add((user, group.Id));
+        }
+        
+        return list.OrderBy(u => u.Item1.Email).ToList(); 
     }
 }

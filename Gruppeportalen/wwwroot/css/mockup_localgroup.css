@@ -1,8 +1,9 @@
 ﻿.groupContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
+    gap: 1rem;
 }
 
 .localGroupBox {
@@ -14,8 +15,11 @@
 
 .localGroupMiniBox {
     display: block;
+    background-color: black;
+    color: white;
+    text-decoration: none;
     height: 150px;
-    width: 25%;
+    width: 20%;
     border: 1px solid black;
     border-radius: 2px;
 }

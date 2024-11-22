@@ -17,13 +17,16 @@ public class LocalgroupController : Controller
     private readonly UserManager<ApplicationUser> _um;
     private readonly ILocalGroupService _lgs;
     private readonly ILocalGroupAdminService _lgas;
+    private readonly IOverviewService _overviewService;
 
 
-    public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs, ILocalGroupAdminService adminService)
+    public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs, ILocalGroupAdminService adminService, 
+                                IOverviewService overviewService)
     {
         _um = um;
         _lgs = lgs;
         _lgas = adminService;
+        _overviewService = overviewService;
     }
 
 
@@ -74,7 +77,7 @@ public class LocalgroupController : Controller
         if (viewModel.LocalGroup == null)
             return BadRequest("Unable to find local group");
 
-        viewModel.LocalGroupAdmins = _lgas.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
+        viewModel.LocalGroupAdmins = _overviewService.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
         
         return View(viewModel);
     }
@@ -91,7 +94,7 @@ public class LocalgroupController : Controller
                 LocalGroupAdmins = new List<(ApplicationUser, Guid)>(),
             };
             
-            viewModel.LocalGroupAdmins = _lgas.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
+            viewModel.LocalGroupAdmins = _overviewService.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
             return View(viewModel);
         }
         
@@ -119,7 +122,7 @@ public class LocalgroupController : Controller
                 LocalGroupAdmins = new List<(ApplicationUser, Guid)>(),
             };
             
-            viewModel.LocalGroupAdmins = _lgas.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
+            viewModel.LocalGroupAdmins = _overviewService.GetLocalGroupAdminsByGroup(viewModel.LocalGroup);
             return View(nameof(Edit), viewModel);
         }
 
@@ -133,7 +136,7 @@ public class LocalgroupController : Controller
         }
     }
     
-    public IActionResult RemoveAdmin(Guid groupId, string userId)
+    public IActionResult RemoveAdmin(Guid groupId, string? userId)
     {
         if (groupId == Guid.Empty || userId == null)
             return BadRequest("Unknown local group or admin");

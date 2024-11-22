@@ -2,6 +2,6 @@
 
 public class CompleteLocalGroupOverview
 {
-    public List<UserLocalGroupOverview>? UserOverview { get; set; }
+    public List<AdminLocalGroupOverview>? AdminOverview { get; set; }
     public List<PersonLocalGroupOverview>? PersonOverview {get; set;}
 }

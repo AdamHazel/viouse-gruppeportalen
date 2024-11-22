@@ -109,22 +109,4 @@ public class LocalGroupAdminService : ILocalGroupAdminService
         return result;
     }
     
-    public List<(ApplicationUser, Guid)> GetLocalGroupAdminsByGroup(LocalGroup? group)
-    {
-        var list = new List<(ApplicationUser, Guid)>();
-        
-        if (group == null)
-        {
-            return list;
-        }
-        
-        foreach (var record in group.LocalGroupAdmins)
-        {
-            var user = _au.GetPrivateUserById(record.UserId);
-            if (user != null)
-                list.Add((user, group.Id));
-        }
-        
-        return list.OrderBy(u => u.Item1.Email).ToList(); 
-    }
 }

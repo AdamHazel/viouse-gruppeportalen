@@ -1,0 +1,27 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model List<Gruppeportalen.Areas.PrivateUser.Models.ViewModels.AdminLocalGroupOverview>
+
+<h2>Lokallag som jeg admin av</h2>
+
+@if (Model.IsNullOrEmpty())
+{
+    <p>If you are admin of any local groups, they will be shown here...</p>
+}
+else
+{
+    <div class="groupContainer">
+        @foreach (var group in Model)
+        {
+            <a asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupOverview"
+               asp-route-groupId="@group.LocalGroupId" class="localGroupMiniBox">
+                <div>
+                    <p>@group.LocalGroupName</p>
+                    <p>@group.UserStatus</p>
+                </div>
+            </a>
+        }
+    </div>
+}
+
+
+

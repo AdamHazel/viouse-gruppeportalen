@@ -1,0 +1,16 @@
+﻿@model Gruppeportalen.Areas.PrivateUser.Models.ViewModels.CompleteLocalGroupOverview
+
+@{
+    ViewBag.Title = "Mine Lokallag";
+    Layout = "_Layout";
+}
+
+<div class="main-container">
+    <div class="sidebar">
+        @Html.Partial("_PrivateUserSidebar")
+    </div>
+    <div class="main-content">
+        <partial name ="_AdminLocalGroupsOverview" model="@Model.AdminOverview" />
+        <partial name = "_MyPersonsLocalGroupsOverview" model = "@Model.PersonOverview"/>
+    </div>
+</div>

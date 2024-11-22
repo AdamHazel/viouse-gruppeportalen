@@ -31,8 +31,6 @@ builder.Services.AddScoped<ILocalGroupService, LocalGroupService>();
 builder.Services.AddScoped<ILocalGroupAdminService, LocalGroupAdminService>();
 builder.Services.AddScoped<IOverviewService, OverviewService>();
 
-
-
 var app = builder.Build();
 
 using (var services = app.Services.CreateScope()) 
