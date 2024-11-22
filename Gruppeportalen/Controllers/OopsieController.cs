@@ -9,4 +9,9 @@ public class OopsieController : Controller
     {
         return View();
     }
+
+    public IActionResult Admin()
+    {
+        return View();
+    }
 }

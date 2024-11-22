@@ -9,4 +9,5 @@ public interface ILocalGroupAdminService
 
     bool RemoveAdminById(string userId, Guid groupId);
     
+    bool DoesAdminExist(string userId, Guid groupId);
 }

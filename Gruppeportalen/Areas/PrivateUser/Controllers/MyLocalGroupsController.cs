@@ -37,7 +37,9 @@ public class MyLocalGroupsController : Controller
         
         return View(overview);
     }
-
+    
+    [Route("admin/group/{groupId:guid}/overview")]
+    [AdminForThisGroupCheckFactory]
     public IActionResult AdminGroupOverview(Guid groupId)
     {
         var group = _lgs.GetLocalGroupById(groupId);
@@ -47,6 +49,8 @@ public class MyLocalGroupsController : Controller
         return View(group);
     }
 
+    [Route("admin/group/{groupId:guid}/information")]
+    [AdminForThisGroupCheckFactory]
     public IActionResult AdminGroupInformation(Guid groupId)
     {
         var group = _lgs.GetLocalGroupById(groupId);

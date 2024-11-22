@@ -14,7 +14,7 @@ public class PrivateUserInformationCheckFactoryAttribute : TypeFilterAttribute
         
     }
 
-    private class InformationExistsRedirectFilter : IAuthorizationFilter
+    private class InformationExistsRedirectFilter : IAsyncAuthorizationFilter
     {
         private readonly UserManager<ApplicationUser> _um;
         private readonly PrivateUserOperations _pus;
@@ -25,7 +25,7 @@ public class PrivateUserInformationCheckFactoryAttribute : TypeFilterAttribute
             _pus = pus;
         }
 
-        public async void OnAuthorization(AuthorizationFilterContext context)
+        public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var user = await _um.GetUserAsync(context.HttpContext.User);
 

@@ -50,6 +50,11 @@ public class LocalGroupAdminService : ILocalGroupAdminService
         return _db.LocalGroupAdmins.FirstOrDefault(a => a.LocalGroupId == groupId && a.UserId == userId);
     }
 
+    private bool _doesAdminExist(Guid groupId, string userId)
+    {
+        return _db.LocalGroupAdmins.Any(a => a.LocalGroupId == groupId && a.UserId == userId);
+    }
+
     private bool _removeAdmin(ApplicationUser user, LocalGroup group)
     {
         try
@@ -108,5 +113,9 @@ public class LocalGroupAdminService : ILocalGroupAdminService
 
         return result;
     }
-    
+
+    public bool DoesAdminExist(string userId, Guid groupId)
+    {
+        return _doesAdminExist(groupId, userId);
+    }
 }

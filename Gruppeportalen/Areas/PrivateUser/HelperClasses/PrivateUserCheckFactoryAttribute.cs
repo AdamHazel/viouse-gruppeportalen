@@ -13,7 +13,7 @@ public class PrivateUserCheckFactoryAttribute : TypeFilterAttribute
     {
         
     }
-    private class NotPrivateUserRedirectFilter : IAuthorizationFilter
+    private class NotPrivateUserRedirectFilter : IAsyncAuthorizationFilter
     {
         private readonly UserManager<ApplicationUser> _um;
 
@@ -22,7 +22,7 @@ public class PrivateUserCheckFactoryAttribute : TypeFilterAttribute
             _um = um;
         }
 
-        public async void OnAuthorization(AuthorizationFilterContext context)
+        public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var user = await _um.GetUserAsync(context.HttpContext.User);
 
