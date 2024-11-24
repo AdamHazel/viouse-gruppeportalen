@@ -53,4 +53,5 @@ public class LocalGroup
     public bool Active { get; set; } = false;
     
     public ICollection<LocalGroupAdmin> LocalGroupAdmins { get; set; } = new List<LocalGroupAdmin>();
+    public ICollection<MembershipType> MembershipTypes { get; set; } = new List<MembershipType>();
 }

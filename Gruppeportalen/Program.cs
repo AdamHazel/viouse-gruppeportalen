@@ -30,6 +30,8 @@ builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<ILocalGroupService, LocalGroupService>();
 builder.Services.AddScoped<ILocalGroupAdminService, LocalGroupAdminService>();
 builder.Services.AddScoped<IOverviewService, OverviewService>();
+builder.Services.AddScoped<IMembershipTypeService, MembershipTypeService>();
+
 
 var app = builder.Build();
 

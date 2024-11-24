@@ -72,6 +72,7 @@ public class LocalGroupService : ILocalGroupService
     {
         return _db.LocalGroups
             .Include(g=>g.LocalGroupAdmins)
+            .Include(g=>g.MembershipTypes)
             .FirstOrDefault(g => g.Id == id);
     }
 
@@ -90,6 +91,26 @@ public class LocalGroupService : ILocalGroupService
             return _updateLocalGroup(localGroup);
         }
     }
+
+    public bool UpdateLocalGroupAsAdmin(LocalGroup lg)
+    {
+        var localGroup = GetLocalGroupById(lg.Id);
+        if (localGroup == null)
+            return false;
+        
+        else {
+            localGroup.Active= lg.Active;
+            localGroup.GroupName = lg.GroupName;
+            localGroup.Address = lg.Address;
+            localGroup.Postcode = lg.Postcode;
+            localGroup.City = lg.City;
+            localGroup.County = lg.County;
+            localGroup.Description = lg.Description;
+            return _updateLocalGroup(localGroup);
+        }
+        
+    }
+    
     public List<LocalGroup>? GetLocalGroups(string organisationId)
     {
         var groups = _db.LocalGroups
@@ -98,4 +119,7 @@ public class LocalGroupService : ILocalGroupService
             .ToList();
         return groups;
     }
+    
+    
+    
 }

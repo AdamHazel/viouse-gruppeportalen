@@ -11,6 +11,8 @@ public interface ILocalGroupService
 
     bool UpdateLocalGroup(LocalGroup localGroup);
     
+    bool UpdateLocalGroupAsAdmin(LocalGroup localGroup);
+    
     List<LocalGroup>? GetLocalGroups(string organisationId);
     
 }

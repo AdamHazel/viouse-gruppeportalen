@@ -1,12 +1,13 @@
 ﻿@model LocalGroup
 
 @{
-    ViewBag.Title = "Lokallaginformasjon";
-    Layout = "_Layout";
+ViewBag.Title = "Lokallaginformasjon";
+Layout = "_Layout";
 }
-
+<link rel="stylesheet" href="~/css/togglebutton.css" />
 
 <div class="main-container">
+    
     <div class="sidebar">
         @Html.Partial("_PrivateUserSidebar")
     </div>
@@ -17,4 +18,97 @@
         <a class="btn btn-dark" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupInformation"
            asp-route-groupId="@Model.Id">Lokallaginfo</a>
     </div>
+    <div>
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id"/>
+
+            <div>
+                <label asp-for="Active"></label>
+                <label class="toggle">
+                    <input type="checkbox" asp-for="Active"/>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="GroupName">Lokallag</label>
+                <input asp-for="GroupName" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label for="Address">Adresse</label>
+                <input asp-for="Address" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label for="Postcode">Postkode</label>
+                <input asp-for="Postcode" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label for="City">By</label>
+                <input asp-for="City" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label for="County">Fylke</label>
+                <select asp-for="County" id="countyDropdown" class="form-control">
+                    <option value="">Alle fylker</option>
+                    @foreach (var county in ViewBag.Counties as List<string>)
+                    {
+                        <option value="@county">@county</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="Description">Beskrivelse</label>
+                <input asp-for="Description" class="form-control"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Lagre endringer</button>
+        </form>
+        <h3>Medlemskapstyper</h3>
+        <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addMembershipModal"
+            data-localgroup-id="@Model.Id">
+            +
+        </button>
+
+        @if (Model.MembershipTypes != null && Model.MembershipTypes.Any())
+        {
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Pris</th>
+                    <th>Startdato</th>
+                    <th>Sluttdato</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var membership in Model.MembershipTypes)
+                {
+                    <tr>
+                        <td>@membership.Name</td>
+                        <td>@membership.Price</td>
+                        <td>@membership.MembershipStart.ToString("dd.MM")</td>
+                        <td>@membership.MembershipEnd.ToString("dd.MM")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Det finnes ingen medlemskapstyper for dette lokallaget.</p>
+        }
+    </div>
+    <partial name="_AddNewMembershipType" model="new MembershipType { LocalGroupId = Model.Id }" />
+    <script src="~/js/AddMembershipType.js"></script>
+
 </div>
+

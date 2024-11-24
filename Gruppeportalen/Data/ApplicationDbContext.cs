@@ -19,6 +19,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<LocalGroup> LocalGroups { get; set; }
     
     public DbSet<LocalGroupAdmin> LocalGroupAdmins { get; set; }
+    
+    public DbSet<MembershipType> MembershipTypes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
