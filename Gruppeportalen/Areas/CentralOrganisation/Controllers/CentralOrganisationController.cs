@@ -23,7 +23,7 @@ public class CentralOrganisationController : Controller
     public IActionResult Index()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var viewModel = _cos._getCentralOrganisations(userId);
+        var viewModel = _cos.GetCentralOrganisationByUser(userId);
         if (viewModel == null)
             return NotFound();
         
@@ -34,7 +34,7 @@ public class CentralOrganisationController : Controller
     public IActionResult Edit()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var viewModel=_cos._getCentralOrganisations(userId);
+        var viewModel=_cos.GetCentralOrganisationByUser(userId);
         if (viewModel == null)
             return NotFound();
 
@@ -50,7 +50,7 @@ public class CentralOrganisationController : Controller
         {
             return View(viewModel);
         }
-        _cos._editOrganisationDetails(viewModel);
+        _cos.EditOrganisationDetails(viewModel);
 
         return RedirectToAction("Index", "CentralOrganisation");
     }

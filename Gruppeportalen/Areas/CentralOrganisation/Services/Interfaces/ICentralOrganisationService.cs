@@ -2,8 +2,8 @@ namespace Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 
 public interface ICentralOrganisationService
 { 
-   Models.CentralOrganisation _getCentralOrganisations(string userId);
+   Models.CentralOrganisation? GetCentralOrganisationByUser(string userId);
 
-   void _editOrganisationDetails(Models.CentralOrganisation viewModel);
+   void EditOrganisationDetails(Models.CentralOrganisation viewModel);
 
 }

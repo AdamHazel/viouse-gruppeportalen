@@ -55,5 +55,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(p => p.SharedPersons)
             .HasForeignKey(sp => sp.PersonId);
         
+        builder.Entity<LocalGroup>()
+            .HasOne(co => co.Organisation)
+            .WithMany(co => co.LocalGroups)
+            .HasForeignKey(co => co.CentralOrganisationId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

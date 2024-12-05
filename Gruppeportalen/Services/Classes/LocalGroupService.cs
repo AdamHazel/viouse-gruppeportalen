@@ -1,4 +1,5 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
+using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Gruppeportalen.Data;
 using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
@@ -20,19 +21,31 @@ public class LocalGroupService : ILocalGroupService
     
     private readonly ApplicationDbContext _db;
     private readonly ILogger<LocalGroupService> _logger;
+    private readonly ICentralOrganisationService _cos;
    
     
-    public LocalGroupService(ApplicationDbContext db, ILogger<LocalGroupService> logger)
+    public LocalGroupService(ApplicationDbContext db, ILogger<LocalGroupService> logger,
+        ICentralOrganisationService cos)
     {
         _db = db;
         _logger = logger;
+        _cos = cos;
     }
 
-    private bool _addGroupToDb(LocalGroup lg)
+    private bool _addGroupToDb(LocalGroup lg, string orgId)
     {
         try
         {
+            var org = _cos.GetCentralOrganisationByUser(orgId);
+            if (org == null)
+            {
+                throw new DbUpdateException("Failed to add group to db");
+            }
+            lg.CentralOrganisationId = orgId;
+            
             _db.LocalGroups.Add(lg);
+            org.LocalGroups.Add(lg);
+            
             if (_db.SaveChanges() > 0)
                 return true;
             else
@@ -64,8 +77,7 @@ public class LocalGroupService : ILocalGroupService
     
     public bool AddNewLocalGroup(LocalGroup localGroup, string organisationId)
     {
-        localGroup.CentralOrganisationId = organisationId;
-        return _addGroupToDb(localGroup);
+        return _addGroupToDb(localGroup, organisationId);
     }
 
     public LocalGroup? GetLocalGroupById(Guid id)

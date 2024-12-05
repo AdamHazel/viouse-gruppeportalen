@@ -19,4 +19,6 @@ public class CentralOrganisation
     public string OrganisationName { get; set; } = string.Empty;
     
     public ApplicationUser? ApplicationUser { get; set; }
+    
+    public ICollection<LocalGroup>? LocalGroups { get; set; } = new List<LocalGroup>();
 }

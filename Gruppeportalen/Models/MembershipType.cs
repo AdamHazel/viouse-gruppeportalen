@@ -25,6 +25,5 @@ public class MembershipType
         public Guid LocalGroupId { get; set; } 
         
         public LocalGroup? LocalGroup { get; set; }
-    
-
+        
 }

@@ -24,8 +24,13 @@
     </div>
     <div class="form-group">
         <label asp-for="County"></label>
-        <input type="text" class="form-control" asp-for="County">
-        <span asp-validation-for="County"></span>
+        <select asp-for="County" id="countyDropdown" class="form-control">
+            <option value="">Alle fylker</option>
+            @foreach (var county in ViewBag.Counties as List<string>)
+            {
+            <option value="@county">@county</option>
+            }
+        </select>
     </div>
     <button type="submit" class="btn btn-primary mt-3">Lagre endringer</button>
 </form>

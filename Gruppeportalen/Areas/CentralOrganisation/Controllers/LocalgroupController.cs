@@ -1,6 +1,7 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.HelperClasses;
 using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Areas.CentralOrganisation.Models.ViewModels;
+using Gruppeportalen.Areas.CentralOrganisation.Services.Interfaces;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -18,22 +19,27 @@ public class LocalgroupController : Controller
     private readonly ILocalGroupService _lgs;
     private readonly ILocalGroupAdminService _lgas;
     private readonly IOverviewService _overviewService;
+    private readonly ICentralOrganisationService _cos;
+    private readonly INorwayCountryInformation _norwayInfo;
 
 
     public LocalgroupController(UserManager<ApplicationUser> um, ILocalGroupService lgs, ILocalGroupAdminService adminService, 
-                                IOverviewService overviewService)
+                                IOverviewService overviewService, ICentralOrganisationService cos, INorwayCountryInformation norwayInfo)
     {
         _um = um;
         _lgs = lgs;
         _lgas = adminService;
         _overviewService = overviewService;
+        _cos = cos;
+        _norwayInfo = norwayInfo;
     }
 
 
     public IActionResult Index()
     {
         var organization = _um.GetUserAsync(User).Result;
-        var groups = _lgs.GetLocalGroups(organization.Id);
+        var org = _cos.GetCentralOrganisationByUser(organization.Id);
+        var groups = org.LocalGroups.ToList();
         return View(groups);
     }
     
@@ -42,6 +48,7 @@ public class LocalgroupController : Controller
     public IActionResult Add()
     
     {
+        ViewBag.Counties = _norwayInfo.GetAllCounties();
         return View(new LocalGroup());
     }
     
@@ -49,6 +56,7 @@ public class LocalgroupController : Controller
     [HttpPost]
     public IActionResult Add(LocalGroup group)
     {
+        ViewBag.Counties = _norwayInfo.GetAllCounties();
         if (ModelState.IsValid)
         {
             var organization = _um.GetUserAsync(User).Result;
@@ -67,6 +75,7 @@ public class LocalgroupController : Controller
     [HttpGet]
     public IActionResult Edit(Guid id)
     {
+        ViewBag.Counties = _norwayInfo.GetAllCounties();
         var viewModel = new EditLocalGroupViewModel
         {
             LocalGroup = _lgs.GetLocalGroupById(id),
@@ -85,6 +94,7 @@ public class LocalgroupController : Controller
     [HttpPost]
     public IActionResult Edit(LocalGroup group)
     {
+        ViewBag.Counties = _norwayInfo.GetAllCounties();
         if (!ModelState.IsValid)
         {
             var viewModel = new EditLocalGroupViewModel

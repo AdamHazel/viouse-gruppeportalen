@@ -17,7 +17,7 @@ public class CentralOrganisationService:ICentralOrganisationService
         _um = um;
     }
     
-    public Models.CentralOrganisation _getCentralOrganisations(string userId)
+    public Models.CentralOrganisation? GetCentralOrganisationByUser(string userId)
     {
         if (string.IsNullOrEmpty(userId))
         {
@@ -25,12 +25,14 @@ public class CentralOrganisationService:ICentralOrganisationService
         }
         var organisation = _db.CentralOrganisations
             .Include(co => co.ApplicationUser) 
+            .Include(co => co.LocalGroups)
             .FirstOrDefault(co => co.Id == userId);
 
         return organisation;
     }
+    
 
-    public void _editOrganisationDetails(Models.CentralOrganisation viewModel)
+    public void EditOrganisationDetails(Models.CentralOrganisation viewModel)
     {
        
         try

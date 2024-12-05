@@ -22,16 +22,17 @@ public class MyLocalGroupsController : Controller
     private readonly UserManager<ApplicationUser> _um;
     private readonly IOverviewService _os;
     private readonly ILocalGroupService _lgs;
-    private readonly IPrivateUserOperations _privateUserOperations;
+    private readonly INorwayCountryInformation _norwayInfo;
     private readonly IMembershipTypeService _mts;
 
-    public MyLocalGroupsController(UserManager<ApplicationUser> um, IOverviewService os, ILocalGroupService lgs, IPrivateUserOperations privateUserOperations, IMembershipTypeService mts)
+    public MyLocalGroupsController(UserManager<ApplicationUser> um, IOverviewService os, ILocalGroupService lgs
+        , IMembershipTypeService mts, INorwayCountryInformation norwayInfo)
     {
         _um = um;
         _os = os;
         _lgs = lgs;
-        _privateUserOperations = privateUserOperations;
         _mts = mts;
+        _norwayInfo = norwayInfo;
     }
     
     public IActionResult Index()
@@ -60,7 +61,7 @@ public class MyLocalGroupsController : Controller
     [AdminForThisGroupCheckFactory]
     public IActionResult AdminGroupInformation(Guid groupId)
     { 
-        ViewBag.Counties = _privateUserOperations.GetAllCounties();
+        ViewBag.Counties = _norwayInfo.GetAllCounties();
         var group = _lgs.GetLocalGroupById(groupId);
         if (group == null)
             return NotFound("Group not found");
@@ -70,7 +71,8 @@ public class MyLocalGroupsController : Controller
     
     [HttpPost]
     public IActionResult Edit(LocalGroup viewModel)
-    {ViewBag.Counties = _privateUserOperations.GetAllCounties();
+    {
+        ViewBag.Counties = _norwayInfo.GetAllCounties();
         var group = _lgs.GetLocalGroupById(viewModel.Id);
         if (group == null)
         {
@@ -85,20 +87,20 @@ public class MyLocalGroupsController : Controller
     }
     
     [HttpPost]
-public IActionResult AddMembershipType(MembershipType model)
-{
-    if (!ModelState.IsValid)
+    public IActionResult AddMembershipType(MembershipType model)
     {
-        return View(model);
-    }
-    var success = _mts.AddNewMembershipType(model, model.LocalGroupId);
-    
-    if (!success)
-    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        var success = _mts.AddNewMembershipType(model, model.LocalGroupId);
+        
+        if (!success)
+        {
+            return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
+        }
         return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
     }
-    return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
-}
 
 
 }
