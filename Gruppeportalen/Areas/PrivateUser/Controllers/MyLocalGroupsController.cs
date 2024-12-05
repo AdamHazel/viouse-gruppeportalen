@@ -83,24 +83,22 @@ public class MyLocalGroupsController : Controller
         _lgs.UpdateLocalGroupAsAdmin(viewModel);
         return View("AdminGroupInformation", group);
     }
+    
     [HttpPost]
-    public IActionResult AddMembershipType(MembershipType model)
+public IActionResult AddMembershipType(MembershipType model)
+{
+    if (!ModelState.IsValid)
     {
-        if (!ModelState.IsValid)
-        {
-            return Json(new { success = false });
-        }
-
-        var success = _mts.AddNewMembershipType(model, model.LocalGroupId);
-
-        if (!success)
-        {
-            return Json(new { success = false, message = "Medlemskapstypen kunne ikke lagres. Prøv igjen." });
-        }
-
-        return Json(new { success = true, message = "Medlemskapstype lagret." });
+        return View(model);
     }
-
+    var success = _mts.AddNewMembershipType(model, model.LocalGroupId);
+    
+    if (!success)
+    {
+        return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
+    }
+    return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
+}
 
 
 }
