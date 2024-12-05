@@ -90,16 +90,7 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult Edit(Person person)
     {
-<<<<<<< HEAD
         if (!ModelState.IsValid) return View("Edit");
-=======
-     /*  ModelState.Remove("Id");
-        if (!ModelState.IsValid)
-        {
-            return View(person);
-        }*/
-     
->>>>>>> 0676374 (Adding changes to nora-VIOUSE-17 in order that a rebase of this branch can work)
         _privateUserOperations.EditPerson(person);
         return RedirectToAction("Index");
     }

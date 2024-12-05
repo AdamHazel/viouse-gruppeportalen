@@ -325,16 +325,14 @@ public class PrivateUserOperations : IPrivateUserOperations
         return _db.PrivateUsers.Any(u => u.Id == id);
     }
 
-
     public PrivateUser? GetPrivateUser(string id)
     {
         return _db.PrivateUsers.FirstOrDefault(u => u.Id == id);
     }
-
-    
-
+        
     public void SharePersonWithUser(string email, Guid personId)
     {
+        try
         {
             var applicationUser = _um.Users.FirstOrDefault(u => u.Email == email);
 
@@ -354,7 +352,10 @@ public class PrivateUserOperations : IPrivateUserOperations
             
             if (person == null)
                 throw new("Person ikke funnet.");
-
+            
+            if (person.PrivateUserId == privateUser.Id)
+                throw new Exception("Kan ikke dele en person med deg selv.");
+            
             if (person.SharedPersons.Count >= 2)
                 throw new("Denne personen er allerede delt med 2 brukere.");
 
@@ -402,39 +403,39 @@ public class PrivateUserOperations : IPrivateUserOperations
         }
     }
 
-public void TransferPerson(string newOwnerEmail, Guid personId)
-{
-    try
+    public void TransferPerson(string newOwnerEmail, Guid personId)
     {
-        var newOwnerUser = _um.Users.FirstOrDefault(u => u.Email == newOwnerEmail);
-        if (newOwnerUser == null)
-            throw new Exception("Ingen bruker funnet med den angitte e-postadressen.");
-        
-        var newOwnerPrivateUser = _db.PrivateUsers.FirstOrDefault(pu => pu.Id == newOwnerUser.Id);
-        if (newOwnerPrivateUser == null)
-            throw new Exception("Ingen privat bruker funnet for denne e-postadressen.");
-        
-        var person = _db.Persons.FirstOrDefault(p => p.Id == personId);
-        if (person == null)
-            throw new Exception("Person ikke funnet.");
+        try
+        {
+            var newOwnerUser = _um.Users.FirstOrDefault(u => u.Email == newOwnerEmail);
+            if (newOwnerUser == null)
+                throw new Exception("Ingen bruker funnet med den angitte e-postadressen.");
+            
+            var newOwnerPrivateUser = _db.PrivateUsers.FirstOrDefault(pu => pu.Id == newOwnerUser.Id);
+            if (newOwnerPrivateUser == null)
+                throw new Exception("Ingen privat bruker funnet for denne e-postadressen.");
+            
+            var person = _db.Persons.FirstOrDefault(p => p.Id == personId);
+            if (person == null)
+                throw new Exception("Person ikke funnet.");
 
-        if (person.PrivateUserId == newOwnerPrivateUser.Id)
-            throw new Exception("Personen er allerede tilknyttet denne brukeren.");
+            if (person.PrivateUserId == newOwnerPrivateUser.Id)
+                throw new Exception("Personen er allerede tilknyttet denne brukeren.");
 
-        person.PrivateUserId = newOwnerPrivateUser.Id;
+            person.PrivateUserId = newOwnerPrivateUser.Id;
 
-        _db.SaveChanges();
+            _db.SaveChanges();
+        }
+        catch (DbUpdateException ex)
+        {
+            Console.WriteLine($"En databasefeil oppstod: {ex.Message}");
+            throw new Exception("En databasefeil oppstod under overføringen av personen.", ex);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"En feil oppstod: {ex.Message}");
+            throw;
+        }
     }
-    catch (DbUpdateException ex)
-    {
-        Console.WriteLine($"En databasefeil oppstod: {ex.Message}");
-        throw new Exception("En databasefeil oppstod under overføringen av personen.", ex);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"En feil oppstod: {ex.Message}");
-        throw;
-    }
-}
 
 }
