@@ -20,4 +20,7 @@ public interface IPrivateUserOperations
     IEnumerable<LocalGroup> SearchLocalGroups(string query, string county);
     bool PrivateUserExists(string id);
     PrivateUser? GetPrivateUser(string id);
+    public List<Person> GetAllPersons(string privateUserId);
+    public void TransferPerson(string newOwnerEmail, Guid personId);
+    public void SharePersonWithUser(string email, Guid personId);
 }
