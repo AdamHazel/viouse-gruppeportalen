@@ -49,6 +49,7 @@ public class ApplicationDbInitializer
             Id = user1.Id, ApplicationUser = user1, Address = "Snarveien17 B", City = "Grimstad", Postcode = "4885", DateOfBirth = DateTime.Parse("1994-01-20"), Lastname = "Erichen", Firstname = "Nancy"
         };
         db.PrivateUsers.Add(puser1);
+        db.SaveChanges();
 
         var pUser2 = new PrivateUser
         {

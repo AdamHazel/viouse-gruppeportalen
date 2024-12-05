@@ -46,8 +46,11 @@ public class AddController : Controller
         { 
             return View(privateUser);
         }
-        
-        _privateUserOperations.CreatePrivateUserWithPerson(privateUser);
+
+        if (_privateUserOperations.AddPrivateUserToDb(privateUser))
+        {
+            _privateUserOperations.CreatePersonConnectedToPrivateUser(privateUser);
+        }
         
         return RedirectToAction("Index", "Home");
     }

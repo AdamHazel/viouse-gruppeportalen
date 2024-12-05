@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
+using Gruppeportalen.Services.Classes;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using PrivateUserModel = Gruppeportalen.Models.PrivateUser;
 
 namespace Gruppeportalen.Areas.Identity.Pages.Account
@@ -13,11 +15,14 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
     {
         private readonly ApplicationDbContext _db;
         private readonly ILogger<RegisterPrivateUserModel> _logger;
+        private readonly PrivateUserOperations _puo;
 
-        public RegisterPrivateUserModel(ApplicationDbContext db, ILogger<RegisterPrivateUserModel> logger)
+        public RegisterPrivateUserModel(ApplicationDbContext db, ILogger<RegisterPrivateUserModel> logger,
+            PrivateUserOperations puo)
         {
             _db = db;
             _logger = logger;
+            _puo = puo;
         }
 
         [BindProperty]
@@ -60,7 +65,13 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
 
             _db.PrivateUsers.Add(privateUser);
             await _db.SaveChangesAsync();
+            var resultOfAddingPerson = _puo.CreatePersonConnectedToPrivateUser(privateUser);
             _logger.LogInformation("Private user registered with ID: {UserId}", Input.UserId);
+
+            if (resultOfAddingPerson == false)
+            {
+                _logger.LogInformation("Was not able to add person to private user");
+            }
 
             
             return new JsonResult(new { success = true });

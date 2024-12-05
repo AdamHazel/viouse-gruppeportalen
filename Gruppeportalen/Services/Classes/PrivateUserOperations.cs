@@ -20,14 +20,35 @@ public class PrivateUserOperations
         _um = um;
     }
 
-    public PrivateUser CreatePrivateUserWithPerson(PrivateUser privateUser)
+    private bool _addPrivateUserToDb(PrivateUser privateUser)
     {
-        if (privateUser == null) throw new ArgumentNullException(nameof(privateUser));
-
         try
         {
             _db.PrivateUsers.Add(privateUser);
-            _db.SaveChanges(); 
+            if (_db.SaveChanges() > 0)
+                return true;
+            else
+                throw new DbUpdateException("Failed to add group to db");
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+    }
+    public bool AddPrivateUserToDb(PrivateUser privateUser)
+    {
+        return _addPrivateUserToDb(privateUser);
+    }
+
+    public bool CreatePersonConnectedToPrivateUser(PrivateUser privateUser)
+    {
+        var user = GetPrivateUser(privateUser.Id);
+        if (privateUser == null || user == null) throw new ArgumentNullException(nameof(privateUser));
+        
+        try
+        {
+            /*_db.PrivateUsers.Add(privateUser);
+            _db.SaveChanges();*/
             
             var person = new Person
             {
@@ -41,18 +62,18 @@ public class PrivateUserOperations
                 PrimaryPerson = true
             };
             _db.Persons.Add(person);
-            privateUser.Persons.Add(person);
+            user.Persons.Add(person);
             _db.SaveChanges(); 
 
-            return privateUser; 
+            return true; 
         }
         catch (DbUpdateException ex)
         {
-            return null; 
+            return false; 
         }
         catch (Exception ex)
         {
-            return null;
+            return false;
         }
     }
 
@@ -304,6 +325,11 @@ public class PrivateUserOperations
     public bool PrivateUserExists(string id)
     {
         return _db.PrivateUsers.Any(u => u.Id == id);
+    }
+
+    public PrivateUser? GetPrivateUser(string id)
+    {
+        return _db.PrivateUsers.FirstOrDefault(u => u.Id == id);
     }
     
 }
