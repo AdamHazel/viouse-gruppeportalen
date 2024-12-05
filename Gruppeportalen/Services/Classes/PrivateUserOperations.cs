@@ -4,12 +4,13 @@ using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Data;
 using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
+using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gruppeportalen.Services.Classes;
 
-public class PrivateUserOperations
+public class PrivateUserOperations : IPrivateUserOperations
 {
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
@@ -47,9 +48,6 @@ public class PrivateUserOperations
         
         try
         {
-            /*_db.PrivateUsers.Add(privateUser);
-            _db.SaveChanges();*/
-            
             var person = new Person
             {
                 Firstname = privateUser.Firstname,

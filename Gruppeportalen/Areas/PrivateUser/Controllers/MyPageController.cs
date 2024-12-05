@@ -5,6 +5,7 @@ using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
 using Gruppeportalen.Services.Classes;
+using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +22,10 @@ public class MyPageController : Controller
 {
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
-    private readonly PrivateUserOperations _privateUserOperations;
+    private readonly IPrivateUserOperations _privateUserOperations;
 
     public MyPageController(ApplicationDbContext db, UserManager<ApplicationUser> um,
-        PrivateUserOperations privateUserOperations)
+        IPrivateUserOperations privateUserOperations)
     {
         _db = db;
         _um = um;

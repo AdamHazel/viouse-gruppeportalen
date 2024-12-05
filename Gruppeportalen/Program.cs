@@ -26,7 +26,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<PrivateUserOperations>();
+builder.Services.AddScoped<IPrivateUserOperations, PrivateUserOperations>();
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<ICentralOrganisationService, CentralOrganisationService>();
 

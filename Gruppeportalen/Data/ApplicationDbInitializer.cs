@@ -44,11 +44,41 @@ public class ApplicationDbInitializer
         db.PrivateUsers.Add(pUser);
         db.SaveChanges();
         
+        var person = new Person
+        {
+            Firstname = pUser.Firstname,
+            Lastname = pUser.Lastname,
+            Address = pUser.Address,
+            City = pUser.City,
+            Postcode = pUser.Postcode,
+            DateOfBirth = pUser.DateOfBirth,
+            PrivateUserId = pUser.Id,
+            PrimaryPerson = true
+        };
+        db.Persons.Add(person);
+        pUser.Persons.Add(person);
+        db.SaveChanges();
+        
         var puser1 = new PrivateUser
         {
-            Id = user1.Id, ApplicationUser = user1, Address = "Snarveien17 B", City = "Grimstad", Postcode = "4885", DateOfBirth = DateTime.Parse("1994-01-20"), Lastname = "Erichen", Firstname = "Nancy"
+            Id = user1.Id, ApplicationUser = user1, Address = "Snarveien17 B", City = "Grimstad", Postcode = "4885", DateOfBirth = DateTime.Parse("1994-01-20"), Lastname = "Blah", Firstname = "Blah"
         };
         db.PrivateUsers.Add(puser1);
+        db.SaveChanges();
+        
+        var person1 = new Person
+        {
+            Firstname = puser1.Firstname,
+            Lastname = puser1.Lastname,
+            Address = puser1.Address,
+            City = puser1.City,
+            Postcode = puser1.Postcode,
+            DateOfBirth = puser1.DateOfBirth,
+            PrivateUserId = puser1.Id,
+            PrimaryPerson = true
+        };
+        db.Persons.Add(person1);
+        puser1.Persons.Add(person1);
         db.SaveChanges();
 
         var pUser2 = new PrivateUser
@@ -57,6 +87,21 @@ public class ApplicationDbInitializer
             Telephone = "91567892", Address = "Random address", City = "Homborsund", Postcode = "9999",
             ApplicationUser = user4};
         db.PrivateUsers.Add(pUser2);
+        db.SaveChanges();
+        
+        var person2 = new Person
+        {
+            Firstname = pUser2.Firstname,
+            Lastname = pUser2.Lastname,
+            Address = pUser2.Address,
+            City = pUser2.City,
+            Postcode = pUser2.Postcode,
+            DateOfBirth = pUser2.DateOfBirth,
+            PrivateUserId = pUser2.Id,
+            PrimaryPerson = true
+        };
+        db.Persons.Add(person2);
+        pUser2.Persons.Add(person2);
         db.SaveChanges();
 
         var lg1 = new LocalGroup

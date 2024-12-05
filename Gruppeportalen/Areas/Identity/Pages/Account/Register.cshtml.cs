@@ -40,17 +40,38 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
             [Required] [Compare("Password")] public string ConfirmPassword { get; set; }
 
             // PrivateUser-specific fields
-            public string Firstname { get; set; }
-            public string Lastname { get; set; }
+            [Required]
+            [StringLength(30)]
+            public string Firstname { get; set; } = string.Empty;
+            [Required] 
+            [StringLength(30)] 
+            public string Lastname { get; set; } = string.Empty;
+            
+            [DataType(DataType.Date)]
             public DateTime DateOfBirth { get; set; }
-            public string Telephone { get; set; }
-            public string Address { get; set; }
-            public string City { get; set; }
-            public string Postcode { get; set; }
+            
+            [Required]
+            [StringLength(30)]
+            public string Telephone { get; set; } = string.Empty;
+            
+            [Required]
+            [StringLength(50)]
+            public string Address { get; set; } = string.Empty;
+            
+            [Required]
+            [StringLength(30)]
+            public string City { get; set; } = string.Empty;
+            
+            [Required]
+            [MinLength(4)]
+            [StringLength(4)]
+            public string Postcode { get; set; } = string.Empty;
 
             // OrganizationUser-specific fields
-            public string OrganisationNumber { get; set; }
-            public string OrganisationName { get; set; }
+            [Required]
+            [MaxLength(100)]
+            public string OrganisationNumber { get; set; } = string.Empty;
+            public string OrganisationName { get; set; } = string.Empty;
         }
 
 

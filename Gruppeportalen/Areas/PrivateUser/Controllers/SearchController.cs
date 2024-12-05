@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gruppeportalen.Areas.PrivateUser.HelperClasses;
+using Gruppeportalen.Services.Interfaces;
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
 
@@ -20,8 +21,8 @@ public class SearchController : Controller
 {
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
-    private readonly PrivateUserOperations _privateUserOperations;
-    public SearchController(ApplicationDbContext db, UserManager<ApplicationUser> um, PrivateUserOperations privateUserOperations)
+    private readonly IPrivateUserOperations _privateUserOperations;
+    public SearchController(ApplicationDbContext db, UserManager<ApplicationUser> um, IPrivateUserOperations privateUserOperations)
     {
         _db = db;
         _um = um;

@@ -1,6 +1,7 @@
 ﻿using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services.Classes;
+using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -17,9 +18,9 @@ public class PrivateUserInformationCheckFactoryAttribute : TypeFilterAttribute
     private class InformationExistsRedirectFilter : IAsyncAuthorizationFilter
     {
         private readonly UserManager<ApplicationUser> _um;
-        private readonly PrivateUserOperations _pus;
+        private readonly IPrivateUserOperations _pus;
 
-        public InformationExistsRedirectFilter(UserManager<ApplicationUser> um, PrivateUserOperations pus)
+        public InformationExistsRedirectFilter(UserManager<ApplicationUser> um, IPrivateUserOperations pus)
         {
             _um = um;
             _pus = pus;

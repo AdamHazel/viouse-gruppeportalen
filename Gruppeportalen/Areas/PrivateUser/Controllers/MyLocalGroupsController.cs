@@ -22,10 +22,10 @@ public class MyLocalGroupsController : Controller
     private readonly UserManager<ApplicationUser> _um;
     private readonly IOverviewService _os;
     private readonly ILocalGroupService _lgs;
-    private readonly PrivateUserOperations _privateUserOperations;
+    private readonly IPrivateUserOperations _privateUserOperations;
     private readonly IMembershipTypeService _mts;
 
-    public MyLocalGroupsController(UserManager<ApplicationUser> um, IOverviewService os, ILocalGroupService lgs, PrivateUserOperations privateUserOperations, IMembershipTypeService mts)
+    public MyLocalGroupsController(UserManager<ApplicationUser> um, IOverviewService os, ILocalGroupService lgs, IPrivateUserOperations privateUserOperations, IMembershipTypeService mts)
     {
         _um = um;
         _os = os;
