@@ -114,6 +114,10 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult SharePerson(string email, Guid personId)
     {
+        if (_db.Users.FirstOrDefault(u => u.Email == email) == null)
+        {
+            return BadRequest("Beklager. Brukeren med oppgitt epost adresse eksisterer ikke i systemet, kunne ikke dele person.");
+        }
         _privateUserOperations.SharePersonWithUser(email, personId);
         return RedirectToAction("Index");
     }
@@ -123,18 +127,14 @@ public class PersonsController : Controller
     [HttpPost]
     public IActionResult TransferPerson(string email, Guid personId)
     {
-        try
+        if (_db.Users.FirstOrDefault(u => u.Email == email) == null)
         {
-            _privateUserOperations.TransferPerson(email, personId);
-            return RedirectToAction("Index");
+            return BadRequest(
+                "Beklager. Brukeren med oppgitt epost adresse eksisterer ikke i systemet, kunne ikke overføre person.");
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"En feil oppstod under overføringen: {ex.Message}");
-            TempData["ErrorMessage"] = "Kunne ikke overføre personen.";
-            return RedirectToAction("Index");
-        }
+
+        _privateUserOperations.TransferPerson(email, personId);
+        return RedirectToAction("Index");
     }
-    
     
 }

@@ -149,7 +149,7 @@ public class PrivateUserOperations : IPrivateUserOperations
     }
 
 
-    public Person GetPersonDetails(Guid personId)
+    public Person? GetPersonDetails(Guid personId)
     {
         try
         {
