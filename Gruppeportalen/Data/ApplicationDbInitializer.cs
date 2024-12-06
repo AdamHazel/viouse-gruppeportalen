@@ -107,28 +107,28 @@ public class ApplicationDbInitializer
         var lg1 = new LocalGroup
         {
             Address = "Address 1", GroupName = "Group 1", City = "City 1", Postcode = "1111", County = "County 1",
-            CentralOrganisationId = cUser.Id, Active = true,
+            CentralOrganisationId = cUser.Id, Active = true, Description = "This is group 1. Welcome to this group!"
         };
         db.LocalGroups.Add(lg1);
         
         var lg2 = new LocalGroup
         {
             Address = "Address 2", GroupName = "Group 2", City = "City 2", Postcode = "2222", County = "County 2",
-            CentralOrganisationId = cUser.Id, Active = true,
+            CentralOrganisationId = cUser.Id, Active = true, Description = "This is group 2. Welcome to this group!"
         };
         db.LocalGroups.Add(lg2);
         
         var lg3 = new LocalGroup
         {
             Address = "Address 3", GroupName = "Group 3", City = "City 3", Postcode = "3333", County = "County 3",
-            CentralOrganisationId = cUser.Id, Active = true,
+            CentralOrganisationId = cUser.Id, Active = true, Description = "This is group 3. Welcome to this group!"
         };
         db.LocalGroups.Add(lg3);
         
         var lg4 = new LocalGroup
         {
             Address = "Address 4", GroupName = "Group 4", City = "City 4", Postcode = "4444", County = "County 4",
-            CentralOrganisationId = cUser2.Id, Active = true,
+            CentralOrganisationId = cUser2.Id, Active = true, Description = "This is group 4. Welcome to this group!"
         };
         db.LocalGroups.Add(lg4);
         

@@ -1,5 +1,6 @@
+@using Microsoft.IdentityModel.Tokens
 @model Gruppeportalen.Models.LocalGroup
-<link rel="stylesheet" href="~/css/personcard.css" />
+<link rel="stylesheet" href="~/css/informationcard.css" />
 
 <div class="card">
     <div class="card-header">
@@ -9,12 +10,24 @@
     <div class="card-details">
         <p>@Model.Description</p>
     </div>
-    <div class="card-memberships">
-        <p><strong>Priser:</strong></p>
-        <p>Enkeltmedlemskap: </p>
-        <p>Familiemedlemskap: </p>
-    </div>
-    <div class="card-actions">
-        <button class="join-button">Bli Medlem</button>
-    </div>
+    @if (Model.MembershipTypes.IsNullOrEmpty())
+    {
+        <div class="card-memberships">
+            <p>Det finnes ikke noe aktive medlemsskap knyttet til dette lokallag.</p>
+        </div>   
+    }
+    else
+    {
+        <div class="card-memberships">
+            <p><strong>Priser:</strong></p>
+            @foreach (var membership in Model.MembershipTypes)
+            {
+                <div class="memberships-information"><p>@membership.Name</p><p>@membership.Price KR</p></div>   
+            }
+        </div>
+        <div class="card-actions">
+            <button class="join-button">Bli Medlem</button>
+        </div>
+    }
+    
 </div>

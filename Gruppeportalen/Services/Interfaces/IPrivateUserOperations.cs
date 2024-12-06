@@ -15,8 +15,7 @@ public interface IPrivateUserOperations
     void EditPerson(Person person);
     void EditUserDetails(ApplicationPrivateUser viewModel);
     void DeletePerson(Guid personId);
-    IEnumerable<LocalGroup> GetAllLocalGroups();
-    List<string> GetAllCounties();
+    IEnumerable<LocalGroup> GetAllLocalActiveGroups();
     IEnumerable<LocalGroup> SearchLocalGroups(string query, string county);
     bool PrivateUserExists(string id);
     PrivateUser? GetPrivateUser(string id);

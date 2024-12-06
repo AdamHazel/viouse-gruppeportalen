@@ -22,22 +22,22 @@ public class SearchController : Controller
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
     private readonly IPrivateUserOperations _privateUserOperations;
-    public SearchController(ApplicationDbContext db, UserManager<ApplicationUser> um, IPrivateUserOperations privateUserOperations)
+    private readonly INorwayCountryInformation _nci;
+    public SearchController(ApplicationDbContext db, UserManager<ApplicationUser> um, 
+        IPrivateUserOperations privateUserOperations, INorwayCountryInformation nci)
     {
         _db = db;
         _um = um;
         _privateUserOperations = privateUserOperations;
+        _nci = nci;
     }   
-    
-
-    
     
  public IActionResult Index()
     {
-        ViewBag.Counties = _privateUserOperations.GetAllCounties();
+        ViewBag.Counties = _nci.GetAllCounties();
       
         
-        var groups = _privateUserOperations.GetAllLocalGroups();
+        var groups = _privateUserOperations.GetAllLocalActiveGroups();
         return View(groups);
     }
 

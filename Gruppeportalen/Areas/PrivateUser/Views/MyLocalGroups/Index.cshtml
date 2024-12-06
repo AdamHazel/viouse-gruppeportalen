@@ -4,13 +4,14 @@
     ViewBag.Title = "Mine Lokallag";
     Layout = "_Layout";
 }
-
+<a class="nav-link text-dark btn btn-primary" asp-area="PrivateUser" asp-controller="Search" asp-action="Index">Finn nytt lokallag</a>
 <div class="main-container">
+    
     <div class="sidebar">
         @Html.Partial("_PrivateUserSidebar")
     </div>
     <div class="main-content">
-        <partial name ="_AdminLocalGroupsOverview" model="@Model.AdminOverview" />
-        <partial name = "_MyPersonsLocalGroupsOverview" model = "@Model.PersonOverview"/>
+        <partial name="_AdminLocalGroupsOverview" model="@Model.AdminOverview"/>
+        <partial name="_MyPersonsLocalGroupsOverview" model="@Model.PersonOverview"/>
     </div>
 </div>

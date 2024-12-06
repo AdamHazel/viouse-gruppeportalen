@@ -16,6 +16,7 @@
 .card-details, .card-memberships, .card-actions {
     margin-top: 10px;
 }
+
 .card-actions {
     display: flex;
     gap: 10px;
@@ -48,4 +49,9 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.memberships-information {
+    display: flex;
+    justify-content: space-between;
 }

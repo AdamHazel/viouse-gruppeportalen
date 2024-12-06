@@ -292,9 +292,11 @@ public class PrivateUserOperations : IPrivateUserOperations
             throw; 
         }
     }
-    public IEnumerable<LocalGroup> GetAllLocalGroups()
+    public IEnumerable<LocalGroup> GetAllLocalActiveGroups()
     {
-        return _db.LocalGroups.Where(g => g.Active).ToList();
+        return _db.LocalGroups
+            .Include(g => g.MembershipTypes)
+            .Where(g => g.Active).ToList();
     }
 
     public List<string> GetAllCounties()
