@@ -149,7 +149,7 @@ public class PrivateUserOperations : IPrivateUserOperations
     }
 
 
-    public Person? GetPersonDetails(Guid personId)
+    public Person? GetPersonDetails(string personId)
     {
         try
         {
@@ -266,7 +266,7 @@ public class PrivateUserOperations : IPrivateUserOperations
         }
     }
 
-    public void DeletePerson(Guid personId)
+    public void DeletePerson(string personId)
     {
         try
         {
@@ -329,10 +329,12 @@ public class PrivateUserOperations : IPrivateUserOperations
 
     public PrivateUser? GetPrivateUser(string id)
     {
-        return _db.PrivateUsers.FirstOrDefault(u => u.Id == id);
+        return _db.PrivateUsers
+            .Include(upc => upc.UserPersonConnections)
+            .FirstOrDefault(u => u.Id == id);
     }
         
-    public void SharePersonWithUser(string email, Guid personId)
+    public void SharePersonWithUser(string email, string personId)
     {
         try
         {
@@ -405,7 +407,7 @@ public class PrivateUserOperations : IPrivateUserOperations
         }
     }
 
-    public void TransferPerson(string newOwnerEmail, Guid personId)
+    public void TransferPerson(string newOwnerEmail, string personId)
     {
         try
         {

@@ -11,10 +11,7 @@
 
     <form asp-action="Index" method="post">
         <div>
-            <label asp-for="Id" class=""></label>
-            <input type="text" asp-for="Id" value="@Model.Id" readonly>
-            <span asp-validation-for="Firstname" class="text-danger"></span>
-            <br/>
+            <input type="hidden" asp-for="Id">
         </div>
 
         <div>

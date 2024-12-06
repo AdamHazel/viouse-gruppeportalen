@@ -6,5 +6,5 @@ public class SharePersonModel
     [PrivateUserExistsValidation] 
     public string Email { get; set; } = string.Empty;
     
-    public Guid PersonId { get; set; }
+    public string PersonId { get; set; }
 }

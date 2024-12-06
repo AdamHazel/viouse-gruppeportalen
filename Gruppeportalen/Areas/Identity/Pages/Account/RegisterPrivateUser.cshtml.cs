@@ -17,13 +17,17 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
         private readonly ApplicationDbContext _db;
         private readonly ILogger<RegisterPrivateUserModel> _logger;
         private readonly IPrivateUserOperations _puo;
+        private readonly IPersonService _ps;
+        private readonly IUserPersonConnectionsService _upcs;
 
         public RegisterPrivateUserModel(ApplicationDbContext db, ILogger<RegisterPrivateUserModel> logger,
-            IPrivateUserOperations puo)
+            IPrivateUserOperations puo, IPersonService ps, IUserPersonConnectionsService upcs)
         {
             _db = db;
             _logger = logger;
             _puo = puo;
+            _ps = ps;
+            _upcs = upcs;
         }
 
         [BindProperty]
@@ -66,14 +70,13 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
 
             _db.PrivateUsers.Add(privateUser);
             await _db.SaveChangesAsync();
-            var resultOfAddingPerson = _puo.CreatePersonConnectedToPrivateUser(privateUser);
-            _logger.LogInformation("Private user registered with ID: {UserId}", Input.UserId);
-
-            if (resultOfAddingPerson == false)
+            
+            var person = _ps.CreatePrimaryPersonByUser(privateUser);
+            if (person != null)
             {
-                _logger.LogInformation("Was not able to add person to private user");
+                var resultOfAddingPerson= _ps.AddPersonToDbByPerson(person);
+                var resultOfAddingConnection = _upcs.AddUserPersonConnection(privateUser.Id, person.Id);
             }
-
             
             return new JsonResult(new { success = true });
         }

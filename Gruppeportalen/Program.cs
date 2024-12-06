@@ -35,6 +35,8 @@ builder.Services.AddScoped<ILocalGroupAdminService, LocalGroupAdminService>();
 builder.Services.AddScoped<IOverviewService, OverviewService>();
 builder.Services.AddScoped<IMembershipTypeService, MembershipTypeService>();
 builder.Services.AddScoped<INorwayCountryInformation, NorwayCountryInformation>();
+builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IUserPersonConnectionsService, UserPersonConnectionsService>();
 
 
 var app = builder.Build();

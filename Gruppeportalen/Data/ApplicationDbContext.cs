@@ -3,6 +3,7 @@ using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Connection = NuGet.Protocol.Plugins.Connection;
 
 namespace Gruppeportalen.Data;
 
@@ -18,6 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Person> Persons { get; set; }
     public DbSet<LocalGroup> LocalGroups { get; set; }
     
+    public DbSet<UserPersonConnection> UserPersonConnections { get; set; }
     public DbSet<SharedPerson> SharedPersons { get; set; }
     public DbSet<LocalGroupAdmin> LocalGroupAdmins { get; set; }
     
@@ -59,6 +61,21 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(co => co.Organisation)
             .WithMany(co => co.LocalGroups)
             .HasForeignKey(co => co.CentralOrganisationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<UserPersonConnection>()
+            .HasKey(upc => new { upc.PersonId, upc.PrivateUserId });
+        
+        builder.Entity<UserPersonConnection>()
+            .HasOne(upc => upc.Person)
+            .WithMany(per => per.UserPersonConnections)
+            .HasForeignKey(upc => upc.PersonId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<UserPersonConnection>()
+            .HasOne(upc => upc.PrivateUser)
+            .WithMany(pu => pu.UserPersonConnections)
+            .HasForeignKey(upc => upc.PrivateUserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

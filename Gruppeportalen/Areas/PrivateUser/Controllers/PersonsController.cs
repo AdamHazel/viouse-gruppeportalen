@@ -78,7 +78,7 @@ public class PersonsController : Controller
     }
 
 [HttpGet]
-    public IActionResult Edit(Guid id)
+    public IActionResult Edit(string id)
     {
         var person = _privateUserOperations.GetPersonDetails(id);
         if (person == null)
@@ -96,14 +96,14 @@ public class PersonsController : Controller
     }
 
     [HttpPost]
-    public IActionResult Delete(Guid id)
+    public IActionResult Delete(string id)
     {
         _privateUserOperations.DeletePerson(id);
         return RedirectToAction("Index");
     }
 
     [HttpPost]
-    public IActionResult SharePerson(string email, Guid personId)
+    public IActionResult SharePerson(string email, string personId)
     {
         if (_db.Users.FirstOrDefault(u => u.Email == email) == null)
         {
@@ -116,7 +116,7 @@ public class PersonsController : Controller
 
 
     [HttpPost]
-    public IActionResult TransferPerson(string email, Guid personId)
+    public IActionResult TransferPerson(string email, string personId)
     {
         if (_db.Users.FirstOrDefault(u => u.Email == email) == null)
         {

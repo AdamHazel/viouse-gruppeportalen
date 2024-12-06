@@ -22,12 +22,17 @@ public class AddController : Controller
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
     private readonly IPrivateUserOperations _privateUserOperations;
+    private readonly IPersonService _ps;
+    private readonly IUserPersonConnectionsService _upc;
     
-    public AddController(ApplicationDbContext db, UserManager<ApplicationUser> um, IPrivateUserOperations privateUserOperations)
+    public AddController(ApplicationDbContext db, UserManager<ApplicationUser> um, 
+        IPrivateUserOperations privateUserOperations, IPersonService ps, IUserPersonConnectionsService upc)
     {
         _db = db;
         _um = um;
         _privateUserOperations = privateUserOperations;
+        _ps = ps;
+        _upc = upc;
     }
     
     [HttpGet]
@@ -50,7 +55,21 @@ public class AddController : Controller
 
         if (_privateUserOperations.AddPrivateUserToDb(privateUser))
         {
-            _privateUserOperations.CreatePersonConnectedToPrivateUser(privateUser);
+            var person = _ps.CreatePrimaryPersonByUser(privateUser);
+            if (person == null)
+            {
+                return RedirectToAction("Index", "Oopsie", new { Area = "" });
+            }
+            else
+            {
+                var resultOfAddingPerson = _ps.AddPersonToDbByPerson(person);
+                var resultOfAddingConnection = _upc.AddUserPersonConnection(privateUser.Id, person.Id);
+
+                if (resultOfAddingPerson == false || resultOfAddingConnection == false)
+                {
+                    return RedirectToAction("Index", "Oopsie", new { Area = "" });
+                }
+            }
         }
         
         return RedirectToAction("Index", "Home");

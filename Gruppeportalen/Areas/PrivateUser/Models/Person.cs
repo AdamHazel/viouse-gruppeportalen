@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gruppeportalen.Models;
 
 namespace Gruppeportalen.Areas.PrivateUser.Models;
 
 public class Person
 {
     [Key]
-    public Guid Id {get; set;} =Guid.NewGuid();
+    public string Id {get; set;} = Guid.NewGuid().ToString();
     
     [Required]
     [StringLength(30)]
@@ -32,6 +33,8 @@ public class Person
     public DateTime DateOfBirth { get; set; }
     
     public bool PrimaryPerson { get; set; } = false;
+    
+    public ICollection<UserPersonConnection> UserPersonConnections { get; set; } = new HashSet<UserPersonConnection>();
     
     [ForeignKey(nameof(PrivateUser))]
     public string? PrivateUserId { get; set; }
