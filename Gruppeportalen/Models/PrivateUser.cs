@@ -8,8 +8,9 @@ namespace Gruppeportalen.Models;
 public class PrivateUser
 {
     [Key]
-    [ForeignKey("ApplicationUser")]
+    [ForeignKey(nameof(ApplicationUser))]
     public string Id {get; set;}
+    
     [Required]
     [StringLength(30)]
     public string Firstname { get; set; } = string.Empty;

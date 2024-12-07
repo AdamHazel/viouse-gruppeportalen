@@ -11,15 +11,16 @@ public interface IPrivateUserOperations
     bool AddPersonToPrivateUser(string privateUserId, Person person);
     bool AddNewPerson(string privateUserId, Person person);
     ApplicationPrivateUser? GetUserDetails(string userId);
-    Person GetPersonDetails(string personId);
+    Person? GetPersonDetails(string personId);
     void EditPerson(Person person);
     void EditUserDetails(ApplicationPrivateUser viewModel);
     void DeletePerson(string personId);
     IEnumerable<LocalGroup> GetAllLocalActiveGroups();
     IEnumerable<LocalGroup> SearchLocalGroups(string query, string county);
     bool PrivateUserExists(string id);
-    PrivateUser? GetPrivateUser(string id);
+    PrivateUser? GetPrivateUserById(string id);
     public List<Person> GetAllPersons(string privateUserId);
     public void TransferPerson(string newOwnerEmail, string personId);
     public void SharePersonWithUser(string email, string personId);
+    PrivateUser? GetPrivateUserByIdWithConnectedPersons(string id);
 }

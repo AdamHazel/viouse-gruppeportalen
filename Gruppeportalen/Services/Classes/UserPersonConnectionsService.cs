@@ -41,7 +41,7 @@ public class UserPersonConnectionsService : IUserPersonConnectionsService
     
     public bool AddUserPersonConnection(string userId, string personId)
     {
-        var privateUser = _puo.GetPrivateUser(userId);
+        var privateUser = _puo.GetPrivateUserById(userId);
         var person = _ps.GetPersonById(personId);
 
         if (privateUser is null || person is null)
@@ -51,4 +51,5 @@ public class UserPersonConnectionsService : IUserPersonConnectionsService
         
         return _addConnection(privateUser, person);
     }
+    
 }

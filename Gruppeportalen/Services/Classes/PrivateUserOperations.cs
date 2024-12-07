@@ -43,7 +43,7 @@ public class PrivateUserOperations : IPrivateUserOperations
 
     public bool CreatePersonConnectedToPrivateUser(PrivateUser privateUser)
     {
-        var user = GetPrivateUser(privateUser.Id);
+        var user = GetPrivateUserById(privateUser.Id);
         if (privateUser == null || user == null) throw new ArgumentNullException(nameof(privateUser));
         
         try
@@ -327,11 +327,29 @@ public class PrivateUserOperations : IPrivateUserOperations
         return _db.PrivateUsers.Any(u => u.Id == id);
     }
 
-    public PrivateUser? GetPrivateUser(string id)
+    public PrivateUser? GetPrivateUserById(string id)
     {
         return _db.PrivateUsers
             .Include(upc => upc.UserPersonConnections)
             .FirstOrDefault(u => u.Id == id);
+    }
+
+    public PrivateUser? GetPrivateUserByIdWithConnectedPersons(string id)
+    {
+        var privateUser = _db.PrivateUsers
+            .Include(upc => upc.UserPersonConnections)
+            .ThenInclude(up => up.Person)
+            .FirstOrDefault(u => u.Id == id);
+
+        if (privateUser != null)
+        {
+            privateUser.UserPersonConnections = privateUser.UserPersonConnections
+                .OrderBy(upc => upc.Person.Lastname ?? string.Empty)
+                .ThenBy(upc => upc.Person.Firstname ?? string.Empty)
+                .ToList();
+        }
+        
+        return privateUser;
     }
         
     public void SharePersonWithUser(string email, string personId)

@@ -1,24 +1,29 @@
-@model IEnumerable<Gruppeportalen.Areas.PrivateUser.Models.Person>
+@*@model IEnumerable<Gruppeportalen.Areas.PrivateUser.Models.Person>*@
+@using Microsoft.IdentityModel.Tokens
+@model Gruppeportalen.Areas.PrivateUser.Models.ViewModels.PrimaryPersonAndOthers
 
 @{
 Layout = "_Layout";
 }
 
 <div class="main-container">
-<div class="sidebar">
-    @Html.Partial("_PrivateUserSidebar")
-</div>
-<div class="main-content">
-    <h2>Mine Brukere</h2>
-    <div class="person-list">
-        <a href="@Url.Action("Add", "Persons")" class="btn btn-primary">Legg til ny bruker</a>
-
-        <div class="cards-container">
-            @foreach (var person in Model)
-            {
-                @Html.Partial("_PersonCard", person) 
-            }
+    <div class="sidebar">
+        @Html.Partial("_PrivateUserSidebar")
+    </div>
+    <div class="main-content">
+        <h2>Mine Brukere</h2>
+        <div class="person-list">
+            <a href="@Url.Action("Add", "Persons")" class="btn btn-primary">Legg til ny bruker</a>
+            <div class="cards-container">
+                @Html.Partial("_PersonCard", Model.PrimaryPerson)
+                @if (!Model.OtherPersons.IsNullOrEmpty())
+                {
+                    foreach (var person in Model.OtherPersons)
+                    {
+                        @Html.Partial("_PersonCard", person)
+                    }
+                }
+            </div>
         </div>
     </div>
-</div>
 </div>

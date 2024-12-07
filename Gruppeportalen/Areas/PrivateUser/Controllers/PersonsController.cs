@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Areas.PrivateUser.HelperClasses;
+using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services;
@@ -25,20 +26,42 @@ public class PersonsController : Controller
 {
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
-    private readonly IPrivateUserOperations _privateUserOperations;
+    private readonly IPrivateUserOperations _puo;
 
     public PersonsController(ApplicationDbContext db, UserManager<ApplicationUser> um,
-        IPrivateUserOperations privateUserOperations)
+        IPrivateUserOperations puo)
     {
         _db = db;
         _um = um;
-        _privateUserOperations = privateUserOperations;
+        _puo = puo;
     }
 
     [HttpGet]
     public IActionResult Index()
     {
-        var privateUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var currentUser = _um.GetUserAsync(User).Result;
+        var privateUser = _puo.GetPrivateUserByIdWithConnectedPersons(currentUser.Id);
+        var specialView = new PrimaryPersonAndOthers
+        {
+            PrimaryPerson = new Person(),
+            OtherPersons = new List<Person>(),
+        };
+        foreach (var connection in privateUser.UserPersonConnections)
+        {
+            if (connection.PersonId == connection.PrivateUserId)
+            {
+                specialView.PrimaryPerson = connection.Person;
+                specialView.PrimaryPerson.PrimaryPerson = true;
+            }
+            else
+            {
+                connection.Person.PrimaryPerson = false;
+                specialView.OtherPersons.Add(connection.Person);
+            }
+        }
+        return View(specialView);
+
+        /*var privateUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var privateUser = _db.PrivateUsers
             .Include(u => u.Persons)
             .FirstOrDefault(u => u.Id == privateUserId);
@@ -49,7 +72,7 @@ public class PersonsController : Controller
         }
         var persons = _privateUserOperations.GetAllPersons(privateUserId);
 
-        return View(persons);
+        return View(persons);*/
     }
 
     [HttpGet]
@@ -66,7 +89,7 @@ public class PersonsController : Controller
         {
             var privateUser = _um.GetUserAsync(User).Result;
 
-            if (_privateUserOperations.AddPersonToPrivateUser(privateUser.Id, person)) 
+            if (_puo.AddPersonToPrivateUser(privateUser.Id, person)) 
                 return RedirectToAction(nameof(Index));
 
             else 
@@ -80,7 +103,7 @@ public class PersonsController : Controller
 [HttpGet]
     public IActionResult Edit(string id)
     {
-        var person = _privateUserOperations.GetPersonDetails(id);
+        var person = _puo.GetPersonDetails(id);
         if (person == null)
             return NotFound();
             
@@ -91,14 +114,14 @@ public class PersonsController : Controller
     public IActionResult Edit(Person person)
     {
         if (!ModelState.IsValid) return View("Edit");
-        _privateUserOperations.EditPerson(person);
+        _puo.EditPerson(person);
         return RedirectToAction("Index");
     }
 
     [HttpPost]
     public IActionResult Delete(string id)
     {
-        _privateUserOperations.DeletePerson(id);
+        _puo.DeletePerson(id);
         return RedirectToAction("Index");
     }
 
@@ -109,7 +132,7 @@ public class PersonsController : Controller
         {
             return BadRequest("Beklager. Brukeren med oppgitt epost adresse eksisterer ikke i systemet, kunne ikke dele person.");
         }
-        _privateUserOperations.SharePersonWithUser(email, personId);
+        _puo.SharePersonWithUser(email, personId);
         return RedirectToAction("Index");
     }
 
@@ -124,7 +147,7 @@ public class PersonsController : Controller
                 "Beklager. Brukeren med oppgitt epost adresse eksisterer ikke i systemet, kunne ikke overføre person.");
         }
 
-        _privateUserOperations.TransferPerson(email, personId);
+        _puo.TransferPerson(email, personId);
         return RedirectToAction("Index");
     }
     

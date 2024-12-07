@@ -46,6 +46,7 @@ public class ApplicationDbInitializer
         
         var person = new Person
         {
+            Id = pUser.Id,
             Firstname = pUser.Firstname,
             Lastname = pUser.Lastname,
             Address = pUser.Address,
@@ -56,8 +57,9 @@ public class ApplicationDbInitializer
             PrimaryPerson = true
         };
         db.Persons.Add(person);
-        pUser.Persons.Add(person);
+        /*pUser.Persons.Add(person);*/
         db.SaveChanges();
+
         
         var puser1 = new PrivateUser
         {
@@ -68,6 +70,7 @@ public class ApplicationDbInitializer
         
         var person1 = new Person
         {
+            Id = puser1.Id,
             Firstname = puser1.Firstname,
             Lastname = puser1.Lastname,
             Address = puser1.Address,
@@ -78,19 +81,20 @@ public class ApplicationDbInitializer
             PrimaryPerson = true
         };
         db.Persons.Add(person1);
-        puser1.Persons.Add(person1);
+        /*puser1.Persons.Add(person1);*/
         db.SaveChanges();
-
+        
         var pUser2 = new PrivateUser
         {
             Id = user4.Id, Firstname = "Kathe", Lastname = "Hazel", DateOfBirth = new DateTime(1993, 01, 01),
-            Telephone = "91567892", Address = "Random address", City = "Homborsund", Postcode = "9999",
+            Telephone = "91567892", Address = "Another address", City = "Sandefjord", Postcode = "9999",
             ApplicationUser = user4};
         db.PrivateUsers.Add(pUser2);
         db.SaveChanges();
         
         var person2 = new Person
         {
+            Id = pUser2.Id,
             Firstname = pUser2.Firstname,
             Lastname = pUser2.Lastname,
             Address = pUser2.Address,
@@ -101,8 +105,34 @@ public class ApplicationDbInitializer
             PrimaryPerson = true
         };
         db.Persons.Add(person2);
-        pUser2.Persons.Add(person2);
+        /*pUser2.Persons.Add(person2);*/
         db.SaveChanges();
+        
+        var upc1 = new UserPersonConnection { PrivateUserId = pUser.Id, PersonId = person.Id };
+        pUser.UserPersonConnections.Add(upc1);
+        person.UserPersonConnections.Add(upc1);
+        db.SaveChanges();
+        
+        var upc2 = new UserPersonConnection { PrivateUserId = puser1.Id, PersonId = person1.Id };
+        puser1.UserPersonConnections.Add(upc2);
+        person1.UserPersonConnections.Add(upc2);
+        db.SaveChanges();
+        
+        var upc3 = new UserPersonConnection { PrivateUserId = pUser2.Id, PersonId = person2.Id };
+        pUser2.UserPersonConnections.Add(upc3);
+        person2.UserPersonConnections.Add(upc3);
+        db.SaveChanges();
+        
+        var upc4 = new UserPersonConnection { PrivateUserId = pUser.Id, PersonId = person2.Id };
+        pUser.UserPersonConnections.Add(upc4);
+        person2.UserPersonConnections.Add(upc4);
+        db.SaveChanges();
+        
+        var upc5 = new UserPersonConnection { PrivateUserId = pUser.Id, PersonId = person1.Id };
+        pUser.UserPersonConnections.Add(upc5);
+        person1.UserPersonConnections.Add(upc5);
+        db.SaveChanges();
+        
 
         var lg1 = new LocalGroup
         {
