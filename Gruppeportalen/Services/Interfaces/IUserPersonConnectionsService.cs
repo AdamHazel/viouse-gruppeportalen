@@ -6,7 +6,7 @@ namespace Gruppeportalen.Services.Interfaces;
 
 public interface IUserPersonConnectionsService
 {
-    bool AddUserPersonConnection(string userId, string personId);
+    ResultOfOperation AddUserPersonConnection(string userId, string personId);
     ResultOfOperation? DeleteUserPersonConnection(string userId, string personId);
     bool DoesPersonHaveOtherConnections(string personId);
 }

@@ -26,7 +26,8 @@ public class Person
     public string City { get; set; } = String.Empty;
 
     [Required]
-    [StringLength(4)]
+    [MinLength(4)]
+    [MaxLength(4)]
     public string Postcode { get; set; } = String.Empty;
 
     [DataType(DataType.Date)]

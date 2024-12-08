@@ -69,17 +69,31 @@ public class UserPersonConnectionsService : IUserPersonConnectionsService
         }
     }
     
-    public bool AddUserPersonConnection(string userId, string personId)
+    public ResultOfOperation AddUserPersonConnection(string userId, string personId)
     {
         var privateUser = _puo.GetPrivateUserById(userId);
         var person = _ps.GetPersonById(personId);
 
+        var result = new ResultOfOperation
+        {
+            Result = false,
+            Message = String.Empty,
+        };
+
         if (privateUser is null || person is null)
         {
-            return false;
+            result.Message = "Private or person is invalid";
+        }
+        else
+        {
+            result.Result = _addConnection(privateUser, person);
+            if (!result.Result)
+            {
+                result.Message = "Failed to add connection";
+            }
         }
         
-        return _addConnection(privateUser, person);
+        return result;
     }
 
     public ResultOfOperation? DeleteUserPersonConnection(string userId, string personId)

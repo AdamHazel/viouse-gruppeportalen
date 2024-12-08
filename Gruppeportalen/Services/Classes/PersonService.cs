@@ -1,6 +1,7 @@
 ﻿using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
+using Gruppeportalen.Models.ViewModels;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -96,9 +97,20 @@ public class PersonService : IPersonService
             .FirstOrDefault(p => p.Id == personId);
     }
 
-    public bool AddPersonToDbByPerson(Person person)
+    public ResultOfOperation AddPersonToDbByPerson(Person person)
     {
-        return _addPersonToDb(person);   
+        var result = new ResultOfOperation
+        {
+            Result = false,
+            Message = String.Empty,
+        };
+        result.Result = _addPersonToDb(person);
+        if (!result.Result)
+        {
+            result.Message = "Failed to add person to db. Please contact administrator";
+        }
+        
+        return result;   
     }
 
     public bool RemovePersonFromDbById(string personId)

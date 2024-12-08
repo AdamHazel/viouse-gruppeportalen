@@ -92,19 +92,31 @@ public class PersonsController : Controller
         if (ModelState.IsValid)
         {
             var privateUser = _um.GetUserAsync(User).Result;
+            var resultOfAddingPerson = _ps.AddPersonToDbByPerson(person);
 
-            if (_puo.AddPersonToPrivateUser(privateUser.Id, person)) 
-                return RedirectToAction(nameof(Index));
-
-            else 
-            { 
-                return BadRequest("Error happened when using Private User services"); 
-            } 
+            if (resultOfAddingPerson.Result)
+            {
+                var resultOfAddingConnection = _upc.AddUserPersonConnection(privateUser.Id, person.Id);
+                if (resultOfAddingConnection.Result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction("ErrorMessage", "Oopsie",
+                        new { Area = "", message = resultOfAddingPerson.Message});
+                }
+            }
+            else
+            {
+                return RedirectToAction("ErrorMessage", "Oopsie",
+                    new { Area = "", message = resultOfAddingPerson.Message});
+            }
         } 
         return View(person); 
     }
 
-[HttpGet]
+    [HttpGet]
     public IActionResult Edit(string id)
     {
         var person = _puo.GetPersonDetails(id);
@@ -119,7 +131,7 @@ public class PersonsController : Controller
     {
         if (!ModelState.IsValid) return View("Edit");
         _puo.EditPerson(person);
-        return RedirectToAction("Index");
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpPost]

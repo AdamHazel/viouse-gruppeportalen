@@ -8,7 +8,7 @@ using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
@@ -58,16 +58,24 @@ public class AddController : Controller
             var person = _ps.CreatePrimaryPersonByUser(privateUser);
             if (person == null)
             {
-                return RedirectToAction("Index", "Oopsie", new { Area = "" });
+                return RedirectToAction("ErrorMessage", "Oopsie",
+                    new { Area = "", message = "Failed to add person." });
             }
             else
             {
                 var resultOfAddingPerson = _ps.AddPersonToDbByPerson(person);
                 var resultOfAddingConnection = _upc.AddUserPersonConnection(privateUser.Id, person.Id);
 
-                if (resultOfAddingPerson == false || resultOfAddingConnection == false)
+                if (resultOfAddingPerson.Result == false)
                 {
-                    return RedirectToAction("Index", "Oopsie", new { Area = "" });
+                    return RedirectToAction("ErrorMessage", "Oopsie",
+                        new { Area = "", message = resultOfAddingPerson.Message});
+                }
+
+                if (resultOfAddingConnection.Result == false)
+                {
+                    return RedirectToAction("ErrorMessage", "Oopsie",
+                        new { Area = "", message = resultOfAddingConnection.Message});
                 }
             }
         }
