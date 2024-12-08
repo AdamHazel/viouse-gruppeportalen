@@ -146,11 +146,6 @@ public class ApplicationDbInitializer
         person1.UserPersonConnections.Add(upc5);
         db.SaveChanges();
         
-        var upc6 = new UserPersonConnection { PrivateUserId = Kathe.Id, PersonId = person1.Id };
-        Kathe.UserPersonConnections.Add(upc6);
-        person1.UserPersonConnections.Add(upc6);
-        db.SaveChanges();
-        
         var upc7 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person3.Id };
         Adam.UserPersonConnections.Add(upc7);
         person3.UserPersonConnections.Add(upc7);

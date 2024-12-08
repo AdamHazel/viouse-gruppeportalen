@@ -1,5 +1,6 @@
 ﻿using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Data;
+using Gruppeportalen.HelperClasses;
 using Gruppeportalen.Models;
 using Gruppeportalen.Models.ViewModels;
 using Gruppeportalen.Services.Interfaces;
@@ -129,6 +130,16 @@ public class UserPersonConnectionsService : IUserPersonConnectionsService
     public bool DoesPersonHaveOtherConnections(string personId)
     {
         return _db.UserPersonConnections.Any(upConnection => upConnection.PersonId == personId);
+    }
+
+    public bool DoesUserPersonConnectionExist(string userId, string personId)
+    {
+       return _db.UserPersonConnections.Any(upc => upc.PersonId == personId && upc.PrivateUserId == userId);
+    }
+
+    public bool IsPersonSharingLevelReached(string personId)
+    {
+        return (_db.UserPersonConnections.Count(c => c.PersonId == personId) >= Constants.MaxLevelOfSharing);
     }
     
 }

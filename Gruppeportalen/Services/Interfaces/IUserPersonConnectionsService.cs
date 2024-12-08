@@ -9,4 +9,6 @@ public interface IUserPersonConnectionsService
     ResultOfOperation AddUserPersonConnection(string userId, string personId);
     ResultOfOperation? DeleteUserPersonConnection(string userId, string personId);
     bool DoesPersonHaveOtherConnections(string personId);
+    bool DoesUserPersonConnectionExist(string userId, string personId);
+    bool IsPersonSharingLevelReached(string personId);
 }

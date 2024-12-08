@@ -29,15 +29,17 @@ public class PersonsController : Controller
     private readonly IPrivateUserOperations _puo;
     private readonly IUserPersonConnectionsService _upc;
     private readonly IPersonService _ps;
+    private readonly IApplicationUserService _aus;
 
     public PersonsController(ApplicationDbContext db, UserManager<ApplicationUser> um,
-        IPrivateUserOperations puo, IUserPersonConnectionsService upc, IPersonService ps)
+        IPrivateUserOperations puo, IUserPersonConnectionsService upc, IPersonService ps, IApplicationUserService aus)
     {
         _db = db;
         _um = um;
         _puo = puo;
         _upc = upc;
         _ps = ps;
+        _aus = aus;
     }
 
     [HttpGet]
@@ -169,14 +171,33 @@ public class PersonsController : Controller
     }
 
     [HttpPost]
-    public IActionResult SharePerson(string email, string personId)
+    public IActionResult SharePerson(string personId, string desiredEmail)
     {
-        if (_db.Users.FirstOrDefault(u => u.Email == email) == null)
+        if (!_aus.IsUserPrivateUser(desiredEmail))
         {
-            return BadRequest("Beklager. Brukeren med oppgitt epost adresse eksisterer ikke i systemet, kunne ikke dele person.");
+            return Json(new { success = false, errorMessage = "Ugyldig e-postadresse. Brukeren må være registrert som private user." });
         }
-        _puo.SharePersonWithUser(email, personId);
-        return RedirectToAction("Index");
+        
+        var user = _aus.GetPrivateUserByEmail(desiredEmail);
+
+        if (_upc.DoesUserPersonConnectionExist(user.Id, personId))
+        {
+            return Json(new { success = false, errorMessage = "Personen er allerede delt med denne brukeren."});
+        }
+
+        if (_upc.IsPersonSharingLevelReached(personId))
+        {
+            return Json(new { success = false, errorMessage = "Denne personen har blitt delt to ganger. Det er ikke mulig å dele den mer." });
+        }
+        
+        var resultOfAddingConnection = _upc.AddUserPersonConnection(user.Id, personId);
+        if (!resultOfAddingConnection.Result)
+        {
+            return Json(new { success = false, errrorMessage = "Det oppsto en feil. Feil melding: " 
+                                                               + resultOfAddingConnection.Message });
+        }
+        
+        return Json(new {success = true});
     }
 
 

@@ -30,4 +30,14 @@ public class ApplicationUserService : IApplicationUserService
             .FirstOrDefault(u => u.Id == userId && u.TypeOfUser== Constants.Privateuser);
         return pu;
     }
+
+    public bool DoesUserExist(string emailAddress)
+    {
+        return _db.Users.Any(u => u.UserName == emailAddress);
+    }
+
+    public bool IsUserPrivateUser(string emailAddress)
+    {
+        return _db.Users.Any(u => u.UserName == emailAddress && u.TypeOfUser== Constants.Privateuser);
+    }
 }
