@@ -1,0 +1,12 @@
+﻿@model Gruppeportalen.Models.ViewModels.ErrorMessage
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "_Layout";
+}
+
+<h2>Ooopsie!</h2>
+
+<p>Looks like something happened that shouldn't of happened! Please contact the system manager or try again later.
+</p>
+<p>Message: @Model.Message</p>

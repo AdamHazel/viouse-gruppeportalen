@@ -36,24 +36,24 @@ public class ApplicationDbInitializer
         db.CentralOrganisations.Add(cUser2);
         db.SaveChanges();
 
-        var pUser = new PrivateUser
+        var Adam = new PrivateUser
         {
             Id = user3.Id, Firstname = "Adam", Lastname = "Hazel", DateOfBirth = new DateTime(1992, 01, 01),
             Telephone = "40567892", Address = "Random address", City = "Homborsund", Postcode = "9999",
             ApplicationUser = user3};
-        db.PrivateUsers.Add(pUser);
+        db.PrivateUsers.Add(Adam);
         db.SaveChanges();
         
         var person = new Person
         {
-            Id = pUser.Id,
-            Firstname = pUser.Firstname,
-            Lastname = pUser.Lastname,
-            Address = pUser.Address,
-            City = pUser.City,
-            Postcode = pUser.Postcode,
-            DateOfBirth = pUser.DateOfBirth,
-            PrivateUserId = pUser.Id,
+            Id = Adam.Id,
+            Firstname = Adam.Firstname,
+            Lastname = Adam.Lastname,
+            Address = Adam.Address,
+            City = Adam.City,
+            Postcode = Adam.Postcode,
+            DateOfBirth = Adam.DateOfBirth,
+            PrivateUserId = Adam.Id,
             PrimaryPerson = true
         };
         db.Persons.Add(person);
@@ -61,76 +61,104 @@ public class ApplicationDbInitializer
         db.SaveChanges();
 
         
-        var puser1 = new PrivateUser
+        var Blah = new PrivateUser
         {
             Id = user1.Id, ApplicationUser = user1, Address = "Snarveien17 B", City = "Grimstad", Postcode = "4885", DateOfBirth = DateTime.Parse("1994-01-20"), Lastname = "Blah", Firstname = "Blah"
         };
-        db.PrivateUsers.Add(puser1);
+        db.PrivateUsers.Add(Blah);
         db.SaveChanges();
         
         var person1 = new Person
         {
-            Id = puser1.Id,
-            Firstname = puser1.Firstname,
-            Lastname = puser1.Lastname,
-            Address = puser1.Address,
-            City = puser1.City,
-            Postcode = puser1.Postcode,
-            DateOfBirth = puser1.DateOfBirth,
-            PrivateUserId = puser1.Id,
+            Id = Blah.Id,
+            Firstname = Blah.Firstname,
+            Lastname = Blah.Lastname,
+            Address = Blah.Address,
+            City = Blah.City,
+            Postcode = Blah.Postcode,
+            DateOfBirth = Blah.DateOfBirth,
+            PrivateUserId = Blah.Id,
             PrimaryPerson = true
         };
         db.Persons.Add(person1);
         /*puser1.Persons.Add(person1);*/
         db.SaveChanges();
         
-        var pUser2 = new PrivateUser
+        var Kathe = new PrivateUser
         {
             Id = user4.Id, Firstname = "Kathe", Lastname = "Hazel", DateOfBirth = new DateTime(1993, 01, 01),
             Telephone = "91567892", Address = "Another address", City = "Sandefjord", Postcode = "9999",
             ApplicationUser = user4};
-        db.PrivateUsers.Add(pUser2);
+        db.PrivateUsers.Add(Kathe);
         db.SaveChanges();
         
         var person2 = new Person
         {
-            Id = pUser2.Id,
-            Firstname = pUser2.Firstname,
-            Lastname = pUser2.Lastname,
-            Address = pUser2.Address,
-            City = pUser2.City,
-            Postcode = pUser2.Postcode,
-            DateOfBirth = pUser2.DateOfBirth,
-            PrivateUserId = pUser2.Id,
+            Id = Kathe.Id,
+            Firstname = Kathe.Firstname,
+            Lastname = Kathe.Lastname,
+            Address = Kathe.Address,
+            City = Kathe.City,
+            Postcode = Kathe.Postcode,
+            DateOfBirth = Kathe.DateOfBirth,
+            PrivateUserId = Kathe.Id,
             PrimaryPerson = true
         };
         db.Persons.Add(person2);
         /*pUser2.Persons.Add(person2);*/
         db.SaveChanges();
         
-        var upc1 = new UserPersonConnection { PrivateUserId = pUser.Id, PersonId = person.Id };
-        pUser.UserPersonConnections.Add(upc1);
+        var person3 = new Person
+        {
+            Firstname = "Miles",
+            Lastname = "Testing",
+            Address = "Doesn't matter",
+            City = "Nowhere",
+            Postcode = "1234",
+            DateOfBirth = new DateTime(2003, 01, 01),
+        };
+        db.Persons.Add(person3);
+        /*pUser2.Persons.Add(person2);*/
+        db.SaveChanges();
+        
+        var upc1 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person.Id };
+        Adam.UserPersonConnections.Add(upc1);
         person.UserPersonConnections.Add(upc1);
         db.SaveChanges();
         
-        var upc2 = new UserPersonConnection { PrivateUserId = puser1.Id, PersonId = person1.Id };
-        puser1.UserPersonConnections.Add(upc2);
+        var upc2 = new UserPersonConnection { PrivateUserId = Blah.Id, PersonId = person1.Id };
+        Blah.UserPersonConnections.Add(upc2);
         person1.UserPersonConnections.Add(upc2);
         db.SaveChanges();
         
-        var upc3 = new UserPersonConnection { PrivateUserId = pUser2.Id, PersonId = person2.Id };
-        pUser2.UserPersonConnections.Add(upc3);
+        var upc3 = new UserPersonConnection { PrivateUserId = Kathe.Id, PersonId = person2.Id };
+        Kathe.UserPersonConnections.Add(upc3);
         person2.UserPersonConnections.Add(upc3);
         db.SaveChanges();
         
-        var upc4 = new UserPersonConnection { PrivateUserId = pUser.Id, PersonId = person2.Id };
-        pUser.UserPersonConnections.Add(upc4);
+        var upc4 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person2.Id };
+        Adam.UserPersonConnections.Add(upc4);
         person2.UserPersonConnections.Add(upc4);
         db.SaveChanges();
         
-        var upc5 = new UserPersonConnection { PrivateUserId = pUser.Id, PersonId = person1.Id };
-        pUser.UserPersonConnections.Add(upc5);
+        var upc5 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person1.Id };
+        Adam.UserPersonConnections.Add(upc5);
         person1.UserPersonConnections.Add(upc5);
+        db.SaveChanges();
+        
+        var upc6 = new UserPersonConnection { PrivateUserId = Kathe.Id, PersonId = person1.Id };
+        Kathe.UserPersonConnections.Add(upc6);
+        person1.UserPersonConnections.Add(upc6);
+        db.SaveChanges();
+        
+        var upc7 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person3.Id };
+        Adam.UserPersonConnections.Add(upc7);
+        person3.UserPersonConnections.Add(upc7);
+        db.SaveChanges();
+        
+        var upc8 = new UserPersonConnection { PrivateUserId = Kathe.Id, PersonId = person3.Id };
+        Kathe.UserPersonConnections.Add(upc8);
+        person3.UserPersonConnections.Add(upc8);
         db.SaveChanges();
         
 

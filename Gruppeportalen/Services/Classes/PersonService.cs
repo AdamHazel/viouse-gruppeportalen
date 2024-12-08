@@ -47,13 +47,32 @@ public class PersonService : IPersonService
                 return true;
             }
             else
-                throw new DbUpdateException("Failed to update group in db");
+                throw new DbUpdateException("Failed to add person to db");
         }
         catch (DbUpdateException e)
         {
             Console.WriteLine(e);
             return false;
         }
+    }
+
+    private bool _removePersonFromDb(Person person)
+    {
+        try
+        {
+            _db.Persons.Remove(person);
+            if (_db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+                throw new DbUpdateException("Failed to remove person from db");
+        }
+        catch (DbUpdateException e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }   
     }
 
     public Person? CreatePrimaryPersonByUser(PrivateUser user)
@@ -80,6 +99,14 @@ public class PersonService : IPersonService
     public bool AddPersonToDbByPerson(Person person)
     {
         return _addPersonToDb(person);   
+    }
+
+    public bool RemovePersonFromDbById(string personId)
+    {
+        var person = GetPersonById(personId);
+        if (person != null)
+            return _removePersonFromDb(person);
+        else return false;
     }
     
 }

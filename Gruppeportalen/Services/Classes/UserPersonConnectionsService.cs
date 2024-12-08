@@ -1,6 +1,7 @@
 ﻿using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
+using Gruppeportalen.Models.ViewModels;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,35 @@ public class UserPersonConnectionsService : IUserPersonConnectionsService
             return false;
         }
     }
+
+    private UserPersonConnection? _getConnection(string userId, string personId)
+    {
+        return _db.UserPersonConnections.FirstOrDefault(upc => upc.PrivateUserId == userId && upc.PersonId == personId);
+    }
+
+    private bool _deleteConnection(PrivateUser privateuser, Person person)
+    {
+        try
+        {
+            var upConnection = _getConnection(privateuser.Id, person.Id);
+            if (upConnection == null)
+            {
+                throw new DbUpdateException("Failed to delete connection");
+            }
+            privateuser.UserPersonConnections.Remove(upConnection);
+            person.UserPersonConnections.Remove(upConnection);
+            if (_db.SaveChanges() > 0)
+                return true;
+            else
+            {
+                throw new DbUpdateException("Failed to remove connection");
+            }
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+    }
     
     public bool AddUserPersonConnection(string userId, string personId)
     {
@@ -50,6 +80,41 @@ public class UserPersonConnectionsService : IUserPersonConnectionsService
         }
         
         return _addConnection(privateUser, person);
+    }
+
+    public ResultOfOperation? DeleteUserPersonConnection(string userId, string personId)
+    {
+        var privateUser = _puo.GetPrivateUserById(userId);
+        var person = _ps.GetPersonById(personId);
+
+        var result = new ResultOfOperation
+        {
+            Result = false,
+            Message = string.Empty,
+        };
+
+        if (privateUser == null || person == null)
+        {
+            result.Message = "User or Person was null. Unable to complete operation";
+            return result;
+        }
+        
+        result.Result = _deleteConnection(privateUser, person);
+        if (!result.Result)
+        {
+            result.Message = "Unable to delete connection";
+            return result;
+        }
+        else
+        {
+            result.Result = true;
+            return result;
+        }
+    }
+
+    public bool DoesPersonHaveOtherConnections(string personId)
+    {
+        return _db.UserPersonConnections.Any(upConnection => upConnection.PersonId == personId);
     }
     
 }

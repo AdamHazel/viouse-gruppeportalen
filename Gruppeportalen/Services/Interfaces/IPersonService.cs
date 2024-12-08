@@ -10,5 +10,6 @@ public interface IPersonService
     
     bool AddPersonToDbByPerson(Person person);
     Person? GetPersonById(string personId);
+    bool RemovePersonFromDbById(string personId);
     
 }

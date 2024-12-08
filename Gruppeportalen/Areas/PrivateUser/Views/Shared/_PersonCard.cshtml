@@ -8,6 +8,7 @@
         <h3>@Model.Firstname @Model.Lastname </h3>
     </div>
     <div class="card-details">
+        <p>@Model.Id</p>
         <p><strong>Fødselsdato:</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")</p>
         <p><strong>Adresse:</strong> @Model.Address</p>
         <p><strong>Postnummer:</strong> @Model.Postcode</p>
@@ -30,16 +31,36 @@
         
         @if (!Model.PrimaryPerson) {
         
-        <!-- Overfør-knappen med data-person-id -->
-        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal" data-person-id="@Model.Id">Overfør</button>
+            <!-- Overfør-knappen med data-person-id -->
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal" data-person-id="@Model.Id">Overfør</button>
 
-        <!-- Slett-knappen -->
-        <form asp-action="Delete" method="post" onsubmit="return confirm('Er du sikker på at du vil slette denne personen?');">
-            <input type="hidden" name="id" value="@Model.Id" />
-            <button type="submit" class="btn btn-info">Slett</button>
-        </form>
+            <!-- Slett-knappen -->
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-person-id ="@Model.Id" data-bs-target="#deleteModal">Fjern</button>
         }
     </div>
+</div>
+
+<!-- Modal for å fjerne personen -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fs-5" id="deleteModalLabel">Fjern person</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>@Model.Id</h3>
+                <p>Personen kan også være knyttet til andre brukere. Ved å fjerne personen her, vil ikke andre brukere mister tilgang til denne personen.</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="personId" id="deletePersonId" value="" />
+                    <button type="submit" class="btn btn-info">Ok</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
+            </div>
+        </div>
+    </div> 
 </div>
 
 <!-- Modal for å dele personen -->
@@ -96,18 +117,25 @@
 
 <script>
     // JavaScript for å sette riktig personId i delingsmodalen når Del-knappen trykkes
+    const deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        document.querySelector('#deleteModal h3').innerText = button.getAttribute('data-person-id');
+        document.getElementById('deletePersonId').value = button.getAttribute('data-person-id');
+    });
+    
+    // JavaScript for å sette riktig personId i delingsmodalen når Del-knappen trykkes
     const shareModal = document.getElementById('shareModal');
     shareModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
-        const personId = button.getAttribute('data-person-id');
-        document.getElementById('sharePersonId').value = personId;
+        document.getElementById('sharePersonId').value = button.getAttribute('data-person-id');
     });
 
     // JavaScript for å sette riktig personId i overføringsmodalen når Overfør-knappen trykkes
     const transferModal = document.getElementById('transferModal');
     transferModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
-        const personId = button.getAttribute('data-person-id');
-        document.getElementById('transferPersonId').value = personId;
+        document.getElementById('transferPersonId').value = button.getAttribute('data-person-id');
     });
+
 </script>

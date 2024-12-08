@@ -27,13 +27,17 @@ public class PersonsController : Controller
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _um;
     private readonly IPrivateUserOperations _puo;
+    private readonly IUserPersonConnectionsService _upc;
+    private readonly IPersonService _ps;
 
     public PersonsController(ApplicationDbContext db, UserManager<ApplicationUser> um,
-        IPrivateUserOperations puo)
+        IPrivateUserOperations puo, IUserPersonConnectionsService upc, IPersonService ps)
     {
         _db = db;
         _um = um;
         _puo = puo;
+        _upc = upc;
+        _ps = ps;
     }
 
     [HttpGet]
@@ -119,10 +123,37 @@ public class PersonsController : Controller
     }
 
     [HttpPost]
-    public IActionResult Delete(string id)
+    public IActionResult Delete(string personId)
     {
-        _puo.DeletePerson(id);
-        return RedirectToAction("Index");
+        /*_puo.DeletePerson(id);*/
+        var currentUser = _um.GetUserAsync(User).Result;
+        
+        var resultOfRemoval = _upc.DeleteUserPersonConnection(currentUser.Id, personId);
+        if (resultOfRemoval.Result)
+        {
+            var otherConnections = _upc.DoesPersonHaveOtherConnections(personId);
+            if (otherConnections)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                if (_ps.RemovePersonFromDbById(personId))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction("ErrorMessage", "Oopsie", 
+                        new { Area = "", message = "Unable to remove person from DB" });
+                }
+            }
+        }
+        else
+        {
+            return RedirectToAction("ErrorMessage", "Oopsie", 
+                new { Area = "", message = resultOfRemoval.Message });
+        }
     }
 
     [HttpPost]
