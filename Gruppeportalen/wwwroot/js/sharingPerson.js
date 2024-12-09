@@ -1,13 +1,5 @@
 ﻿"use strict";
 
-// JavaScript for å sette riktig personId i delingsmodalen når fjern-knappen trykkes
-const deleteModal = document.getElementById('deleteModal');
-deleteModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    document.querySelector('#deleteModal h3').innerText = button.getAttribute('data-person-id');
-    document.getElementById('deletePersonId').value = button.getAttribute('data-person-id');
-});
-
 // JavaScript for å sette riktig personId i delingsmodalen når Del-knappen trykkes
 const shareModal = document.getElementById('shareModal');
 shareModal.addEventListener('show.bs.modal', function (event) {
@@ -68,11 +60,4 @@ document.getElementById("sharePersonForm").addEventListener("submit", function (
             updateInfo.textContent = "En feil oppstod under delingen.";
             updateInfo.className = "text-danger";
         });
-});
-
-// JavaScript for å sette riktig personId i overføringsmodalen når Overfør-knappen trykkes
-const transferModal = document.getElementById('transferModal');
-transferModal.addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    document.getElementById('transferPersonId').value = button.getAttribute('data-person-id');
 });

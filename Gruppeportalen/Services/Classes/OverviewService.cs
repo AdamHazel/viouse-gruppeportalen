@@ -2,7 +2,7 @@
 using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services.Interfaces;
-using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
+
 
 namespace Gruppeportalen.Services.Classes;
 

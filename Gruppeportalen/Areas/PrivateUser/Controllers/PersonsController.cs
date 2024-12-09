@@ -66,19 +66,6 @@ public class PersonsController : Controller
             }
         }
         return View(specialView);
-
-        /*var privateUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var privateUser = _db.PrivateUsers
-            .Include(u => u.Persons)
-            .FirstOrDefault(u => u.Id == privateUserId);
-
-        if (privateUser == null)
-        {
-            return NotFound();
-        }
-        var persons = _privateUserOperations.GetAllPersons(privateUserId);
-
-        return View(persons);*/
     }
 
     [HttpGet]
@@ -203,16 +190,52 @@ public class PersonsController : Controller
 
 
     [HttpPost]
-    public IActionResult TransferPerson(string email, string personId)
+    public IActionResult TransferPerson(string desiredEmail, string personId)
     {
-        if (_db.Users.FirstOrDefault(u => u.Email == email) == null)
+        if (!_aus.IsUserPrivateUser(desiredEmail))
         {
-            return BadRequest(
-                "Beklager. Brukeren med oppgitt epost adresse eksisterer ikke i systemet, kunne ikke overføre person.");
+            return Json(new { success = false, errorMessage = "Ugyldig e-postadresse. Brukeren må være registrert som private user." });
+        }
+        
+        var desiredUser = _aus.GetPrivateUserByEmail(desiredEmail);
+        var currentUser = _um.GetUserAsync(User).Result;
+
+        if (desiredUser.Id == currentUser.Id)
+        {
+            return Json(new { success = false, errorMessage = "Du kan ikke overføre til deg selv." }); 
         }
 
-        _puo.TransferPerson(email, personId);
-        return RedirectToAction("Index");
+        if (_upc.DoesUserPersonConnectionExist(desiredUser.Id, personId))
+        {
+            var resultOfRemoval = _upc.DeleteUserPersonConnection(currentUser.Id, personId);
+            if (resultOfRemoval.Result)
+            {
+                return Json(new {success = true});
+            }
+            else
+            {
+                return Json(new { success = false, errorMessage = "Det oppsto en feil. Feil melding:" + " " + resultOfRemoval.Message });
+            }
+        }
+        else
+        {
+            var resultOfAddingConnection = _upc.AddUserPersonConnection(desiredUser.Id, personId);
+            if (resultOfAddingConnection.Result)
+            {
+                var resultOfRemoval = _upc.DeleteUserPersonConnection(currentUser.Id, personId);
+                if (resultOfRemoval.Result)
+                {
+                    return Json(new {success = true});
+                }
+                else
+                {
+                    return Json(new { success = false, errorMessage = "Det oppsto en feil. Feil melding:" + " " + resultOfRemoval.Message });
+                }
+            }
+            else
+            {
+                return Json(new { success = false, errorMessage = "Det oppsto en feil. Feil melding:" + " " + resultOfAddingConnection.Message }); 
+            }
+        }
     }
-    
 }

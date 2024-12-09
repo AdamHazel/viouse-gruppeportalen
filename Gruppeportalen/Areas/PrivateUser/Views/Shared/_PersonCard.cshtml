@@ -49,7 +49,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h3>@Model.Id</h3>
+                @* <h3></h3> *@
                 <p>Personen kan også være knyttet til andre brukere. Ved å fjerne personen her, vil ikke andre brukere mister tilgang til denne personen.</p>
             </div>
             <div class="modal-footer">
@@ -101,16 +101,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="TransferPerson" method="post">
+                <p>Du kan overføre personen til en annen bruker. Ved å gjøre dette, mister du tilgangen til personen</p>
+                <form asp-action="TransferPerson" id ="transferPersonForm" method="post">
                     <!-- Dynamisk oppdatert skjult felt for personId -->
                     <input type="hidden" id="transferPersonId" name="personId" value="" />
                     <div class="mb-3">
                         <label for="transferEmail" class="form-label">E-postadresse til ny eier</label>
-                        <input type="email" class="form-control" id="transferEmail" name="email" placeholder="E-post til ny eier" required />
+                        <input type="email" class="form-control" id="transferEmail" name="desiredEmail" placeholder="E-post til ny eier" required />
                     </div>
+                    <p id="update-info-transfer"></p>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-                        <button type="submit" class="btn btn-primary">Overfør</button>
+                        <button type="button" id ="transferCancelButton" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                        <button type="submit" id ="transferButton" class="btn btn-primary">Overfør</button>
                     </div>
                 </form>
             </div>
@@ -118,4 +120,6 @@
     </div>
 </div>
 
-<script src="/js/sharingAndTransferring.js"></script>
+<script src="/js/deletingPerson.js"></script>
+<script src="/js/sharingPerson.js"></script>
+<script src="/js/transferringPerson.js"></script>
