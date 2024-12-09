@@ -20,7 +20,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<LocalGroup> LocalGroups { get; set; }
     
     public DbSet<UserPersonConnection> UserPersonConnections { get; set; }
-    public DbSet<SharedPerson> SharedPersons { get; set; }
     public DbSet<LocalGroupAdmin> LocalGroupAdmins { get; set; }
     
     public DbSet<MembershipType> MembershipTypes { get; set; }
@@ -43,19 +42,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(pu => pu.LocalGroupAdmins)
             .HasForeignKey(lga => lga.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-        
-        builder.Entity<SharedPerson>()
-            .HasKey(sp => new { sp.PrivateUserId, sp.PersonId });
-
-        builder.Entity<SharedPerson>()
-            .HasOne(sp => sp.PrivateUser)
-            .WithMany(pu => pu.SharedPersons)
-            .HasForeignKey(sp => sp.PrivateUserId);
-
-        builder.Entity<SharedPerson>()
-            .HasOne(sp => sp.Person)
-            .WithMany(p => p.SharedPersons)
-            .HasForeignKey(sp => sp.PersonId);
         
         builder.Entity<LocalGroup>()
             .HasOne(co => co.Organisation)
