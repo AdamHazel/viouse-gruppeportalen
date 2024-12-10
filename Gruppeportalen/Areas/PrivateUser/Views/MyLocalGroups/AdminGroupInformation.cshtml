@@ -16,15 +16,14 @@ Layout = "_Layout";
     <div class="sidebar">
         @Html.Partial("_PrivateUserSidebar")
     </div>
-    
-    <div class="main-content">
-        <div class="mb-4">
-            <h2>@Model.GroupName</h2>
-            <a class="btn btn-dark" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupOverview"
-               asp-route-groupId="@Model.Id">Hjem</a>
-            <a class="btn btn-dark" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupInformation"
-               asp-route-groupId="@Model.Id">Lokallaginfo</a>
-        </div>
+    <div>
+        <h2 class="centered-title">@Model.GroupName</h2>
+        <a class="custom-save-button" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupOverview"
+           asp-route-groupId="@Model.Id">Hjem</a>
+        <a class="custom-save-button" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupInformation"
+           asp-route-groupId="@Model.Id">Lokallaginfo</a>
+    </div>
+    <div>
         <form asp-action="Edit" method="post">
             <input type="hidden" asp-for="Id"/>
 
@@ -73,7 +72,7 @@ Layout = "_Layout";
                 <input asp-for="Description" class="form-control"/>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-2">Lagre endringer</button>
+            <button type="submit" class="custom-save-changes-button">Lagre endringer</button>
         </form>
         <h3 class= "mt-4">Medlemskapstyper</h3>
         <div class="membership-outer-box mt-4">
@@ -141,8 +140,7 @@ Layout = "_Layout";
                         data-bs-toggle="modal"
                         data-bs-target="#addMembershipModal"
                         data-localgroup-id="@Model.Id"> +</button></div>
-
-        </div>
+            </div>
 
         @*@if (Model.MembershipTypes != null && Model.MembershipTypes.Any())
         {

@@ -5,6 +5,10 @@
     Layout = "_Layout";
 }
 
+<div class="sidebar">
+    @Html.Partial("_CentralOrganisationSidebar")
+</div>
+
 <h2>Local group</h2>
 
 <div class="groupContainer">
@@ -16,6 +20,6 @@
     }
 </div>
 
-<div>
-    <a asp-action="Add" class="btn btn-primary">Legg till nytt lokallag</a>
+<div class="center-container">
+    <a asp-action="Add" class="add-local-group-btn">Legg til nytt lokallag</a>
 </div>

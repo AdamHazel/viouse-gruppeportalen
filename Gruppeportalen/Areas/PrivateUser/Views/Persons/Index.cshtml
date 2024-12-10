@@ -2,18 +2,23 @@
 @using Microsoft.IdentityModel.Tokens
 @model Gruppeportalen.Areas.PrivateUser.Models.ViewModels.PrimaryPersonAndOthers
 
+
 @{
 Layout = "_Layout";
 }
 
 <div class="main-container">
-    <div class="sidebar">
-        @Html.Partial("_PrivateUserSidebar")
-    </div>
+<div class="sidebar">
+    @Html.Partial("_PrivateUserSidebar")
+</div>
+
+        
     <div class="main-content">
-        <h2>Mine Brukere</h2>
+        <h2>MINE BRUKERE</h2>
         <div class="person-list">
-            <a href="@Url.Action("Add", "Persons")" class="btn btn-primary">Legg til ny bruker</a>
+            <div class="add-button-container">
+            <a href="@Url.Action("Add", "Persons")" class="btn-add-person">Legg til ny bruker</a>
+            </div>
             <div class="cards-container">
                 @Html.Partial("_PersonCard", Model.PrimaryPerson)
                 @if (!Model.OtherPersons.IsNullOrEmpty())

@@ -35,7 +35,7 @@
             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#transferModal" data-person-id="@Model.Id">Overfør</button>
 
             <!-- Slett-knappen -->
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-person-id ="@Model.Id" data-bs-target="#deleteModal">Fjern</button>
+            <button type="button" class="delete-btn" data-bs-toggle="modal" data-person-id ="@Model.Id" data-bs-target="#deleteModal">Fjern</button>
         }
     </div>
 </div>
@@ -55,9 +55,9 @@
             <div class="modal-footer">
                 <form asp-action="Delete" method="post">
                     <input type="hidden" name="personId" id="deletePersonId" value="" />
-                    <button type="submit" class="btn btn-info">Ok</button>
+                    <button type="submit" class="custom-save-button">Ok</button>
                 </form>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
+                <button type="button" class="custom-avbryt-button" data-bs-dismiss="modal">Avbryt</button>
             </div>
         </div>
     </div> 
@@ -72,7 +72,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p id="sharing-info">Ved å overføre personen til en annen bruker, vil denne også kunne melde personen på ulike lag og betale medlemskontingenten.</p>
+                <p id="sharing-info">Ved å dele personen med en annen bruker, vil denne også kunne melde personen på ulike lag og betale medlemskontingenten.</p>
                 
                 <form asp-action="SharePerson" id="sharePersonForm" method="post">
                     <!-- Dynamisk oppdatert skjult felt for personId -->
@@ -83,8 +83,8 @@
                     </div>
                     <p id="update-info"></p>
                     <div class="modal-footer">
-                        <button type="button" id ="shareCancelButton" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-                        <button type="submit" id ="shareButton" class="btn btn-primary">Del</button>
+                        <button type="button" id ="shareCancelButton" class="custom-avbryt-button" data-bs-dismiss="modal">Avbryt</button>
+                        <button type="submit" id ="shareButton" class="custom-save-button">Del</button>
                     </div>
                 </form>
             </div>
@@ -111,8 +111,8 @@
                     </div>
                     <p id="update-info-transfer"></p>
                     <div class="modal-footer">
-                        <button type="button" id ="transferCancelButton" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-                        <button type="submit" id ="transferButton" class="btn btn-primary">Overfør</button>
+                        <button type="button" id ="transferCancelButton" class="custom-avbryt-button" data-bs-dismiss="modal">Avbryt</button>
+                        <button type="submit" id ="transferButton" class="custom-save-button">Overfør</button>
                     </div>
                 </form>
             </div>

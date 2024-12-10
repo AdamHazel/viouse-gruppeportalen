@@ -5,6 +5,10 @@
     Layout = "_Layout";
 }
 
+<div class="sidebar">
+    @Html.Partial("_CentralOrganisationSidebar")
+</div>
+
 <h2>Rediger Lokallag</h2>
 <partial name="_LocalGroupEdit" model="@Model.LocalGroup"/>
 

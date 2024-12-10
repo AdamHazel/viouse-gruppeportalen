@@ -1,6 +1,5 @@
 @model Person
 @{
-    ViewBag.Title = "title";
     Layout = "_Layout";
 }
 <div class="main-container">
@@ -8,7 +7,7 @@
     @Html.Partial("_PrivateUserSidebar")
 </div>
 <div class="main-content">
-    <h2>Legg til ny Person</h2>
+    <h2>LEGG TIL BRUKER</h2>
 
     <form asp-area="PrivateUser" asp-controller="Persons" asp-action="Add" method="post">
         @Html.HiddenFor(m => m.PrivateUserId)
@@ -43,8 +42,8 @@
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">Lagre</button>
-        <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
+        <button type="submit" class="custom-save-button">Lagre</button>
+        <a asp-action="Index" class="custom-avbryt-button">Avbryt</a>
     </form>
 </div>
 </div>

@@ -7,14 +7,15 @@ Layout = "_Layout";
     <div class="sidebar">
         @Html.Partial("_PrivateUserSidebar")
     </div>
-    <div>
-        <a class="btn btn-primary" asp-area="PrivateUser" asp-controller="MyPage" asp-action="Index">
-            <div>Gå til profil</div>
+    <div class="button-container">
+        <a class="custom-button" asp-area="PrivateUser" asp-controller="MyPage" asp-action="Index">
+            Gå til profil
         </a>
 
-        <a class="btn btn-primary" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="Index">
-            <div>Gå til mine lokallag</div>
+        <a class="custom-button" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="Index">
+            Gå til mine lokallag
         </a>
     </div>
+
 </div>
 

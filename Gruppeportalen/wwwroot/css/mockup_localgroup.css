@@ -1,25 +1,109 @@
 ﻿.groupContainer {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 1rem;
+    flex-wrap: wrap; /* Tillat flere linjer med boksene */
+    gap: 20px; /* Mellomrom mellom boksene */
+    justify-content: flex-start; /* Plasser boksene til venstre */
+    margin-left: 225px; /* Ta hensyn til sidebaren */
+    padding: 20px; /* Litt padding rundt innholdet */
+    box-sizing: border-box; /* Sørg for at padding ikke utvider containeren */
 }
 
 .localGroupBox {
-    height: 350px;
-    width: 30%;
-    border: 1px solid black;
-    border-radius: 2px;
+    width: 300px; /* Bredde på boksen */
+    background-color: #d3d3d3 !important; /* Lys grå bakgrunn */
+    border-radius: 10px; /* Runde hjørner */
+    padding: 20px; /* Innvendig avstand */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Myk skygge */
+    font-family: Arial, sans-serif; /* Standard font */
 }
 
 .localGroupMiniBox {
-    display: block;
-    background-color: black;
-    color: white;
+    width: 300px; /* Original bredde */
+    background-color: #d3d3d3 !important; /* Lys grå bakgrunn */
+    color: black;
     text-decoration: none;
-    height: 150px;
-    width: 20%;
-    border: 1px solid black;
-    border-radius: 2px;
+    border-radius: 10px; /* Runde hjørner */
+    padding: 20px; /* Innvendig avstand */
+    margin: 10px; /* Margin rundt boksen */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Myk skygge */
+    font-family: Arial, sans-serif; /* Standard font */
+}
+
+.custom-plus-button {
+    background-color: white; /* Hvit bakgrunn */
+    border-radius: 50%; /* Gjør elementet til en sirkel */
+    color: black; /* Tekstfarge */
+    text-align: center; /* Sentér tekst horisontalt (for sikkerhet) */
+    border: black solid 1px; /* Svart kantlinje */
+    display: flex; /* Aktiver Flexbox */
+    justify-content: center; /* Sentér tekst horisontalt */
+    align-items: center; /* Sentér tekst vertikalt */
+    width: 35px; /* Sett bredden på rundingen */
+    height: 35px; /* Sett høyden på rundingen */
+    font-size: 16px; /* Juster tekststørrelsen */
+    font-weight: bold; /* Gjør teksten fet */
+    cursor: pointer; /* Vis pekeren når brukeren holder over knappen */
+}
+
+.main-container {
+    margin-left: 225px;
+    margin-top: 60px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.custom-save-changes-button {
+    background-color: #f4a261;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 16px;
+    margin-top: 20px; /* Avstand fra innhold over */
+    text-align: center;
+    display: block; /* Sørg for at knappen er blokkelement */
+    margin-left: auto; /* Flytt til midten */
+    margin-right: auto; /* Flytt til midten */
+}
+
+
+.form-control {
+    max-width: 600px; /* Sett lik bredde for alle feltene */
+    width: 100%; /* Tilpass bredden i containeren */
+}
+
+.centered-title
+{
+    text-align: center; /* Sentér teksten horisontalt */
+    font-size: 24px; /* Juster størrelse på teksten */
+    font-weight: bold; /* Gjør teksten fet */
+    margin: 20px 0; /* Legg til litt avstand over og under */
+}
+
+
+footer {
+    display: none; /* Skjuler footeren helt */
+}
+
+.center-container {
+    text-align: center; /* Sentér knappen horisontalt */
+    margin-top: 10px; /* Juster avstanden til boksene */
+}
+
+.add-local-group-btn
+{
+    background-color: #f4a261; /* Oransje bakgrunn */
+    color: white; /* Hvit tekst */
+    text-decoration: none; /* Fjern understrek */
+    padding: 10px 20px; /* Juster størrelsen */
+    border-radius: 10px; /* Runde hjørner */
+    font-size: 16px; /* Tekststørrelse */
+    cursor: pointer; /* Klikkbart utseende */
+    text-transform: uppercase; /* Store bokstaver */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Myk skygge */
+    transition: background-color 0.3s ease;
 }

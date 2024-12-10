@@ -1,39 +1,73 @@
-
 .card {
-    width: 350px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.card-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    width: 380px; /* Original bredde */
+    background-color: #d3d3d3 !important; /* Lys grå bakgrunn */
+    border-radius: 10px; /* Runde hjørner */
+    padding: 20px; /* Innvendig avstand */
+    margin: 10px; /* Margin rundt boksen */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Myk skygge */
+    font-family: Arial, sans-serif; /* Standard font */
 }
 
-.card-details, .card-memberships, .card-actions {
-    margin-top: 10px;
+.cards-container {
+    display: grid; /* Aktiver Grid */
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Gjør boksene responsive */
+    gap: 10px; /* Avstand mellom boksene */
+}
+
+.card-header {
+    text-align: center;
+    background-color: #d3d3d3 !important;
+    margin-bottom: 20px;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 35px; /* Størrelse på navnet */
+    color: #333;
+}
+
+.card-details {
+    margin-bottom: 20px;
+}
+
+.card-details p {
+    display: flex; /* Gjør etikett og verdi i én linje */
+    justify-content: space-between; /* Plasser etikett og verdi på hver sin side */
+    align-items: center;
+    background-color: white; /* Hvit bakgrunn */
+    padding: 10px 15px; /* Innvendig avstand */
+    border-radius: 8px; /* Runde hjørner */
+    margin-bottom: 10px; /* Avstand mellom linjene */
+    border: 1px solid #ccc; /* Tynn grå kant */
+    font-size: 14px; /* Tekststørrelse */
+    color: #555; /* Tekstfarge */
+}
+
+.card-details p strong {
+    color: #333; /* Mørkere tekst for etikettene */
+    font-weight: bold;
 }
 
 .card-actions {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.person-actions form, .person-actions button {
-    margin: 0;
-    display: inline-block;
+    justify-content: space-between;
+    text-align: left;
+    margin-top: 20px;
 }
 
-.cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
+.card-actions .btn {
+    background-color: #f4a261; /* Oransje bakgrunn */
+    color: white; /* Hvit tekst */
+    padding: 7px 15px; /* Knappens størrelse */
+    border-radius: 20px; /* Runde hjørner */
+    text-decoration: none; /* Fjern understrek */
+    border: none; /* Fjern kant */
+    cursor: pointer;
+    font-size: 12px; /* Tekststørrelse */
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
 }
+
 
 .localgroup-logo {
     width: 50px;
@@ -43,7 +77,7 @@
 }
 
 .join-button {
-    background-color: #FFA07A;
+    background-color: #f4a261;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -51,7 +85,30 @@
     cursor: pointer;
 }
 
+.person-memberships {
+    text-align: left;
+}
+
 .memberships-information {
     display: flex;
     justify-content: space-between;
 }
+
+.delete-btn {
+    background-color: #1a3550;
+    color: white;
+    text-decoration: none;
+    padding: 5px 20px;
+    border-radius: 20px;
+    border: none;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 12px; /* Tekststørrelse */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+footer {
+    display: none; /* Skjuler footeren helt */
+}
+

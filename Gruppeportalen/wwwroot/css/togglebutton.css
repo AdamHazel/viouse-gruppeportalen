@@ -18,7 +18,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: red; 
+    background-color: #1a3550; 
     transition: 0.4s;
     border-radius: 28px; 
 }
@@ -36,9 +36,13 @@
 }
 
 input:checked + .slider {
-    background-color: green; 
+    background-color: #f4a261; 
 }
 
 input:checked + .slider:before {
     transform: translateX(22px); /* Justert for den mindre toggle-knappen */
+}
+
+footer {
+    display: none; /* Skjuler footeren helt */
 }

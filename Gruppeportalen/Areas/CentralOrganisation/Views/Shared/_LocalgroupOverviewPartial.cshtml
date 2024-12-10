@@ -1,11 +1,11 @@
 ﻿@model LocalGroup
 
-    <p>@Model.Id</p>
-    <p>@Model.GroupName</p>
-    <p>@Model.Address</p>
-    <p>@Model.City</p>
-    <p>@Model.County</p>
-    <p>@Model.Postcode</p>
+    <p><strong>Id:</strong>@Model.Id</p>
+    <p><strong>Gruppenavn:</strong>@Model.GroupName</p>
+    <p><strong>Adresse:</strong>@Model.Address</p>
+    <p><strong>By:</strong>@Model.City</p>
+    <p><strong>Fylke:</strong>@Model.County</p>
+    <p><strong>Postnummer:</strong>@Model.Postcode</p>
 <p>
     @if (!Model.Active)
     {
