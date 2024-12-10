@@ -1,0 +1,33 @@
+﻿.membership-outer-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.membership-type-box {
+    width: 100%;
+}
+
+.membership-type-line-headers {
+    display: flex;
+    justify-content: space-between;
+}
+
+.membership-type-line {
+    display: block;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 2px;
+    text-decoration: none;
+    color: black;
+}
+
+.membership-in-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.membership-in-line div, .membership-type-line-headers div {
+    width: 33%;
+}

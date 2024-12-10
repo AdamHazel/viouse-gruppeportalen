@@ -16,11 +16,12 @@ public class MembershipTypeService : IMembershipTypeService
         _db = db;
         _logger = logger;
     }
-    private bool _addMembershipTypeToDb(MembershipType mt)
+    private bool _addMembershipTypeToDb(MembershipType mt, LocalGroup lg)
     {
         try
         {
             _db.MembershipTypes.Add(mt);
+            lg.MembershipTypes.Add(mt);
             return _db.SaveChanges() > 0;
         }
         catch (DbUpdateException ex)
@@ -34,25 +35,26 @@ public class MembershipTypeService : IMembershipTypeService
     {
         try
         {
-            var localGroup = _db.LocalGroups.Find(groupId);
+            var localGroup = _db.LocalGroups
+                .Include(g => g.MembershipTypes)
+                .FirstOrDefault(g => g.Id == groupId);
             if (localGroup == null)
             {
                 return false;
             }
             
             var existingMembership = _db.MembershipTypes
-                .FirstOrDefault(m => m.Name == membershipType.Name && m.LocalGroupId == groupId);
+                .FirstOrDefault(m => m.MembershipName == membershipType.MembershipName && m.LocalGroupId == groupId);
             if (existingMembership != null)
             {
                 return false; 
             }
             
             membershipType.LocalGroupId = groupId;
-            return _addMembershipTypeToDb(membershipType);
+            return _addMembershipTypeToDb(membershipType, localGroup);
         }
         catch (Exception ex)
         {
-           
             return false;
         }
     }

@@ -63,5 +63,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(pu => pu.UserPersonConnections)
             .HasForeignKey(upc => upc.PrivateUserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<MembershipType>()
+            .HasKey(mt => new { mt.Id });
+        
+        builder.Entity<MembershipType>()
+            .HasOne(mt => mt.LocalGroup)
+            .WithMany(g => g.MembershipTypes)
+            .HasForeignKey(mt => mt.LocalGroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
     }
 }

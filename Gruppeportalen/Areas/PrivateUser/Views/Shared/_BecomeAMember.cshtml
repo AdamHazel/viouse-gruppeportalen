@@ -1,0 +1,30 @@
+﻿@model Gruppeportalen.Areas.PrivateUser.Models.ViewModels.PrivateUserLocalGroup
+
+<div>
+    <form asp-action="AddMembership" method="post" asp-controller="Search" asp-area="PrivateUser">
+        @Html.AntiForgeryToken()
+        <div class="form-group row mb-2">
+            <div class="col-auto">
+                <label for="membershipChoice">Velg medlemskap</label>
+            </div>
+            <div class="col-auto">
+                <select name="membershipTypeChoice" id="membershipChoice" required>
+                    <partial name="_MembershipChoices" model="@Model.Group"/>
+                </select> 
+                <div id="membershipTypeChoice-message"></div>
+            </div>
+        </div>
+        <div class="form-group row mb-2">
+            <div class="col-auto">
+                <label for="personChoice">Velg person</label>
+            </div>
+            <div class="col-auto">
+                <select name="personChoice" id="personChoice" required>
+                    <partial name="_PersonChoice" model="@Model.User"></partial>
+                </select>
+                <div id="personChoice-message"></div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-dark">Gå til betaling</button>
+    </form>
+</div>

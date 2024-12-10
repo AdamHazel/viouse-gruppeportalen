@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
@@ -10,16 +11,22 @@ public class MembershipType
         public Guid Id { get; set; } = Guid.NewGuid();
     
         [Required]
-        public string Name { get; set; } = string.Empty;
+        [Display(Name = "Navn av medlemsskapet")]
+        [MaxLength(50)]
+        public string MembershipName { get; set; } = string.Empty;
     
         [Required]
+        [Display(Name = "Pris")]
         public float Price { get; set; }
-    
+        
         [Required]
-        public DateTime MembershipStart { get; set; } 
-    
+        [Display(Name = "Dato for fornyelse av medlemsskapet")]
+        public int DayReset { get; set; }
+        
         [Required]
-        public DateTime MembershipEnd { get; set; } 
+        [Display(Name = "Måned for fornyelse av medlemsskapet")]
+        public int MonthReset { get; set; }
+        
 
         [ForeignKey(nameof(LocalGroup))]
         public Guid LocalGroupId { get; set; } 

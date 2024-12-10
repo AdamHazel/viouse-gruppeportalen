@@ -160,7 +160,7 @@ public class ApplicationDbInitializer
         var lg1 = new LocalGroup
         {
             Address = "Address 1", GroupName = "Group 1", City = "City 1", Postcode = "1111", County = "County 1",
-            CentralOrganisationId = cUser.Id, Active = true, Description = "This is group 1. Welcome to this group!"
+            CentralOrganisationId = cUser.Id, Active = true, Description = "This is group 1. Welcome to this group!",
         };
         db.LocalGroups.Add(lg1);
         
@@ -226,7 +226,46 @@ public class ApplicationDbInitializer
         };
         user4.LocalGroupAdmins.Add(lgAdmin5);
         lg3.LocalGroupAdmins.Add(lgAdmin5);
+
+        var mtp1 = new MembershipType
+        {
+            MembershipName = "New membership",
+            DayReset = 15,
+            MonthReset = 9,
+            Price = 150,
+            LocalGroupId = lg1.Id,
+        };
+        db.MembershipTypes.Add(mtp1);
         
+        var mtp2 = new MembershipType
+        {
+            MembershipName = "New membership 2",
+            DayReset = 27,
+            MonthReset = 9,
+            Price = 100,
+            LocalGroupId = lg1.Id,
+        };
+        db.MembershipTypes.Add(mtp2);
+        
+        var mtp3 = new MembershipType
+        {
+            MembershipName = "Another one",
+            DayReset = 27,
+            MonthReset = 9,
+            Price = 100,
+            LocalGroupId = lg2.Id,
+        };
+        db.MembershipTypes.Add(mtp3);
+        
+        var mtp4 = new MembershipType
+        {
+            MembershipName = "Best membership ever",
+            DayReset = 15,
+            MonthReset = 5,
+            Price = 1000,
+            LocalGroupId = lg2.Id,
+        };
+        db.MembershipTypes.Add(mtp4);
         
         db.SaveChanges();
     }

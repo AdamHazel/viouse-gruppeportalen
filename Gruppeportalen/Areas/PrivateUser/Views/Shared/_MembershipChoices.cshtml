@@ -1,0 +1,22 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model LocalGroup
+
+@if (!Model.MembershipTypes.IsNullOrEmpty())
+{
+    <option value="" disabled selected>
+        <span>Klikk her for å velge medlemsskap</span>
+    </option>
+    @foreach (var membership in Model.MembershipTypes)
+    {
+        <option value="@membership.Id">
+            <span>@membership.MembershipName</span>
+            <span>(@membership.Price),-</span>
+        </option>
+    }
+}
+else
+{
+    <option value="" disabled selected>
+        <span>Det finnes ingen tilgjengelige medlemsskap</span>
+    </option>
+}

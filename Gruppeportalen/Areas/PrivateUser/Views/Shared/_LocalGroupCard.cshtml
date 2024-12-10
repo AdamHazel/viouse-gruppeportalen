@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Authentication
 @using Microsoft.IdentityModel.Tokens
 @model Gruppeportalen.Models.LocalGroup
 <link rel="stylesheet" href="~/css/informationcard.css" />
@@ -22,12 +23,29 @@
             <p><strong>Priser:</strong></p>
             @foreach (var membership in Model.MembershipTypes)
             {
-                <div class="memberships-information"><p>@membership.Name</p><p>@membership.Price KR</p></div>   
+                <div class="memberships-information"><p>@membership.MembershipName</p><p>@membership.Price KR</p></div>   
             }
         </div>
         <div class="card-actions">
-            <button class="join-button">Bli Medlem</button>
+            <button class="btn btn-info" data-bs-toggle="modal" 
+                    data-group-name="@Model.GroupName" data-group-id="@Model.Id" 
+                    data-url="@Url.Action("AddMembership", "Search", new { area ="PrivateUser", groupId = Model.Id })"
+                    data-bs-target="#becomeMemberModal">Bli Medlem</button>
         </div>
     }
-    
 </div>
+
+<div class="modal fade" id="becomeMemberModal" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fs-5" id="becomeMemberTitle"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/PrivateUser/Memberships/becomeMember.js"></script>

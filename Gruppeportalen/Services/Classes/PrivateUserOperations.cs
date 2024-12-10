@@ -7,6 +7,7 @@ using Gruppeportalen.Models;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Gruppeportalen.Services.Classes;
 
@@ -192,9 +193,20 @@ public class PrivateUserOperations : IPrivateUserOperations
    
     public IEnumerable<LocalGroup> GetAllLocalActiveGroups()
     {
-        return _db.LocalGroups
+        var groups = _db.LocalGroups
             .Include(g => g.MembershipTypes)
+            .OrderBy(g => g.GroupName)
             .Where(g => g.Active).ToList();
+
+        if (!groups.IsNullOrEmpty())
+        {
+            foreach (var group in groups)
+            {
+                group.MembershipTypes = group.MembershipTypes
+                    .OrderBy(m => m.MembershipName).ToList();
+            }
+        }
+        return groups;
     }
 
     public List<string> GetAllCounties()
@@ -227,9 +239,20 @@ public class PrivateUserOperations : IPrivateUserOperations
 
     public PrivateUser? GetPrivateUserById(string id)
     {
-        return _db.PrivateUsers
+        var user = _db.PrivateUsers
             .Include(upc => upc.UserPersonConnections)
+            .ThenInclude(pe => pe.Person)
             .FirstOrDefault(u => u.Id == id);
+
+        if (user != null)
+        {
+            user.UserPersonConnections = user.UserPersonConnections
+                .OrderBy(upc => upc.Person.Lastname)
+                .ThenBy(upc => upc.Person.Firstname)
+                .ToList();
+        }
+
+        return user;
     }
 
     public PrivateUser? GetPrivateUserByIdWithConnectedPersons(string id)

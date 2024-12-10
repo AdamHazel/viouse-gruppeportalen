@@ -102,5 +102,5 @@ public class MyLocalGroupsController : Controller
         return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
     }
 
-
+    
 }

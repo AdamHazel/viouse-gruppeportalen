@@ -1,0 +1,22 @@
+﻿@using Microsoft.CodeAnalysis.Options
+@using Microsoft.IdentityModel.Tokens
+@model PrivateUser
+
+@if (!Model.UserPersonConnections.IsNullOrEmpty())
+{
+    <option value="" disabled selected>
+        <span>Klikk her for å velge person</span>
+    </option>
+    @foreach (var upc in Model.UserPersonConnections)
+    {
+        <option value="@upc.Person.Id">
+            <span>@upc.Person.Firstname @upc.Person.Lastname</span>
+        </option>
+    }
+}
+else
+{
+    <option value="" disabled selected>
+        <span>Ikke noen personner koblet til din konto.</span>
+    </option>
+}

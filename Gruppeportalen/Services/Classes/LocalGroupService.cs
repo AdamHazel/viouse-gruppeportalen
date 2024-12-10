@@ -82,10 +82,17 @@ public class LocalGroupService : ILocalGroupService
 
     public LocalGroup? GetLocalGroupById(Guid id)
     {
-        return _db.LocalGroups
+        var group = _db.LocalGroups
             .Include(g=>g.LocalGroupAdmins)
             .Include(g=>g.MembershipTypes)
             .FirstOrDefault(g => g.Id == id);
+
+        if (group != null)
+        {
+            group.MembershipTypes = group.MembershipTypes.OrderBy(m => m.MembershipName).ToList();
+        }
+
+        return group;
     }
 
     public bool UpdateLocalGroup(LocalGroup lg)

@@ -8,29 +8,43 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
                 <form asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AddMembershipType" method="post">
                     <input type="hidden" asp-for="LocalGroupId" id="LocalGroupId" />
                     <div class="form-group">
-                        <label for="Name">Navn</label>
-                        <input asp-for="Name" id="Name" class="form-control" autocomplete="off" />
+                        <label asp-for="MembershipName"></label>
+                        <input asp-for="MembershipName" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="MembershipName" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label for="Price">Pris</label>
                         <input asp-for="Price" id="Price" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="MembershipStart">Startdato</label>
-                        <input asp-for="MembershipStart" id="MembershipStart" type="date" class="form-control" />
+                        <label asp-for="MonthReset"></label>
+                        <select asp-for="MonthReset" class="form-control" id="monthDropdown">
+                            <option value="1">Januar</option>
+                            <option value="2">Februar</option>
+                            <option value="3">Mars</option>
+                            <option value="4">April</option>
+                            <option value="5">Mai</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option selected value="12">Desember</option>
+                        </select>
                     </div>
-
+                    
                     <div class="form-group">
-                        <label for="MembershipEnd">Sluttdato</label>
-                        <input asp-for="MembershipEnd" id="MembershipEnd" type="date" class="form-control" />
+                        <label asp-for="DayReset"></label>
+                        <select asp-for="DayReset"  class="form-control" id="dayResetDropdown"></select>
                     </div>
-
+                    
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
                         <button type="submit" class="btn btn-primary">Lagre</button>
@@ -41,6 +55,8 @@
         </div>
     </div>
 </div>
+
+<script src="/js/LocalGroupAdminScripts/Memberships/dayDropdown.js"></script>
 
 
 

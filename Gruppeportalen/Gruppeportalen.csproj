@@ -29,6 +29,7 @@
   <ItemGroup>
     <Folder Include="Areas\CentralOrganisation\Data\" />
     <Folder Include="Areas\PrivateUser\Data\" />
+    <Folder Include="Areas\PrivateUser\Views\Shared\AddingMembership\" />
   </ItemGroup>
 
   <ItemGroup>
