@@ -3,28 +3,37 @@
 @{
     Layout = "_Layout";
 }
-<link rel="stylesheet" href="~/css/informationcard.css" />
-    <div class="main-container">
-        <div class="sidebar">
-            @Html.Partial("_CentralOrganisationSidebar")
-        </div>
-        <div class="main-content">
-            <h2>Min Organisasjon</h2>
+<link rel="stylesheet" href="~/css/informationcard.css"/>
+<div class="main-container">
+    <div class="sidebar">
+        @Html.Partial("_CentralOrganisationSidebar")
+    </div>
+    <div class="main-content">
+        <h2>Min Organisasjon</h2>
 
-            <div class="card">
-                <div class="card-header">
-                    <h3>@Model.OrganisationName</h3>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>@Model.OrganisationName</h3>
+            </div>
 
-                <div class="card-details">
-                    <p><strong>Organisasjonsnummer:</strong> @Model.OrganisationNumber</p>
-                    <p><strong>Emailadresse:</strong> @Model.ApplicationUser.Email</p>
+            <div class="card-details">
+                <p>
+                    <strong>Organisasjonsnummer:</strong> @Model.OrganisationNumber
+                </p>
+                <p>
+                    <strong>Emailadresse:</strong> @Model.ApplicationUser.Email
+                </p>
+                <p>
+                    <strong>Passord:</strong> <span style="margin-left: 5px;">********</span>
+                </p>
+                <div style="text-align: right; margin-bottom: 15px;">
+                    <a href="/Identity/Account/Manage/ChangePassword" class="small-link">Endre passord</a>
                 </div>
+            </div>
 
-                <div class="card-actions">
-                    <a asp-action="Edit" class="btn btn-primary">Rediger</a>
-                </div>
+            <div class="card-actions">
+                <a asp-action="Edit" class="btn btn-primary">Rediger</a>
             </div>
         </div>
     </div>
-
+</div>
