@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
 using Gruppeportalen.Areas.PrivateUser.Models;
 using Gruppeportalen.Models;
 
@@ -30,6 +31,7 @@ public class PrivateUser
     [Required]
     [MinLength(4)]
     [StringLength(4)]
+    [PostcodeFormatNumbersValidation]
     public string Postcode { get; set; } = String.Empty;
 
     [Required]
