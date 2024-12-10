@@ -83,6 +83,8 @@ public class LocalGroupService : ILocalGroupService
     public LocalGroup? GetLocalGroupById(Guid id)
     {
         var group = _db.LocalGroups
+            .Include(g=>g.Memberships)
+            .ThenInclude(m => m.Person)
             .Include(g=>g.LocalGroupAdmins)
             .Include(g=>g.MembershipTypes)
             .FirstOrDefault(g => g.Id == id);
@@ -90,6 +92,7 @@ public class LocalGroupService : ILocalGroupService
         if (group != null)
         {
             group.MembershipTypes = group.MembershipTypes.OrderBy(m => m.MembershipName).ToList();
+            group.Memberships = group.Memberships.OrderBy(m => m.Person.Firstname).ToList();
         }
 
         return group;

@@ -240,6 +240,8 @@ public class PrivateUserOperations : IPrivateUserOperations
     public PrivateUser? GetPrivateUserById(string id)
     {
         var user = _db.PrivateUsers
+            .Include(pu => pu.Payments)
+            .ThenInclude(mp => mp.MembershipPayments)
             .Include(upc => upc.UserPersonConnections)
             .ThenInclude(pe => pe.Person)
             .FirstOrDefault(u => u.Id == id);

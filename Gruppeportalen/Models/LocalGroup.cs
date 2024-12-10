@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
 using Gruppeportalen.Areas.CentralOrganisation.Models;
+using Gruppeportalen.Models.MembershipsAndPayment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
@@ -54,4 +55,6 @@ public class LocalGroup
     
     public ICollection<LocalGroupAdmin> LocalGroupAdmins { get; set; } = new List<LocalGroupAdmin>();
     public ICollection<MembershipType> MembershipTypes { get; set; } = new List<MembershipType>();
+    
+    public ICollection<Membership> Memberships { get; set; } = new HashSet<Membership>();
 }

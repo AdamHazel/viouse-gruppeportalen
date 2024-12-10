@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
 using Gruppeportalen.Models;
+using Gruppeportalen.Models.MembershipsAndPayment;
 
 namespace Gruppeportalen.Areas.PrivateUser.Models;
 
@@ -38,6 +39,7 @@ public class Person
     public bool PrimaryPerson { get; set; } = false;
     
     public ICollection<UserPersonConnection> UserPersonConnections { get; set; } = new HashSet<UserPersonConnection>();
+    public ICollection<Membership> Memberships { get; set; } = new List<Membership>();
     
     [ForeignKey(nameof(PrivateUser))]
     public string? PrivateUserId { get; set; }

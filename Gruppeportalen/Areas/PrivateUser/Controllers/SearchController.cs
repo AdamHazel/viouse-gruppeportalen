@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Gruppeportalen.Areas.PrivateUser.HelperClasses;
 using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Controllers;
+using Gruppeportalen.Models.MembershipsAndPayment;
 using Gruppeportalen.Services.Interfaces;
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
@@ -26,15 +27,20 @@ public class SearchController : Controller
     private readonly IPrivateUserOperations _privateUserOperations;
     private readonly INorwayCountryInformation _nci;
     private readonly ILocalGroupService _lgs;
+    private readonly IMembershipService _ms;
+    private readonly IPaymentService _pay;
     
     public SearchController(ApplicationDbContext db, UserManager<ApplicationUser> um, 
-        IPrivateUserOperations privateUserOperations, INorwayCountryInformation nci, ILocalGroupService lgs)
+        IPrivateUserOperations privateUserOperations, INorwayCountryInformation nci, 
+        ILocalGroupService lgs, IMembershipService ms, IPaymentService pay)
     {
         _db = db;
         _um = um;
         _privateUserOperations = privateUserOperations;
         _nci = nci;
         _lgs = lgs;
+        _ms = ms;
+        _pay = pay;
     }   
     
  public IActionResult Index()
@@ -80,11 +86,50 @@ public class SearchController : Controller
         return PartialView("_BecomeAMember", userLocalGroup);
     }
 
-    /*[HttpPost]
-    public IActionResult AddMembership(Guid membershipTypeChoice, string personChoice)
+    [HttpPost]
+    [Route("PrivateUser/Search/{groupId:guid}/addMember")]
+    public IActionResult AddMembership(Guid localGroupId, Guid membershipTypeChoice, string personChoice)
     {
+        var result = _ms.AddMembershipToDatabase(membershipTypeChoice, personChoice, localGroupId);
+        if (result == null)
+        {
+            return Json(new { success = false, message = "Adding membership returned null" });
+        }
+
+        if (!result.R.Result)
+        {
+            return Json(new { success = false, message = result.R.Message });
+        }
+
+        var payment = new Payment
+        {
+            Amount = result.M.MembershipType.Price,
+        };
         
-    }*/
+        var resultOfAddingPayment = _pay.AddPayment(payment);
+        if (resultOfAddingPayment == null)
+        {
+            return Json(new { success = false, message = "Adding payment returned null" });
+        }
+
+        if (!resultOfAddingPayment.Result)
+        {
+            return Json(new { success = false, message = resultOfAddingPayment.Message });
+        }
+
+        var resultOfAddingMemberPayment = _pay.AddMemberPayment(payment.Id, result.M.Id);
+        if (resultOfAddingMemberPayment == null)
+        {
+            return Json(new { success = false, message = "Adding memberpayment returned null" });
+        }
+
+        if (!resultOfAddingMemberPayment.Result)
+        {
+            return Json(new { success = false, message = resultOfAddingPayment.Message });
+        }
+        
+        return Json(new {success = true});
+    }
 
     
 }

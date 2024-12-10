@@ -3,6 +3,7 @@
 <div>
     <form asp-action="AddMembership" method="post" asp-controller="Search" asp-area="PrivateUser">
         @Html.AntiForgeryToken()
+        <partial name="_HiddenLocalGroupIdInput" model="@Model.Group"></partial>
         <div class="form-group row mb-2">
             <div class="col-auto">
                 <label for="membershipChoice">Velg medlemskap</label>

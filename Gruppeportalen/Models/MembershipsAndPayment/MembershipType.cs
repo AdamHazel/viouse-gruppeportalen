@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
-namespace Gruppeportalen.Models;
+namespace Gruppeportalen.Models.MembershipsAndPayment;
 
 public class MembershipType
 {
@@ -17,7 +17,7 @@ public class MembershipType
     
         [Required]
         [Display(Name = "Pris")]
-        public float Price { get; set; }
+        public int Price { get; set; }
         
         [Required]
         [Display(Name = "Dato for fornyelse av medlemsskapet")]
@@ -32,5 +32,7 @@ public class MembershipType
         public Guid LocalGroupId { get; set; } 
         
         public LocalGroup? LocalGroup { get; set; }
+        
+        public ICollection<Membership> Memberships { get; set; } = new HashSet<Membership>();
         
 }

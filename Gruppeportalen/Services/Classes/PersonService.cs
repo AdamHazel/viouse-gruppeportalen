@@ -92,9 +92,20 @@ public class PersonService : IPersonService
 
     public Person? GetPersonById(string personId)
     {
-        return _db.Persons
-            .Include(upc => upc.UserPersonConnections)
-            .FirstOrDefault(p => p.Id == personId);
+        var person = _db.Persons
+                         .Include (m => m.Memberships)
+                            .ThenInclude (m => m.LocalGroup)
+                        .Include (m => m.Memberships)
+                            .ThenInclude (m => m.MembershipType)
+                         .Include(upc => upc.UserPersonConnections)
+                         .FirstOrDefault(p => p.Id == personId);
+
+        if (person != null)
+        {
+            person.Memberships = person.Memberships.OrderBy(m => m.LocalGroup.GroupName).ToList();
+        }
+
+        return person;
     }
 
     public ResultOfOperation AddPersonToDbByPerson(Person person)

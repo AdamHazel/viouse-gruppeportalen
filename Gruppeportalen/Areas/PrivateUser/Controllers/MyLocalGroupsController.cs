@@ -2,6 +2,7 @@
 using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
+using Gruppeportalen.Models.MembershipsAndPayment;
 using Gruppeportalen.Services.Classes;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;

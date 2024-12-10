@@ -1,5 +1,6 @@
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
+using Gruppeportalen.Models.MembershipsAndPayment;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,7 +62,7 @@ public class MembershipTypeService : IMembershipTypeService
 
     public MembershipType? GetMembershipTypeById(Guid id)
     {
-        return _db.MembershipTypes.Find(id);
+        return _db.MembershipTypes.FirstOrDefault(mt => mt.Id == id);
     }
 
     public bool UpdateMembershipType(MembershipType membershipType)
