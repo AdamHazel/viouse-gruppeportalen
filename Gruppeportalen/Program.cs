@@ -7,6 +7,7 @@ using Gruppeportalen.Models;
 using Gruppeportalen.Services;
 using Gruppeportalen.Services.Classes;
 using Gruppeportalen.Services.Interfaces;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Logging; // For logging
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,8 @@ builder.Services.AddScoped<IMembershipTypeService, MembershipTypeService>();
 builder.Services.AddScoped<INorwayCountryInformation, NorwayCountryInformation>();
 builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IUserPersonConnectionsService, UserPersonConnectionsService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 
 
 var app = builder.Build();

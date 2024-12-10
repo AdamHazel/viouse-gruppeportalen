@@ -19,84 +19,85 @@ ViewData["Title"] = "Register";
             <!-- Basic Registration Fields -->
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" id="email"/>
-                <label asp-for="Input.Email">E-mail</label>
+                <label asp-for="Input.Email">E-post</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" placeholder="Password" type="password" id="password"/>
-                <label asp-for="Input.Password">Password</label>
+                <label asp-for="Input.Password">Passord</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" type="password" id="confirm-password"/>
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <label asp-for="Input.ConfirmPassword">Bekreft passord</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
             <!-- User Type Selection -->
             <div class="mb-3 text-center">
-                <button type="button" class="btn btn-primary" onclick="registerUser('PrivateUser')">Register as Private User</button>
-                <button type="button" class="btn btn-secondary" onclick="registerUser('OrganizationUser')">Register Organization</button>
+                <button type="button" class="btn btn-primary" onclick="registerUser('PrivateUser')">Registrer privat bruker</button>
+                <button type="button" class="btn btn-secondary" onclick="registerUser('CentralOrganisation')">Registrer organisasjon</button>
             </div>
-            <!-- Confirmation Link -->
-            <div id="confirmationLinkContainer"></div>
+            
+            <!-- Confirmation Message -->
+            <div id="confirmationMessage" style="display: none; font-weight: bold;">
+                En bekreftelse har blitt sendt til e-mailen din. Vennligst sjekk innboksen din. Husk å sjekke søppelposten om du ikke finner den i innboksen.
+            </div>
 
             <!-- Private User Fields -->
             <div id="privateForm" style="display:none;">
-                <h3>Private User Details</h3>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.Firstname" class="form-control" placeholder="First name" id="firstname"/>
-                    <label asp-for="Input.Firstname">First name</label>
+                    <label asp-for="Input.Firstname">Fornavn</label>
                     <span asp-validation-for="Input.Firstname" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.Lastname" class="form-control" placeholder="Last name" id="lastname"/>
-                    <label asp-for="Input.Lastname">Last name</label>
+                    <label asp-for="Input.Lastname">Etternavn</label>
                     <span asp-validation-for="Input.Lastname" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.DateOfBirth" class="form-control" type="date" placeholder="Date of birth" id="dob"/>
-                    <label asp-for="Input.DateOfBirth">Date of Birth</label>
+                    <label asp-for="Input.DateOfBirth">Fødselsdato</label>
                     <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
-                    <small class="text-muted">If you don't have a Norwegian phone number, please include your country code.</small>
+                    <small class="text-muted">Hvis du ikke har et norsk mobilnummer, vennligst inkluder landskoden din.</small>
                     <input asp-for="Input.Telephone" class="form-control" placeholder="Telephone" id="telephone"/>
                     <label asp-for="Input.Telephone">Telephone</label>
                     <span asp-validation-for="Input.Telephone" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.Address" class="form-control" placeholder="Address" id="address"/>
-                    <label asp-for="Input.Address">Address</label>
+                    <label asp-for="Input.Address">Adresse</label>
                     <span asp-validation-for="Input.Address" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.City" class="form-control" placeholder="City" id="city"/>
-                    <label asp-for="Input.City">City</label>
+                    <label asp-for="Input.City">By</label>
                     <span asp-validation-for="Input.City" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.Postcode" class="form-control" placeholder="Postcode" id="postcode"/>
-                    <label asp-for="Input.Postcode">Postcode</label>
+                    <label asp-for="Input.Postcode">Postnummer</label>
                     <span asp-validation-for="Input.Postcode" class="text-danger"></span>
                 </div>
-                <button type="button" class="btn btn-primary w-100" onclick="completePrivateUserRegistration()">Complete Registration</button>
+                <button type="button" class="btn btn-primary w-100" onclick="completePrivateUserRegistration()">Fullfør registrering</button>
             </div>
 
             <!-- Organization User Fields -->
             <div id="organizationForm" style="display:none;">
-                <h3>Organization Details</h3>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.OrganisationNumber" class="form-control" placeholder="Organisation Number" id="org-number"/>
-                    <label asp-for="Input.OrganisationNumber">Organisation Number</label>
+                    <label asp-for="Input.OrganisationNumber">Organisasjonsnummer</label>
                     <span asp-validation-for="Input.OrganisationNumber" class="text-danger"></span>
                 </div>
                 <div class="form-floating mb-3">
                     <input asp-for="Input.OrganisationName" class="form-control" placeholder="Organisation Name" id="org-name"/>
-                    <label asp-for="Input.OrganisationName">Organisation Name</label>
+                    <label asp-for="Input.OrganisationName">Navn på organisasjon</label>
                     <span asp-validation-for="Input.OrganisationName" class="text-danger"></span>
                 </div>
-                <button type="button" class="btn btn-primary w-100" onclick="completeOrganizationUserRegistration()">Complete Registration</button>
+                <button type="button" class="btn btn-primary w-100" onclick="completeOrganizationUserRegistration()">Fullfør registrering</button>
             </div>
         </form>
     </div>
@@ -132,6 +133,8 @@ ViewData["Title"] = "Register";
             .then(data => {
                 if (data.success) {
                     document.getElementById('userId').value = data.userId;
+                    
+                    document.getElementById('confirmationMessage').style.display = 'block';
 
                     // Show additional form fields based on user type
                     if (userType === 'PrivateUser') {
@@ -141,10 +144,6 @@ ViewData["Title"] = "Register";
                         document.getElementById('organizationForm').style.display = 'block';
                         document.getElementById('privateForm').style.display = 'none';
                     }
-
-                    // Display email confirmation link
-                    const confirmationLinkHtml = `<p>Please confirm your email: <a href="${data.confirmationUrl}" onclick="confirmEmail(event, '${data.confirmationUrl}')">click here</a></p>`;
-                    document.getElementById("confirmationLinkContainer").innerHTML = confirmationLinkHtml;
                 } else {
                     alert(data.errors.join("\n") || "An error occurred");
                 }
@@ -169,7 +168,7 @@ ViewData["Title"] = "Register";
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert("Registration completed successfully!");
+                    //alert("Registration completed successfully!");
                     window.location.href = "/Home";
                 } else {
                     alert(data.errors.join("\n"));
@@ -194,7 +193,7 @@ ViewData["Title"] = "Register";
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert("Registration completed successfully!");
+                    //alert("Registration completed successfully!");
                     window.location.href = "/Home";
                 } else {
                     alert(data.errors.join("\n"));

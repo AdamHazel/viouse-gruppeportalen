@@ -31,4 +31,12 @@
     <Folder Include="Areas\PrivateUser\Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Areas\Identity\Pages\Account\RegisterConfirmation.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs" />
+  </ItemGroup>
+
 </Project>

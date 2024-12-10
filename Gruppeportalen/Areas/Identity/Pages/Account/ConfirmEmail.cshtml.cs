@@ -25,13 +25,13 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
         {
             if (userId == null || code == null)
             {
-                return new JsonResult(new { success = false, message = "Invalid confirmation request." });
+                return RedirectToAction("Login", "Account", new { message = "InvalidConfirmation" });
             }
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return new JsonResult(new { success = false, message = "Unable to load user." });
+                return RedirectToAction("Login", "Account", new { message = "Error" });
             }
 
             var decodedCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
@@ -40,12 +40,10 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 IsEmailConfirmed = true;
-                return new JsonResult(new { success = true, message = "Thank you for confirming your email!" });
+                return RedirectToAction("Login", "Account", new { message = "EmailConfirmed" });
             }
-            else
-            {
-                return new JsonResult(new { success = false, message = "Email confirmation failed." });
-            }
+            
+            return RedirectToAction("Login", "Account", new { message = "Error" });
         }
     }
 }

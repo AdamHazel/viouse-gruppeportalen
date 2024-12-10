@@ -9,7 +9,8 @@ using Microsoft.Extensions.Logging;
 using Gruppeportalen.Models;
 using Gruppeportalen.Data;
 using Microsoft.AspNetCore.WebUtilities;  
-using System.Text; 
+using System.Text;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Gruppeportalen.Areas.Identity.Pages.Account
 {
@@ -19,16 +20,19 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterPartialModel> _logger;
+        private readonly IEmailSender _emailSender;
 
         public RegisterPartialModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
-            ILogger<RegisterPartialModel> logger)
+            ILogger<RegisterPartialModel> logger,
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _logger = logger;
+            _emailSender = emailSender;
         }
 
         [BindProperty] 
@@ -58,44 +62,75 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
             }
         }
 
-        public async Task<IActionResult> OnPostAsync()
+       public async Task<IActionResult> OnPostAsync()
+{
+    try
+    {
+        // Check if the form data is valid
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
+            return new JsonResult(new
             {
-                return new JsonResult(new
-                {
-                    success = false,
-                    errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
-                });
-            }
+                success = false,
+                errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage))
+            });
+        }
 
-            var user = CreateUser();
-            await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-            await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-            user.TypeOfUser = Input.TypeOfUser;
+        // Create the user
+        var user = CreateUser();
+        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        user.TypeOfUser = Input.TypeOfUser;
 
-            var result = await _userManager.CreateAsync(user, Input.Password);
-
-            if (result.Succeeded)
-            {
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var confirmationUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { area = "Identity", userId = userId, code = code },
-                    protocol: Request.Scheme);
-
-                return new JsonResult(new { success = true, userId, confirmationUrl });
-            }
-
+        // Attempt to save the user
+        var result = await _userManager.CreateAsync(user, Input.Password);
+        if (!result.Succeeded)
+        {
             return new JsonResult(new
             {
                 success = false,
                 errors = result.Errors.Select(e => e.Description).ToList()
             });
         }
+
+        // Generate the email confirmation link
+        var userId = await _userManager.GetUserIdAsync(user);
+        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        var confirmationUrl = Url.Page(
+            "/Account/ConfirmEmail",
+            pageHandler: null,
+            values: new { area = "Identity", userId = userId, code = code },
+            protocol: Request.Scheme);
+
+        // Send the email confirmation
+        var subject = "Confirm Your Email";
+        var body = $"<p>Thank you for registering! Please confirm your email by clicking the link below:</p>" +
+                   $"<p><a href=\"{confirmationUrl}\">Confirm Email</a></p>";
+        await _emailSender.SendEmailAsync(Input.Email, subject, body);
+
+        // Return success response
+        return new JsonResult(new
+        {
+            success = true,
+            userId,
+            message = "A confirmation email has been sent!"
+        });
+    }
+    catch (Exception ex)
+    {
+        // Log the error and return a JSON response
+        Console.WriteLine($"Error during registration: {ex.Message}");
+
+        return new JsonResult(new
+        {
+            success = false,
+            errors = new[] { "An unexpected error occurred. Please try again later." }
+        });
+    }
+}
+
+
 
         private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
