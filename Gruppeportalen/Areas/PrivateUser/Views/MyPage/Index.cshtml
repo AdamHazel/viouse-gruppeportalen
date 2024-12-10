@@ -20,6 +20,10 @@ Layout = "_Layout";
 
             <div class="card-details">
                 <p><strong>E-post:</strong> @Model.Email</p>
+                <p><strong>Passord:</strong> <span style="margin-left: 5px;">********</span></p>
+                <div style="text-align: right; margin-bottom: 15px;">
+                    <a href="/Identity/Account/Manage/ChangePassword" class="small-link">Endre passord</a>
+                    </div>
                 <p><strong>Telefonnummer:</strong> @Model.Telephone</p>
                 <p><strong>Adresse:</strong> @Model.Address</p>
                 <p><strong>By:</strong> @Model.City</p>
