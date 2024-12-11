@@ -62,41 +62,55 @@
             <th>Medlemskapstype</th>
             <th>Medlem siden</th>
             <th>Status</th>
+            <th>Blokkert</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var membership in Model.Memberships)
         {
-        <tr data-active-status="@membership.IsActive.ToString().ToLower()"
-            data-membership-type="@membership.MembershipType.Id">
-            <td>
-                <input type="checkbox" class="select-member" value="@membership.Id" />
-            </td>
-            <td>@membership.Id</td>
-            <td>@membership.Person.Firstname @membership.Person.Lastname</td>
-            <td>@(DateTime.Now.Year - membership.Person.DateOfBirth.Year)</td>
-            <td>@membership.Person.Address, @membership.Person.City</td>
-            <td>@membership.MembershipType.MembershipName</td>
-            <td>@String.Format("{0:dd.MM.yyyy}", membership.StartDate)</td>
-            <td>
-                @if (membership.IsActive)
-                {
-                <span class="text-success">Aktiv</span>
-                }
-                else
-                {
-                <span class="text-danger">Ikke aktiv</span>
-                }
-            </td>
-        </tr>
+            <tr data-active-status="@membership.IsActive.ToString().ToLower()"
+                data-membership-type="@membership.MembershipType.Id">
+                <td>
+                    <input type="checkbox" class="select-member" value="@membership.Id" />
+                </td>
+                <td>@membership.Id</td>
+                <td>@membership.Person.Firstname @membership.Person.Lastname</td>
+                <td>@(DateTime.Now.Year - membership.Person.DateOfBirth.Year)</td>
+                <td>@membership.Person.Address, @membership.Person.City</td>
+                <td>@membership.MembershipType.MembershipName</td>
+                <td>@String.Format("{0:dd.MM.yyyy}", membership.StartDate)</td>
+                <td>
+                    @if (membership.IsActive)
+                    {
+                        <span class="text-success">Aktiv</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Ikke aktiv</span>
+                    }
+                </td>
+                <td>
+                    @if (membership.IsBlocked)
+                    {
+                        <span class="text-danger">Ja</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Nei</span>
+                    }
+                </td>
+            </tr>
         }
         </tbody>
     </table>
-
-    <!-- Handling-knapper -->
-    <div class="d-flex justify-content-end mt-3">
-        <button class="btn btn-danger me-2">Blokker medlem</button>
-        <button class="btn btn-warning">Opphev blokkering</button>
-    </div>
+    
+        <!-- Handling-knapper -->
+        <div class="d-flex justify-content-end mt-3">
+            <button class="btn btn-danger me-2 block-member-btn">Blokker medlem</button>
+            <button class="btn btn-warning unblock-member-btn">Opphev blokkering</button>
+        </div>
+    
 </div>
+ 
 <script src="~/js/LocalGroupAdminScripts/Memberships/searchFilter.js"></script>
+<script src="~/js/LocalGroupAdminScripts/Memberships/unblockBlock.js"></script>

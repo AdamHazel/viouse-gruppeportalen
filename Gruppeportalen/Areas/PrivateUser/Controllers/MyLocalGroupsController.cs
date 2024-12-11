@@ -177,4 +177,43 @@ public class MyLocalGroupsController : Controller
         return File(csvBytes, "application/octet-stream", fileName);
         
     }
+
+    [HttpPost]
+    public IActionResult BlockMember([FromBody] List<Guid> memberIds)
+    {
+        if (memberIds == null || !memberIds.Any())
+        {
+            return BadRequest("No member IDs provided.");
+        }
+
+        var result = _ms.BlockMembershipById(memberIds);
+        if (result)
+        {
+            return Json(new { success = true, message = "Members blocked successfully." });
+        }
+        else
+        {
+            return StatusCode(500, new { success = false, message = "Failed to block members." });
+        }
+
+    }
+
+    [HttpPost]
+    public IActionResult UnblockMember([FromBody] List<Guid> memberIds)
+    {
+        if (memberIds == null || !memberIds.Any())
+        {
+            return BadRequest("No member IDs provided.");
+        }
+
+        var result = _ms.UnblockMembershipById(memberIds);
+        if (result)
+        {
+            return Json(new { success = true, message = "Members unblocked successfully." });
+        }
+        else
+        {
+            return StatusCode(500, new { success = false, message = "Failed to unblock members." });
+        }
+    }
 }
