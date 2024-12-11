@@ -250,8 +250,8 @@ public class ApplicationDbInitializer
         var mtp3 = new MembershipType
         {
             MembershipName = "Another one",
-            DayReset = 27,
-            MonthReset = 9,
+            DayReset = 11,
+            MonthReset = 12,
             Price = 100,
             LocalGroupId = lg2.Id,
         };
@@ -261,7 +261,7 @@ public class ApplicationDbInitializer
         {
             MembershipName = "Best membership ever",
             DayReset = 15,
-            MonthReset = 5,
+            MonthReset = 12,
             Price = 1000,
             LocalGroupId = lg2.Id,
         };

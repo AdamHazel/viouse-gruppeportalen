@@ -25,7 +25,7 @@
         var activeMemberships = new List<Membership>();
         foreach (var membership in Model.Memberships)
         {
-            if (membership.IsActive)
+            if (!membership.IsActive)
             {
                 active = true;
                 activeMemberships.Add(membership);

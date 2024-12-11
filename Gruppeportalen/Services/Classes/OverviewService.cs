@@ -2,6 +2,7 @@
 using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Models;
 using Gruppeportalen.Services.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace Gruppeportalen.Services.Classes;
@@ -10,11 +11,13 @@ public class OverviewService : IOverviewService
 {
     private readonly ILocalGroupService _lgs;
     private readonly IApplicationUserService _au;
+    private readonly IPrivateUserOperations _puo;
 
-    public OverviewService(ILocalGroupService lgs, IApplicationUserService au)
+    public OverviewService(ILocalGroupService lgs, IApplicationUserService au, IPrivateUserOperations puo)
     {
         _lgs = lgs;
         _au = au;
+        _puo = puo;
     }
     
     public List<AdminLocalGroupOverview>? GetAdminLocalGroupOverview(string userId)
@@ -37,11 +40,41 @@ public class OverviewService : IOverviewService
                 }
             }
         }
+        return overviews.OrderBy(lg => lg.LocalGroupName).ToList();
+    }
+
+    public List<PersonLocalGroupOverview>? GetPersonLocalGroupOverview(string userId)
+    {
+        var overviews = new List<PersonLocalGroupOverview>();
+        var user = _puo.GetPrivateUserByIdWithConnectedPersons(userId);
         
-        /*
-         * More functionality to come:
-         *      Need to check local groups again to find the groups that the user/person is a member in
-         */
+        var listOfGroups = new HashSet<LocalGroup>();
+        var connections = user.UserPersonConnections;
+        if (!connections.IsNullOrEmpty())
+        {
+            foreach (var upc in connections)
+            {
+                var person = upc.Person;
+                foreach (var membership in person.Memberships)
+                {
+                    if (!membership.IsActive)
+                    {
+                        listOfGroups.Add(membership.LocalGroup);
+                    }
+                }
+            }
+
+            foreach (var group in listOfGroups)
+            {
+                var overview = new PersonLocalGroupOverview
+                {
+                    LocalGroupId = group.Id,
+                    LocalGroupName = group.GroupName,
+                };
+                overviews.Add(overview);
+            }
+        }
+        
         return overviews.OrderBy(lg => lg.LocalGroupName).ToList();
     }
     

@@ -69,8 +69,8 @@ public class MembershipService : IMembershipService
 
             var newMembership = new Membership
             {
-                StartDate = DateTime.Today,
-                EndDate = new DateTime(yearForReset, mt.MonthReset, mt.DayReset),
+                StartDate = DateTime.Now,
+                EndDate = new DateTime(yearForReset, mt.MonthReset, mt.DayReset, 23, 59, 59, DateTimeKind.Utc),
                 IsActive = false,
                 IsBlocked = false,
                 ToBeRenewed = true,

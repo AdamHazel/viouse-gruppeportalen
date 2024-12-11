@@ -9,8 +9,8 @@ namespace Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 public class Membership
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public DateTime? StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
     public bool IsActive { get; set; }
     public bool IsBlocked { get; set; }
     public bool ToBeRenewed { get; set; }

@@ -42,6 +42,7 @@ public class MyLocalGroupsController : Controller
         var overview = new CompleteLocalGroupOverview
         {
             AdminOverview = _os.GetAdminLocalGroupOverview(user.Id),
+            PersonOverview = _os.GetPersonLocalGroupOverview(user.Id),
         };
         
         return View(overview);
