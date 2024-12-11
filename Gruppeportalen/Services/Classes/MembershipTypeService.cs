@@ -65,16 +65,39 @@ public class MembershipTypeService : IMembershipTypeService
         return _db.MembershipTypes.FirstOrDefault(mt => mt.Id == id);
     }
 
-    public bool UpdateMembershipType(MembershipType membershipType)
+    public bool UpdateMembershipType(MembershipType model)
     {
+        if (model == null)
+        {
+            return false;
+        }
+        var membershipType = GetMembershipTypeById(model.Id);
+        if (membershipType == null)
+        {
+            return false; 
+        }
+
+        membershipType.MembershipName = model.MembershipName;
+        membershipType.Price = model.Price;
+        membershipType.DayReset = model.DayReset;
+        membershipType.MonthReset = model.MonthReset;
+
         try
         {
-            _db.MembershipTypes.Update(membershipType);
-            return _db.SaveChanges() > 0;
+            return _db.SaveChanges() > 0; 
         }
         catch (DbUpdateException ex)
         {
             return false;
         }
     }
+
+    public bool DeleteMembershipType(Guid id)
+    {
+
+        _db.MembershipTypes.Remove(_db.MembershipTypes.FirstOrDefault(m => m.Id == id));
+        return _db.SaveChanges() > 0; 
+    }
+
+
 }

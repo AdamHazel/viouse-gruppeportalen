@@ -92,87 +92,64 @@ Layout = "_Layout";
                     @foreach (var membership in Model.MembershipTypes)
                     {
                         <tr>
-                            <td><button type="button" class="btn-close" aria-label="Close"></button></td>
+                            <td>
+                                <form asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="DeleteMembershipType" method="post">
+                                    <input type="hidden" name="Id" value="@membership.Id" />
+                                    <td>
+                                        <button type="button" class="btn-close"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#sureToDeleteModal"
+                                                data-membership-id="@membership.Id"
+                                                aria-label="Close">
+                                        </button>
+
+                                    </td>
+
+                                </form>
+                            </td>
                             <td>@membership.MembershipName</td>
                             <td>@membership.Price</td>
                             <td><span>@membership.DayReset<span>.</span></span><span class="month">@membership.MonthReset</span></td>
-                            <td><button type="button" class="btn btn-outline-dark">Rediger</button></td>
+                            <td>
+                                <button class="btn btn-outline-dark"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editMembershipModal"
+                                        data-membership-id="@membership.Id"
+                                        data-membership-name="@membership.MembershipName"
+                                        data-membership-price="@membership.Price"
+                                        data-membership-month="@membership.MonthReset"
+                                        data-membership-day="@membership.DayReset"
+                                        data-localgroup-id="@Model.Id"> 
+                                    Rediger
+                                </button>
+
+                            </td>
                         </tr>
                     }
                     </tbody>
                 </table>
-                
             }
             else
             {
                 <p>You have no memberships.</p>
             }
-            @*<div class="membership-type-box">
-                @if (!Model.MembershipTypes.IsNullOrEmpty())
-                {
-                    <div class="membership-type-line-headers">
-                        <div class="headers">Medlemskap</div>
-                        <div class="headers">Pris (kr)</div>
-                        <div class="headers">Dato for fornyelse</div>
-                    </div>
-                    @foreach (var membership in Model.MembershipTypes)
-                    {
-                        <a class="membership-type-line mb-1" href="">
-                            <div class="membership-in-line">
-                                <div>@membership.MembershipName</div>
-                                <div>@membership.Price </div>
-                                <div>
-                                    <span>@membership.DayReset<span>.</span></span>
-                                    <span class="month">@membership.MonthReset</span>
-                                </div>
-                            </div>
-                        </a>
-                    }
-                }
-                else
-                {
-                    <p>You have no memberships.</p>
-                }
-                
-            </div>*@
+           
             <div>
                 <button class="btn btn-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#addMembershipModal"
                         data-localgroup-id="@Model.Id"> +</button></div>
-            </div>
-
-        @*@if (Model.MembershipTypes != null && Model.MembershipTypes.Any())
-        {
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Navn</th>
-                    <th>Pris</th>
-                    <th>Fornyes</th>
-                    
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var membership in Model.MembershipTypes)
-                {
-                    <tr>
-                        <td>@membership.MembershipName</td>
-                        <td>@membership.Price</td>
-                        <td><span class="month"></span> <span>@membership.DayReset.ToString()</span></td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>Det finnes ingen medlemskapstyper for dette lokallaget.</p>
-        }*@
+        </div>
     </div>
-    <partial name="_AddNewMembershipType" model="@new MembershipType { LocalGroupId = Model.Id }" />
+    <partial name="_AddNewMembershipType" model="@new MembershipType { LocalGroupId = Model.Id }"/>
+    <partial name="_EditMembershipType" />
+    @await Html.PartialAsync("_SureToDeleteMembershipType")
+
+
 
 </div>
-
+<script src="~/js/LocalGroupAdminScripts/Memberships/fillEditMembershipType.js"></script>
 <script src="/js/LocalGroupAdminScripts/Memberships/changeMonthNumberToWords.js"></script>
+<script src="~/js/LocalGroupAdminScripts/Memberships/sureToDeleteMembershipType.js"></script>
+
 

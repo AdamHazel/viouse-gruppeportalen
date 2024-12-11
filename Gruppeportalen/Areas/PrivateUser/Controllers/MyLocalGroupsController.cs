@@ -1,4 +1,4 @@
-﻿using Gruppeportalen.Areas.PrivateUser.HelperClasses;
+using Gruppeportalen.Areas.PrivateUser.HelperClasses;
 using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Data;
@@ -103,5 +103,32 @@ public class MyLocalGroupsController : Controller
         return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
     }
 
-    
+    [HttpPost]
+    public IActionResult EditMembershipType(MembershipType model)
+    {
+        if (!ModelState.IsValid)
+        {
+
+            return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
+        }
+
+        var success = _mts.UpdateMembershipType(model);
+        if (success)
+            return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
+
+        else return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
+    }
+
+    [HttpPost]
+    public IActionResult DeleteMembershipType(Guid id)
+    {
+        var model= _mts.GetMembershipTypeById(id);
+        if (model == null)
+        {
+            return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
+        }
+        _mts.DeleteMembershipType(id);
+        return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
+    }
+
 }

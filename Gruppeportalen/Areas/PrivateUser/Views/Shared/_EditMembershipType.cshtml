@@ -1,0 +1,49 @@
+<div class="modal fade" id="editMembershipModal" tabindex="-1" aria-labelledby="editMembershipModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editMembershipModalLabel">Rediger medlemskap</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="EditMembershipType" method="post">
+                    <input type="hidden" id="editMembershipId" name="Id" />
+                    <input type="hidden" id="editMembershipLocalGroupId" name="LocalGroupId"/>
+                    <div class="form-group">
+                        <label for="editMembershipName">Medlemsnavn</label>
+                        <input type="text" class="form-control" name="MembershipName" id="editMembershipName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editMembershipPrice">Pris</label>
+                        <input type="number" class="form-control" name="Price" id="editMembershipPrice" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editMembershipMonth">Måned</label>
+                        <select class="form-control" name="MonthReset" id="editMembershipMonth">
+                            <option value="1">Januar</option>
+                            <option value="2">Februar</option>
+                            <option value="3">Mars</option>
+                            <option value="4">April</option>
+                            <option value="5">Mai</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editMembershipDay">Dag</label>
+                        <select class="form-control" name="DayReset" id="editMembershipDay"></select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                        <button type="submit" class="btn btn-primary">Lagre</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

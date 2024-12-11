@@ -1,0 +1,26 @@
+
+<div class="modal fade" id="sureToDeleteModal" tabindex="-1" aria-labelledby="sureToDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sureToDeleteModalLabel">Bekreft Sletting</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
+            </div>
+            <div class="modal-body">
+                Er du sikker på at du vil slette denne medlemskapstypen? 
+                Denne handlingen kan ikke angres. 
+                Ved sletting vil all tilhørende informasjon, 
+                inkludert medlemskapshistorikk og detaljer knyttet til denne medlemskapstypen, 
+                bli permanent fjernet. 
+                Medlemmene vil miste tilknytningen til lokallaget og vil ikke lenger regnes som medlemmer.
+            </div>
+            <div class="modal-footer">
+                <form asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="DeleteMembershipType" method="post">
+                    <input type="hidden" name="Id" id="deleteMembershipId" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                    <button type="submit" class="btn btn-danger">Slett</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

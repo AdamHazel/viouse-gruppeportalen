@@ -10,5 +10,6 @@ public interface IMembershipTypeService
     MembershipType? GetMembershipTypeById(Guid id);
 
     bool UpdateMembershipType(MembershipType membershipType);
+    bool DeleteMembershipType(Guid id);
     
 }
