@@ -1,3 +1,5 @@
+@using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment
+@using Microsoft.IdentityModel.Tokens
 @model Person 
 <link rel="stylesheet" href="~/css/informationcard.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,10 +17,37 @@
         <p><strong>Sted:</strong> @Model.City</p>
     </div>
 
-
-    <div class="person-memberships">
-        <h4>Medlem i</h4>
-    </div>
+    
+    
+    @if (!Model.Memberships.IsNullOrEmpty())
+    {
+        var active = false;
+        var activeMemberships = new List<Membership>();
+        foreach (var membership in Model.Memberships)
+        {
+            if (membership.IsActive)
+            {
+                active = true;
+                activeMemberships.Add(membership);
+            }
+        }
+        if (active)
+        {
+            <div class="person-memberships">
+                <h4>Medlem i</h4>
+                <div class="card-details">
+                    @foreach (var m in activeMemberships)
+                    {
+                        <p>
+                            <strong>@m.MembershipType.MembershipName</strong> 
+                            <span>@m.LocalGroup.GroupName</span>
+                            <button class="btn btn-outline-dark">Test</button>
+                        </p>
+                    }
+                </div>
+            </div>
+        }
+    }
 
     <div class="card-actions">
         <form asp-action="Edit" method="get">

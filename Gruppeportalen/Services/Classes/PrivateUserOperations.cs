@@ -261,7 +261,13 @@ public class PrivateUserOperations : IPrivateUserOperations
     {
         var privateUser = _db.PrivateUsers
             .Include(upc => upc.UserPersonConnections)
-            .ThenInclude(up => up.Person)
+                .ThenInclude(up => up.Person)
+                .ThenInclude(p => p.Memberships)
+                .ThenInclude(m => m.MembershipType)
+            .Include(upc => upc.UserPersonConnections)
+                .ThenInclude(up => up.Person)
+                .ThenInclude(p => p.Memberships)
+                .ThenInclude(m => m.LocalGroup)
             .FirstOrDefault(u => u.Id == id);
 
         if (privateUser != null)
