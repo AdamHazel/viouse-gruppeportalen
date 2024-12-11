@@ -1,8 +1,23 @@
 <div class="sidebar">
     <ul>
-        <li><a asp-area="PrivateUser" asp-controller="MyPage" asp-action="Index">Min Profil</a></li>
-        <li><a asp-area="PrivateUser" asp-controller="Persons" asp-action="Index">Mine Brukere</a></li>
-        <li><a asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="Index">Mine Lokallag</a></li>
+        <li>
+            <a asp-area="PrivateUser" asp-controller="MyPage" asp-action="Index"
+               class="@(ViewContext.RouteData.Values["Controller"].ToString() == "MyPage" ? "active" : "")">
+                Min Profil
+            </a>
+        </li>
+        <li>
+            <a asp-area="PrivateUser" asp-controller="Persons" asp-action="Index"
+               class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Persons" ? "active" : "")">
+                Mine Brukere
+            </a>
+        </li>
+        <li>
+            <a asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="Index"
+               class="@(ViewContext.RouteData.Values["Controller"].ToString() == "MyLocalGroups" ? "active" : "")">
+                Mine Lokallag
+            </a>
+        </li>
     </ul>
 </div>
 

@@ -10,7 +10,7 @@
         <h3>@Model.Firstname @Model.Lastname </h3>
     </div>
     <div class="card-details">
-        <p>@Model.Id</p>
+        <input type="hidden" asp-for="Id" />
         <p><strong>Fødselsdato:</strong> @Model.DateOfBirth.ToString("dd/MM/yyyy")</p>
         <p><strong>Adresse:</strong> @Model.Address</p>
         <p><strong>Postnummer:</strong> @Model.Postcode</p>
@@ -79,14 +79,14 @@
             </div>
             <div class="modal-body">
                 @* <h3></h3> *@
-                <p>Personen kan også være knyttet til andre brukere. Ved å fjerne personen her, vil ikke andre brukere mister tilgang til denne personen.</p>
+                <p>Personen kan også være tilknyttet andre brukere. Ved å fjerne personen her, vil ikke de andre brukerne miste tilgangen til personen.</p>
             </div>
             <div class="modal-footer">
                 <form asp-action="Delete" method="post">
                     <input type="hidden" name="personId" id="deletePersonId" value="" />
-                    <button type="submit" class="custom-save-button">Ok</button>
+                    <button type="submit" class="custom-orange-btn">Ok</button>
                 </form>
-                <button type="button" class="custom-avbryt-button" data-bs-dismiss="modal">Avbryt</button>
+                <button type="button" class="custom-blue-btn" data-bs-dismiss="modal">Avbryt</button>
             </div>
         </div>
     </div> 
@@ -101,7 +101,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p id="sharing-info">Ved å dele personen med en annen bruker, vil denne også kunne melde personen på ulike lag og betale medlemskontingenten.</p>
+                <p id="sharing-info">Når du deler personen med en annen bruker, får vedkommende også muligheten til å registrere personen på ulike lag og betale medlemskontingenten.</p>
                 
                 <form asp-action="SharePerson" id="sharePersonForm" method="post">
                     <!-- Dynamisk oppdatert skjult felt for personId -->
@@ -112,8 +112,8 @@
                     </div>
                     <p id="update-info"></p>
                     <div class="modal-footer">
-                        <button type="button" id ="shareCancelButton" class="custom-avbryt-button" data-bs-dismiss="modal">Avbryt</button>
-                        <button type="submit" id ="shareButton" class="custom-save-button">Del</button>
+                        <button type="button" id ="shareCancelButton" class="custom-blue-btn" data-bs-dismiss="modal">Avbryt</button>
+                        <button type="submit" id ="shareButton" class="custom-orange-btn">Del</button>
                     </div>
                 </form>
             </div>
@@ -130,7 +130,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Du kan overføre personen til en annen bruker. Ved å gjøre dette, mister du tilgangen til personen</p>
+                <p>Ved å overføre personen til en annen bruker, vil du miste tilgangen til vedkommende.</p>
                 <form asp-action="TransferPerson" id ="transferPersonForm" method="post">
                     <!-- Dynamisk oppdatert skjult felt for personId -->
                     <input type="hidden" id="transferPersonId" name="personId" value="" />
@@ -140,8 +140,8 @@
                     </div>
                     <p id="update-info-transfer"></p>
                     <div class="modal-footer">
-                        <button type="button" id ="transferCancelButton" class="custom-avbryt-button" data-bs-dismiss="modal">Avbryt</button>
-                        <button type="submit" id ="transferButton" class="custom-save-button">Overfør</button>
+                        <button type="button" id ="transferCancelButton" class="custom-blue-btn" data-bs-dismiss="modal">Avbryt</button>
+                        <button type="submit" id ="transferButton" class="custom-orange-btn">Overfør</button>
                     </div>
                 </form>
             </div>

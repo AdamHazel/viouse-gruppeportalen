@@ -1,5 +1,5 @@
 .sidebar {
-    position: fixed; 
+    position: absolute; 
     top: 60px; 
     left: 0; 
     height: calc(100vh - 60px); 
@@ -40,6 +40,8 @@
     background-color: #f4a261;
     color: white;
 }
+
+
 
 footer {
     display: none; /* Skjuler footeren helt */

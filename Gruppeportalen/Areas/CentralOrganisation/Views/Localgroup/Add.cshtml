@@ -1,46 +1,51 @@
 ﻿@model LocalGroup
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+ViewBag.Title = "title";
+Layout = "_Layout";
 }
 
 <div class="sidebar">
     @Html.Partial("_CentralOrganisationSidebar")
 </div>
 
-<h2>Form for adding local group</h2>
+<div class="main-container">
+    <div class="center-container">
+        <h2>Nytt lokallag</h2>
+    </div>
 
-<form asp-action="Add">
-    <div class="form-group">
-        <label asp-for="GroupName"></label>
-        <input type="text" class="form-control" asp-for="GroupName">
-        <span asp-validation-for="GroupName"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Address"></label>
-        <input type="text" class="form-control"  asp-for="Address">
-        <span asp-validation-for="Address"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="City"></label>
-        <input type="text" class="form-control"  asp-for="City">
-        <span asp-validation-for="City"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="County"></label>
-        <select asp-for="County" id="countyDropdown" class="form-control">
-            <option value="Alle fylker">Alle fylker</option>
-            @foreach (var county in ViewBag.Counties as List<string>)
-            {
-            <option value="@county">@county</option>
-            }
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="Postcode"></label>
-        <input type="text" class="form-control"  asp-for="Postcode">
-        <span asp-validation-for="Postcode"></span>
-    </div>
-    <button type="submit" class="btn btn-primary mt-3">Legg til lokallag</button>
-</form>
+    <form asp-action="Add">
+        <div class="form-group">
+            <label asp-for="GroupName"></label>
+            <input type="text" class="form-control" asp-for="GroupName">
+            <span asp-validation-for="GroupName"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address"></label>
+            <input type="text" class="form-control" asp-for="Address">
+            <span asp-validation-for="Address"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="City"></label>
+            <input type="text" class="form-control" asp-for="City">
+            <span asp-validation-for="City"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="County"></label>
+            <select asp-for="County" id="countyDropdown" class="form-control">
+                <option value="Alle fylker">Alle fylker</option>
+                @foreach (var county in ViewBag.Counties as List<string>)
+                {
+                    <option value="@county">@county</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Postcode"></label>
+            <input type="text" class="form-control" asp-for="Postcode">
+            <span asp-validation-for="Postcode"></span>
+        </div>
+
+        <button type="submit" class="custom-save-changes-button">Legg til lokallag</button>
+    </form>
+</div>

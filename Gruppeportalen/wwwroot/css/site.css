@@ -63,7 +63,7 @@ body {
   height: calc(100vh - 60px); 
 }
 
-.custom-save-button {
+.custom-orange-btn {
   background-color: #f4a261;
   color: white;
   text-decoration: none;
@@ -75,7 +75,7 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.custom-avbryt-button {
+.custom-blue-btn {
   background-color: #1a3550;
   color: white;
   text-decoration: none;
@@ -131,9 +131,73 @@ body {
   cursor: pointer;
 }
 
+.find-localgroup-container {
+  position: fixed; 
+  top: 60px; 
+  right: 0; 
+  padding: 20px; 
+  z-index: 1000; 
+}
+
+.find-localgroup-btn {
+  background-color: #f4a261;
+  color: white;
+  text-decoration: none;
+  padding: 20px 40px; 
+  width: auto; 
+  height: auto; 
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.page-title{
+text-align: center;
+  text-transform: uppercase;
+}
+
+/* Juster designet for label + dropdown */
+label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 5px; /* Avstand under etiketten */
+}
+
+select {
+  width: 100%; /* Full bredde */
+  padding: 10px; /* Innvendig avstand */
+  font-size: 14px; /* Tekststørrelse */
+  border: 1px solid #ccc; /* Grå kant */
+  border-radius: 5px; /* Runde hjørner */
+  background-color: #fff; /* Hvit bakgrunn */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Myk skygge */
+}
+
+select:focus {
+  outline: none; /* Fjern blå ramme */
+  border-color: #f4a261; /* Oransje kant */
+  box-shadow: 0 0 5px rgba(244, 162, 97, 0.5); /* Glød ved fokus */
+}
+
+
+
+.form-group.row .col-auto {
+  flex: 1; /* Sørg for at begge deler bruker like mye plass */
+  margin-right: 10px; /* Litt avstand mellom elementene */
+}
+
 
 
 footer {
-  display: none; /* Skjuler footeren helt */
+  display: none; 
 }
 

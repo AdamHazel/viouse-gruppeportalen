@@ -1,8 +1,23 @@
 <div class="sidebar">
     <ul>
-        <li><a asp-area="CentralOrganisation" asp-controller="Home" asp-action="Index" class="active">Min Side</a></li>
-        <li><a asp-area="CentralOrganisation" asp-controller="CentralOrganisation" asp-action="Index">Profil</a></li>
-        <li><a asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="Index">Mine Lokallag</a></li>
+        <li>
+            <a asp-area="CentralOrganisation"
+               asp-controller="CentralOrganisation"
+               asp-action="Index"
+               class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "CentralOrganisation" &&
+               ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")">
+                Profil
+            </a>
+        </li>
+        <li>
+            <a asp-area="CentralOrganisation"
+               asp-controller="Localgroup"
+               asp-action="Index"
+               class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Localgroup" &&
+               ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")">
+                Mine Lokallag
+            </a>
+        </li>
     </ul>
 </div>
 

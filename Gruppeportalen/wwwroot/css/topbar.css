@@ -1,5 +1,5 @@
 .navbar {
-    position: fixed !important; 
+    position: absolute !important; 
     top: 0;
     left: 0;
     width: 100%; 
@@ -13,6 +13,9 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
+body {
+    padding-top: 80px; 
+    box-sizing: border-box;}
 
 .navbar .navbar-nav {
     display: flex;

@@ -1,23 +1,18 @@
 ﻿@model LocalGroup
 
-    <p><strong>Id:</strong>@Model.Id</p>
-    <p><strong>Gruppenavn:</strong>@Model.GroupName</p>
-    <p><strong>Adresse:</strong>@Model.Address</p>
-    <p><strong>By:</strong>@Model.City</p>
-    <p><strong>Fylke:</strong>@Model.County</p>
-    <p><strong>Postnummer:</strong>@Model.Postcode</p>
-<p>
-    @if (!Model.Active)
-    {
-        <span class="bg-danger p-1">Not active</span>
-    }
-    else
-    {
-        <span class="bg-success p-1">Active</span>
-    }
-</p>
-<div>
-    <a class="btn btn-primary mx-2" asp-route-id="@Model.Id" asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="Edit" >Rediger</a>
-    <a href="" class="btn btn-dark mx-2">Slett</a>
-
+<div class="card-header">
+    <h3>@Model.GroupName</h3>
 </div>
+    <div class="card-details">
+        <input type="hidden" asp-for="Id" />
+            <p><strong>Adresse:</strong>@Model.Address</p>
+            <p><strong>By:</strong>@Model.City</p>
+            <p><strong>Fylke:</strong>@Model.County</p>
+            <p><strong>Postnummer:</strong>@Model.Postcode</p>
+    </div>
+    <div>
+        <a class="custom-orange-btn" asp-route-id="@Model.Id" asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="Edit" >Rediger</a>
+        <a href="" class="custom-blue-btn">Slett</a>
+
+    </div>
+

@@ -18,9 +18,9 @@ Layout = "_Layout";
     </div>
     <div>
         <h2 class="centered-title">@Model.GroupName</h2>
-        <a class="custom-save-button" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupOverview"
+        <a class="custom-orange-btn" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupOverview"
            asp-route-groupId="@Model.Id">Hjem</a>
-        <a class="custom-save-button" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupInformation"
+        <a class="custom-orange-btn" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupInformation"
            asp-route-groupId="@Model.Id">Lokallaginfo</a>
     </div>
     <div>
@@ -111,7 +111,7 @@ Layout = "_Layout";
                             <td>@membership.Price</td>
                             <td><span>@membership.DayReset<span>.</span></span><span class="month">@membership.MonthReset</span></td>
                             <td>
-                                <button class="btn btn-outline-dark"
+                                <button class="custom-orange-btn"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editMembershipModal"
                                         data-membership-id="@membership.Id"
@@ -135,7 +135,7 @@ Layout = "_Layout";
             }
            
             <div>
-                <button class="btn btn-primary"
+                <button class="custom-plus-button"
                         data-bs-toggle="modal"
                         data-bs-target="#addMembershipModal"
                         data-localgroup-id="@Model.Id"> +</button></div>

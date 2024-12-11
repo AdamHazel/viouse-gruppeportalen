@@ -7,13 +7,15 @@
 <div class="sidebar">
     @Html.Partial("_CentralOrganisationSidebar")
 </div>
-
+<div class="center-container">
 <h2>Central Organisation Home</h2>
-
+</div>
+<div class="button-container">
 <div>
-    <a asp-controller="CentralOrganisation" asp-action="Index" class="btn btn-primary mt-4">Min profil</a>
+    <a asp-controller="CentralOrganisation" asp-action="Index" class="custom-button">Min profil</a>
 </div>
 
 <div>
-    <a asp-controller="Localgroup" asp-action="Index" class="btn btn-primary mt-4">Gå til mine lokallag</a>
+    <a asp-controller="Localgroup" asp-action="Index" class="custom-button">Gå til mine lokallag</a>
+</div>
 </div>

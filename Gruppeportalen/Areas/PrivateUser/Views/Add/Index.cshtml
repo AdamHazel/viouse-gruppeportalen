@@ -1,75 +1,66 @@
 ﻿@model PrivateUser
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+ViewBag.Title = "title";
+Layout = "_Layout";
 }
 
-<h2>Vi trenger litt flere detaljer om deg før du får tilgang til profilsiden din...</h2>
+<h2 class="centered-title">Vi trenger litt flere detaljer om deg før du får tilgang til profilsiden din...</h2>
 
-<div>
-
-    <form asp-action="Index" method="post">
-        <div>
-            <input type="hidden" asp-for="Id">
+<div class="main-container">
+    <form asp-action="Index" method="post" class="custom-form">
+        <div class="form-group">
+            <input type="hidden" asp-for="Id" />
         </div>
-
-        <div>
-            <label asp-for="Firstname" class="">Fornavn</label>
-            <input type="text" asp-for="Firstname"/>
+        
+        <div class="form-group">
+            <label asp-for="Firstname" class="form-label">Fornavn</label>
+            <input type="text" asp-for="Firstname" class="form-control" />
             <span asp-validation-for="Firstname" class="text-danger"></span>
-            <br/>
         </div>
-
-        <div>
-            <label asp-for="Lastname" class="col-sm-2 col-form-label">Etternavn</label>
-            <input asp-for="Lastname"/>
+        
+        <div class="form-group">
+            <label asp-for="Lastname" class="form-label">Etternavn</label>
+            <input asp-for="Lastname" class="form-control" />
             <span asp-validation-for="Lastname" class="text-danger"></span>
-            <br/>
         </div>
-
-        <div>
-            <label asp-for="DateOfBirth" class="col-sm-2 col-form-label">Fødselsdato</label>
-            <input asp-for="DateOfBirth"/>
+        
+        <div class="form-group">
+            <label asp-for="DateOfBirth" class="form-label">Fødselsdato</label>
+            <input asp-for="DateOfBirth" type="date" class="form-control" />
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            <br/>
         </div>
-
-        <div>
-            <label asp-for="Telephone" class="col-sm-2 col-form-label">Telefonnummer</label>
-            <input asp-for="Telephone"/>
+        
+        <div class="form-group">
+            <label asp-for="Telephone" class="form-label">Telefonnummer</label>
+            <input asp-for="Telephone" type="tel" class="form-control" />
             <span asp-validation-for="Telephone" class="text-danger"></span>
-            <br/>
         </div>
-
-        <div>
-            <label asp-for="Address" class="col-sm-2 col-form-label">Adresse</label>
-            <input asp-for="Address"/>
+        
+        <div class="form-group">
+            <label asp-for="Address" class="form-label">Adresse</label>
+            <input asp-for="Address" class="form-control" />
             <span asp-validation-for="Address" class="text-danger"></span>
-            <br/>
         </div>
-
-        <div>
-            <label asp-for="City" class="col-sm-2 col-form-label">By</label>
-            <input asp-for="City"/>
+        
+        <div class="form-group">
+            <label asp-for="City" class="form-label">By</label>
+            <input asp-for="City" class="form-control" />
             <span asp-validation-for="City" class="text-danger"></span>
-            <br/>
         </div>
-
-        <div>
-            <label asp-for="Postcode" class="col-sm-2 col-form-label">Postnummer</label>
-            <input asp-for="Postcode"/>
+        
+        <div class="form-group">
+            <label asp-for="Postcode" class="form-label">Postnummer</label>
+            <input asp-for="Postcode" class="form-control" />
             <span asp-validation-for="Postcode" class="text-danger"></span>
-            <br/>
         </div>
-
-        <div class="text-center" style="width: 100%;">
-            <input type="submit" class="btn btn-primary" value="Add User" />
+        
+        <div class="text-center mt-3">
+            <button type="submit" class="custom-save-changes-button">Lagre</button>
         </div>
     </form>
-
-    <br/>
-    <div class="text-center" style="width: 50%;">
-        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Back to User</a>
+    
+    <div class="text-center mt-3">
+        <a asp-action="Index" asp-controller="Home" class="custom-blue-btn">Tilbake til brukere</a>
     </div>
 </div>
