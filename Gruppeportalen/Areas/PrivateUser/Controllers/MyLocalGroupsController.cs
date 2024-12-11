@@ -6,6 +6,7 @@ using Gruppeportalen.Models;
 using Gruppeportalen.Services.Classes;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
@@ -25,15 +26,19 @@ public class MyLocalGroupsController : Controller
     private readonly ILocalGroupService _lgs;
     private readonly INorwayCountryInformation _norwayInfo;
     private readonly IMembershipTypeService _mts;
+    private readonly IGenerateMemberList _gml;
+    private readonly IMembershipService _ms;
 
     public MyLocalGroupsController(UserManager<ApplicationUser> um, IOverviewService os, ILocalGroupService lgs
-        , IMembershipTypeService mts, INorwayCountryInformation norwayInfo)
+        , IMembershipTypeService mts, INorwayCountryInformation norwayInfo, IGenerateMemberList gml, IMembershipService ms)
     {
         _um = um;
         _os = os;
         _lgs = lgs;
         _mts = mts;
         _norwayInfo = norwayInfo;
+        _gml = gml;
+        _ms = ms;
     }
     
     public IActionResult Index()
@@ -160,5 +165,16 @@ public class MyLocalGroupsController : Controller
             return NotFound("Group not found");
         
         return View(group);
+    }
+
+    [HttpGet]
+    public IActionResult ExportActiveMembershipsToCsv(Guid groupId)
+    {
+    
+        var csvBytes = _gml.GenerateActiveMembershipsCsv(groupId);
+        var fileName = $"AktiveMedlemskap_{DateTime.Now:yyyy.MM}.csv";
+
+        return File(csvBytes, "application/octet-stream", fileName);
+        
     }
 }

@@ -12,4 +12,7 @@ public interface IMembershipService
     ResultOfOperation? RemoveMembershipById(Guid membershipId);
     Membership? GetMembershipById(Guid membershipId);
     ResultOfOperation? UpdateMembership(Membership membership);
+
+    bool BlockMembershipById (List<Guid> memberIds);
+    bool UnblockMembershipById (List<Guid> memberIds);
 }

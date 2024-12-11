@@ -331,4 +331,49 @@ public class MembershipService : IMembershipService
             return roo;
         }
     }
+    public bool BlockMembershipById(List<Guid> memberIds)
+    {
+        try
+        {
+            var members = _db.Memberships.Where(m => memberIds.Contains(m.Id)).ToList();
+
+            if (!members.Any())
+            {
+                return false; 
+            }
+
+            foreach (var member in members)
+            {
+                member.IsBlocked = true;
+            }
+
+            _db.SaveChanges(); 
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Feil under blokkering: {ex.Message}");
+            return false;
+        }
+    }
+
+    public bool UnblockMembershipById(List<Guid> memberIds)
+    {
+        try
+        {
+            var members = _db.Memberships.Where(m => memberIds.Contains(m.Id)).ToList();
+
+            foreach (var member in members)
+            {
+                member.IsBlocked = false;
+            }
+
+            _db.SaveChanges(); 
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }

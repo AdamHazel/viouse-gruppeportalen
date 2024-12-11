@@ -40,6 +40,7 @@ builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IUserPersonConnectionsService, UserPersonConnectionsService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGenerateMemberList, GenerateMemberListService>();
 
 builder.Services.AddScoped<IMembershipService, MembershipService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();

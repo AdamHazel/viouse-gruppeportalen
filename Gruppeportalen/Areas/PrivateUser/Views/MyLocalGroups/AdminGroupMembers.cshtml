@@ -1,44 +1,37 @@
 @using Microsoft.EntityFrameworkCore
 @model LocalGroup
+
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Medlemsoversikt";
     Layout = "_Layout";
 }
 
-@{
-ViewBag.Title = "Medlemsoversikt";
-Layout = "_Layout";
-}
-
-<div>
-    
-    
-</div>
-
-
-
 <div class="container mt-4" style="background-color: #f5fff5; padding: 20px; border-radius: 8px;">
+   
     <div class="row mb-3">
         <div class="col-12">
             <div class="form-inline d-flex justify-content-between align-items-center">
                 <div class="form-group">
                     <label for="searchMember" class="me-2">Søk etter medlem:</label>
-                    <input type="text" id="searchMember" class="form-control me-3" placeholder="Søk...">
+                    <input type="text" id="searchMember" class="form-control me-3" placeholder="Søk etter navn...">
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="paidCheckbox" value="Betalt">
-                    <label class="form-check-label" for="paidCheckbox">Betalt</label>
+                    <input class="form-check-input" type="checkbox" id="activeCheckbox" value="Aktiv">
+                    <label class="form-check-label" for="activeCheckbox">Aktiv</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="unpaidCheckbox" value="Ikke Betalt">
-                    <label class="form-check-label" for="unpaidCheckbox">Ikke betalt</label>
+                    <input class="form-check-input" type="checkbox" id="inactiveCheckbox" value="Ikke aktiv">
+                    <label class="form-check-label" for="inactiveCheckbox">Ikke aktiv</label>
                 </div>
+
                 <div class="form-group mx-3">
                     <label for="membershipType" class="me-2">Medlemskapstype:</label>
                     <select id="membershipType" class="form-select">
                         <option value="">Alle</option>
-                        <option value="1">Type 1</option>
-                        <option value="2">Type 2</option>
+                        @foreach (var membershipType in Model.MembershipTypes)
+                        {
+                            <option value="@membershipType.Id">@membershipType.MembershipName</option>
+                        }
                     </select>
                 </div>
                 <div class="form-group mx-3">
@@ -49,51 +42,56 @@ Layout = "_Layout";
                         <option value="2024">2024</option>
                     </select>
                 </div>
-                <button class="btn btn-orange">Eksporter medlemsliste</button>
+                <a asp-action="ExportActiveMembershipsToCsv" asp-controller="MyLocalGroups" asp-route-groupId="@Model.Id"  class="btn btn-primary">
+                    Eksporter medlemsliste
+                </a>
             </div>
         </div>
     </div>
-    
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-            <thead class="table-light">
-            <tr>
-                <th>ID</th>
-                <th>Navn</th>
-                <th>Alder</th>
-                <th>Adresse</th>
-                <th>Medlemskapstype</th>
-                <th>Medlem siden</th>
-                <th>Medlemsstatus</th>
-                <th>Betalingsstatus</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Eksempeldata -->
-            <tr>
-                <td>1</td>
-                <td>Ola Nordmann</td>
-                <td>25</td>
-                <td>Oslo</td>
-                <td>Premium</td>
-                <td>2021-01-15</td>
-                <td>Aktiv</td>
-                <td>Betalt</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Kari Nordmann</td>
-                <td>30</td>
-                <td>Bergen</td>
-                <td>Standard</td>
-                <td>2020-06-10</td>
-                <td>Aktiv</td>
-                <td>Ikke betalt</td>
-            </tr>
-            <!-- Flere rader kan legges til dynamisk her -->
-            </tbody>
-        </table>
-    </div>
+
+
+
+    <table class="table table-bordered table-hover" id="membersTable">
+        <thead class="table-light">
+        <tr>
+            <th>Velg</th>
+            <th>ID</th>
+            <th>Navn</th>
+            <th>Alder</th>
+            <th>Adresse</th>
+            <th>Medlemskapstype</th>
+            <th>Medlem siden</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var membership in Model.Memberships)
+        {
+        <tr data-active-status="@membership.IsActive.ToString().ToLower()"
+            data-membership-type="@membership.MembershipType.Id">
+            <td>
+                <input type="checkbox" class="select-member" value="@membership.Id" />
+            </td>
+            <td>@membership.Id</td>
+            <td>@membership.Person.Firstname @membership.Person.Lastname</td>
+            <td>@(DateTime.Now.Year - membership.Person.DateOfBirth.Year)</td>
+            <td>@membership.Person.Address, @membership.Person.City</td>
+            <td>@membership.MembershipType.MembershipName</td>
+            <td>@String.Format("{0:dd.MM.yyyy}", membership.StartDate)</td>
+            <td>
+                @if (membership.IsActive)
+                {
+                <span class="text-success">Aktiv</span>
+                }
+                else
+                {
+                <span class="text-danger">Ikke aktiv</span>
+                }
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
 
     <!-- Handling-knapper -->
     <div class="d-flex justify-content-end mt-3">
@@ -101,4 +99,4 @@ Layout = "_Layout";
         <button class="btn btn-warning">Opphev blokkering</button>
     </div>
 </div>
-
+<script src="~/js/LocalGroupAdminScripts/Memberships/searchFilter.js"></script>
