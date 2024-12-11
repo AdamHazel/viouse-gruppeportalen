@@ -17,31 +17,38 @@
     }
 </div>
 
-<form method="post" asp-action="ProcessPayment">
-    <input type="hidden" name="MembershipTypeId" value="@Model.MembershipTypeId" />
+<form id="payment-form" method="post" asp-action="ProcessPayment">
+    <input type="hidden" name="PaymentId" value="@Model.PaymentId" />
+    <input type="hidden" name="MembershipId" value="@Model.MembershipId" />
+    <input type="hidden" name="Price" value="@Model.Price" />
     <input type="hidden" id="nonce" name="Nonce" />
-
-    <div id="dropin-container"></div>
+    <div id="bt-dropin"></div>
     <button type="submit" class="btn btn-primary">Betal nå</button>
 </form>
 
 <script src="https://js.braintreegateway.com/web/dropin/1.33.0/js/dropin.min.js"></script>
 <script>
-    var clientToken = '@ViewBag.ClientToken';
+    var client_token = '@ViewBag.ClientToken';
+    var form = document.querySelector('#payment-form');
 
     braintree.dropin.create({
-        authorization: clientToken,
-        container: '#dropin-container'
-    }, function (err, instance) {
-        document.querySelector('form').addEventListener('submit', function (event) {
+        authorization: client_token,
+        container: '#bt-dropin'
+    }, function (createErr, instance) {
+        form.addEventListener('submit', function (event) {
             event.preventDefault();
 
             instance.requestPaymentMethod(function (err, payload) {
-                if (!err) {
-                    document.querySelector('#nonce').value = payload.nonce;
-                    event.target.submit();
+                if (err) {
+                    console.error('Error generating nonce:', err);
+                    return;
                 }
+
+                // Set the nonce value in the hidden field
+                document.querySelector('#nonce').value = payload.nonce;
+                form.submit(); // Submit the form
             });
         });
     });
 </script>
+

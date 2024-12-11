@@ -187,4 +187,42 @@ public class PaymentService : IPaymentService
 
         return roo;
     }
+    
+    public Payment? GetPaymentByMembershipId(Guid membershipId)
+    {
+        return _db.MembershipPayments
+            .Include(mp => mp.Payment)
+            .Where(mp => mp.MembershipId == membershipId)
+            .Select(mp => mp.Payment)
+            .FirstOrDefault();
+    }
+
+    
+    public bool MarkPaymentAsPaid(Guid paymentId, string paidByUserId)
+    {
+        try
+        {
+            var payment = _db.Payments.FirstOrDefault(p => p.Id == paymentId);
+            if (payment == null)
+            {
+                Console.WriteLine($"Payment with ID {paymentId} not found.");
+                return false;
+            }
+
+            payment.Paid = true;
+            payment.PaidByUserId = paidByUserId;
+            payment.PaymentDate = DateTime.Now;
+
+            _db.Payments.Update(payment);
+            _db.SaveChanges();
+            Console.WriteLine("Payment updated successfully.");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in MarkPaymentAsPaid: {ex.Message}");
+            return false;
+        }
+    }
+
 }

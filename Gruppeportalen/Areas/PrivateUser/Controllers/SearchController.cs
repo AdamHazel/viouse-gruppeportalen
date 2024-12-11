@@ -148,7 +148,12 @@ public class SearchController : Controller
         return Json(new
         {
             success = true, 
-            redirectUrl = Url.Action("Checkout", "Payment", new {Area = "PrivateUser", membershipTypeId = membershipTypeChoice})
+            redirectUrl = Url.Action("Checkout", "Payment", new
+            {
+                Area = "PrivateUser", 
+                membershipId = result.M.Id,
+                paymentId = payment.Id
+            })
         });
     }
 

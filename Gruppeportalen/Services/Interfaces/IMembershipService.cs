@@ -15,4 +15,7 @@ public interface IMembershipService
 
     bool BlockMembershipById (List<Guid> memberIds);
     bool UnblockMembershipById (List<Guid> memberIds);
+
+    
+    bool ActivateMembership(Guid membershipId);
 }

@@ -347,7 +347,7 @@ public class MembershipService : IMembershipService
                 member.IsBlocked = true;
             }
 
-            _db.SaveChanges(); 
+            _db.SaveChanges();
             return true;
         }
         catch (Exception ex)
@@ -357,6 +357,32 @@ public class MembershipService : IMembershipService
         }
     }
 
+    
+    public bool ActivateMembership(Guid membershipId)
+    {
+        try
+        {
+            var membership = _db.Memberships.FirstOrDefault(m => m.Id == membershipId);
+            if (membership == null)
+            {
+                Console.WriteLine($"Membership with ID {membershipId} not found.");
+                return false;
+            }
+
+            membership.IsActive = true;
+
+            _db.Memberships.Update(membership);
+            _db.SaveChanges();
+            Console.WriteLine("Membership activated successfully.");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in ActivateMembership: {ex.Message}");
+            return false;
+        }
+    }
+    
     public bool UnblockMembershipById(List<Guid> memberIds)
     {
         try

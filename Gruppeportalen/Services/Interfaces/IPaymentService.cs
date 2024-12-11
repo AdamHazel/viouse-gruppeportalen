@@ -11,4 +11,9 @@ public interface IPaymentService
     Payment? GetPaymentById(Guid paymentId);
     ResultOfOperation? RemovePaymentById(Guid paymentId);
 
+    Payment? GetPaymentByMembershipId(Guid membershipId);
+    
+    bool MarkPaymentAsPaid(Guid paymentId, string userId);
+
+
 }
