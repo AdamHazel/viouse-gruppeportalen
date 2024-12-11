@@ -89,14 +89,11 @@ public class PaymentController : Controller
 
         if (result.IsSuccess())
         {
-            // Get the current user using IUserService
             var currentUser = await _userService.GetCurrentUserAsync(User);
 
-            // Mark payment as paid
             var paymentUpdated = _pay.MarkPaymentAsPaid(model.PaymentId, currentUser.Id);
             if (!paymentUpdated) return View("Error"); // Handle failure
 
-            // Activate the membership
             var membershipActivated = _ms.ActivateMembership(model.MembershipId);
             if (!membershipActivated) return View("Error"); // Handle failure
 
@@ -114,5 +111,33 @@ public class PaymentController : Controller
             model.ErrorMessage = result.Message;
             return View("Checkout", model); // Show error message on the same page
         }
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        var currentUser = await _userService.GetCurrentUserAsync(User);
+
+        // Fetch payments linked to the user's members
+        var payments = await _db.MembershipPayments
+            .Include(mp => mp.Payment)
+            .Include(mp => mp.Membership)
+            .ThenInclude(m => m.MembershipType)
+            .Include(mp => mp.Membership.Person)
+            .Where(mp => mp.Membership.PersonId == currentUser.Id)
+            .Select(mp => new PaymentListViewModel
+            {
+                PaymentId = mp.PaymentId,
+                MembershipId = mp.MembershipId,
+                MemberName =  $"{mp.Membership.Person.Firstname} {mp.Membership.Person.Lastname}",
+                MembershipName = mp.Membership.MembershipType.MembershipName,
+                Amount = mp.Payment.Amount,
+                Paid = mp.Payment.Paid,
+                PaymentDate = mp.Payment.PaymentDate,
+                ValidityPeriod = $"{mp.Membership.StartDate:dd.MM.yyyy}-{mp.Membership.EndDate:dd.MM.yyyy}"
+            })
+            .ToListAsync();
+
+        return View(payments);
     }
 }

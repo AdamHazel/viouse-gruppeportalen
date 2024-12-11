@@ -1,8 +1,63 @@
-﻿
+﻿@model IEnumerable<Gruppeportalen.Areas.PrivateUser.Models.ViewModels.PaymentListViewModel>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Betalinger";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="main-container">
+    <div class="sidebar">
+        @Html.Partial("_PrivateUserSidebar") 
+    </div>
+    <div class="main-content">
+        <h2>Betalinger</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Medlem</th>
+                <th>Medlemskap</th>
+                <th>Pris</th>
+                <th>Status</th>
+                <th>Betalt dato</th>
+                <th>Gyldighetsperiode</th>
+                <th>Handling</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6">Ingen betalinger funnet.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var payment in Model)
+                {
+                    <tr>
+                        <td>@payment.MemberName</td>
+                        <td>@payment.MembershipName</td>
+                        <td>@payment.Amount NOK</td>
+                        <td>@(payment.Paid ? "Betalt" : "Ikke betalt")</td>
+                        <td>@(payment.PaymentDate?.ToString("dd.MM.yyyy") ?? "-")</td>
+                        <td>@payment.ValidityPeriod</td>
+                        <td>
+                            @if (!payment.Paid)
+                            {
+                                <a class="btn btn-primary"
+                                   asp-area="PrivateUser"
+                                   asp-controller="Payment"
+                                   asp-action="Checkout"
+                                   asp-route-membershipId="@payment.MembershipId"
+                                   asp-route-paymentId="@payment.PaymentId">
+                                    Betal
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

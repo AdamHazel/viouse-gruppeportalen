@@ -18,6 +18,12 @@
                 Mine Lokallag
             </a>
         </li>
+        <li>
+            <a asp-area="PrivateUser" asp-controller="Payment" asp-action="Index"
+               class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Payments" ? "active" : "")">
+                Betalinger
+            </a>
+        </li>
     </ul>
 </div>
 

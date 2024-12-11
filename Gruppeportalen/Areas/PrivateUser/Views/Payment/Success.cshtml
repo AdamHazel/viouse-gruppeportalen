@@ -1,8 +1,15 @@
-﻿
-
-@{
-    ViewBag.Title = "title";
+﻿@{
+    ViewBag.Title = "Betaling - Succes";
     Layout = "_Layout";
 }
 
-<h2>Takk for betalingen</h2>
+<div class="main-container">
+    <div class="sidebar">
+        @Html.Partial("_PrivateUserSidebar")
+    </div>
+    <div class="main-content">
+        <h2>Betaling fullført</h2>
+        <p>Takk for betalingen! Din transaksjon har blitt fullført.</p>
+        <a class="btn btn-primary" asp-area="PrivateUser" asp-controller="Payment" asp-action="Index">Se betalinger</a>
+    </div>
+</div>
