@@ -42,6 +42,7 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddScoped<IMembershipService, MembershipService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddTransient<IBraintreeService, BraintreeService>();
 
 var app = builder.Build();
 

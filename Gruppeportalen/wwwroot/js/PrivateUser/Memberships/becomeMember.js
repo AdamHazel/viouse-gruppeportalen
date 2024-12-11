@@ -70,9 +70,19 @@ function attachFormHandler(form, modElement) {
                 const modalBody = modElement.querySelector(".modal-body");
                 const resultMessage = modElement.querySelector("#result-message");
                 if (result.success) {
-                    
-                    if (resultMessage) {
-                        resultMessage.innerHTML = `<span class="text-success">Membership added successfully!</span>`;
+
+                    if (result.success && result.redirectUrl) {
+                        console.log("Redirecting to:", result.redirectUrl);
+
+                        // Hide the modal
+                        const instance = bootstrap.Modal.getInstance(modElement);
+                        if (instance) {
+                            instance.hide();
+                        }
+                        
+                        setTimeout(() => {
+                            window.location.href = result.redirectUrl;
+                        }, 300);
                     }
                     else
                     {

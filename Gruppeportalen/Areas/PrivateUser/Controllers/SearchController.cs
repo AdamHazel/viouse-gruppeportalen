@@ -145,7 +145,11 @@ public class SearchController : Controller
             return Json(new { success = false, message = resultOfAddingPayment.Message });
         }
         
-        return Json(new {success = true});
+        return Json(new
+        {
+            success = true, 
+            redirectUrl = Url.Action("Checkout", "Payment", new {Area = "PrivateUser", membershipTypeId = membershipTypeChoice})
+        });
     }
 
     
