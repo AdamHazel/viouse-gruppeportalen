@@ -138,4 +138,27 @@ public class MyLocalGroupsController : Controller
         var group = _lgs.GetLocalGroupById(groupId);
         return View("AdminGroupMembers", group);
     }
+    
+    [Route("normal/group/{groupId:guid}/overview")]
+    [AdminForThisGroupCheckFactory]
+    public IActionResult LocalGroupOverview(Guid groupId)
+    {
+        var group = _lgs.GetLocalGroupById(groupId);
+        if (group == null)
+            return NotFound("Group not found");
+        
+        return View(group);
+    }
+
+    [Route("normal/group/{groupId:guid}/information")]
+    [AdminForThisGroupCheckFactory]
+    public IActionResult LocalGroupInformation(Guid groupId)
+    { 
+        ViewBag.Counties = _norwayInfo.GetAllCounties();
+        var group = _lgs.GetLocalGroupById(groupId);
+        if (group == null)
+            return NotFound("Group not found");
+        
+        return View(group);
+    }
 }

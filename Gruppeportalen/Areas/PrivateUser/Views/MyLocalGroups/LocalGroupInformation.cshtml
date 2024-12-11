@@ -30,34 +30,34 @@ Layout = "_Layout";
             <div>
                 <label asp-for="Active"></label>
                 <label class="toggle">
-                    <input type="checkbox" asp-for="Active"/>
+                    <input type="checkbox" asp-for="Active" disabled/>
                     <span class="slider"></span>
                 </label>
             </div>
 
             <div class="form-group">
                 <label asp-for="GroupName">Lokallag</label>
-                <input asp-for="GroupName" class="form-control"/>
+                <input asp-for="GroupName" class="form-control" disabled/>
             </div>
 
             <div class="form-group">
                 <label for="Address">Adresse</label>
-                <input asp-for="Address" class="form-control"/>
+                <input asp-for="Address" class="form-control" disabled/>
             </div>
 
             <div class="form-group">
                 <label for="Postcode">Postkode</label>
-                <input asp-for="Postcode" class="form-control"/>
+                <input asp-for="Postcode" class="form-control" disabled/>
             </div>
 
             <div class="form-group">
                 <label for="City">By</label>
-                <input asp-for="City" class="form-control"/>
+                <input asp-for="City" class="form-control" disabled/>
             </div>
 
             <div class="form-group">
                 <label for="County">Fylke</label>
-                <select asp-for="County" id="countyDropdown" class="form-control">
+                <select asp-for="County" id="countyDropdown" class="form-control" disabled>
                     <option value="Alle fylker">Alle fylker</option>
                     @foreach (var county in ViewBag.Counties as List<string>)
                     {
@@ -69,10 +69,8 @@ Layout = "_Layout";
 
             <div class="form-group">
                 <label for="Description">Beskrivelse</label>
-                <input asp-for="Description" class="form-control"/>
+                <input asp-for="Description" class="form-control" disabled/>
             </div>
-
-            <button type="submit" class="custom-save-changes-button">Lagre endringer</button>
         </form>
         <h3 class= "mt-4">Medlemskapstyper</h3>
         <div class="membership-outer-box mt-4">
@@ -81,7 +79,6 @@ Layout = "_Layout";
                 <table>
                     <thead>
                     <tr>
-                        <th scope="col"></th>
                         <th scope="col">Medlemsskapsnavn</th>
                         <th scope="col">Pris (kr)</th>
                         <th scope="col">Dato for fornyelse</th>
@@ -92,36 +89,9 @@ Layout = "_Layout";
                     @foreach (var membership in Model.MembershipTypes)
                     {
                         <tr>
-                            <td>
-                                <form asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="DeleteMembershipType" method="post">
-                                    <input type="hidden" name="Id" value="@membership.Id" />
-                                    
-                                        <button type="button" class="btn-close"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#sureToDeleteModal"
-                                                data-membership-id="@membership.Id"
-                                                aria-label="Close">
-                                        </button>
-
-                                </form>
-                            </td>
                             <td>@membership.MembershipName</td>
                             <td>@membership.Price</td>
                             <td><span>@membership.DayReset<span>.</span></span><span class="month">@membership.MonthReset</span></td>
-                            <td>
-                                <button class="custom-orange-btn"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#editMembershipModal"
-                                        data-membership-id="@membership.Id"
-                                        data-membership-name="@membership.MembershipName"
-                                        data-membership-price="@membership.Price"
-                                        data-membership-month="@membership.MonthReset"
-                                        data-membership-day="@membership.DayReset"
-                                        data-localgroup-id="@Model.Id"> 
-                                    Rediger
-                                </button>
-
-                            </td>
                         </tr>
                     }
                     </tbody>
@@ -131,23 +101,15 @@ Layout = "_Layout";
             {
                 <p>You have no memberships.</p>
             }
-           
-            <div>
-                <button class="custom-plus-button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addMembershipModal"
-                        data-localgroup-id="@Model.Id"> +</button></div>
-        </div>
+            
     </div>
-    <partial name="_AddNewMembershipType" model="@new MembershipType { LocalGroupId = Model.Id }"/>
-    <partial name="_EditMembershipType" />
     @await Html.PartialAsync("_SureToDeleteMembershipType")
 
 
-
+    </div>
 </div>
-<script src="~/js/LocalGroupAdminScripts/Memberships/fillEditMembershipType.js"></script>
+
 <script src="/js/LocalGroupAdminScripts/Memberships/changeMonthNumberToWords.js"></script>
-<script src="~/js/LocalGroupAdminScripts/Memberships/sureToDeleteMembershipType.js"></script>
+
 
 

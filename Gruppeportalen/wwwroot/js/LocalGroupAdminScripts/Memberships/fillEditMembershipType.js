@@ -9,23 +9,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const membershipMonth = this.getAttribute("data-membership-month");
             const membershipDay = this.getAttribute("data-membership-day");
             const localGroupId = this.getAttribute("data-localgroup-id"); 
-
+            
+            console.log(membershipDay);
+            
             document.getElementById("editMembershipId").value = membershipId;
             document.getElementById("editMembershipName").value = membershipName;
             document.getElementById("editMembershipPrice").value = membershipPrice;
             document.getElementById("editMembershipMonth").value = membershipMonth;
             document.getElementById("editMembershipLocalGroupId").value = localGroupId; 
-
-           
-            const dayDropdown = document.getElementById("editMembershipDay");
-            dayDropdown.innerHTML = ""; 
-            for (let i = 1; i <= 31; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.textContent = i;
-                if (i == membershipDay) option.selected = true;
-                dayDropdown.appendChild(option);
-            }
+            document.getElementById("editMembershipDay").value = membershipDay;
+            
         });
     });
 });

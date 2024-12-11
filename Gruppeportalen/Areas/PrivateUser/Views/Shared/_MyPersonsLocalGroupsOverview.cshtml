@@ -12,11 +12,12 @@ else
     <div class="groupContainer">
         @foreach (var group in Model)
         {
-            <a href="">
-                <div class="localGroupMiniBox">
-                    <p>@group.LocalGroupName</p>
-                </div>
-            </a>
+        <a asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="LocalGroupOverview"
+           asp-route-groupId="@group.LocalGroupId" class="localGroupMiniBox">
+            <div>
+                <p>@group.LocalGroupName</p>
+            </div>
+        </a>
         }
     </div>
 }

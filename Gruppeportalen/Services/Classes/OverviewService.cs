@@ -57,7 +57,7 @@ public class OverviewService : IOverviewService
                 var person = upc.Person;
                 foreach (var membership in person.Memberships)
                 {
-                    if (!membership.IsActive)
+                    if (membership.IsActive && membership.LocalGroup.Active)
                     {
                         listOfGroups.Add(membership.LocalGroup);
                     }

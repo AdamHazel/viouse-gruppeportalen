@@ -1,0 +1,19 @@
+﻿@model LocalGroup
+
+@{
+    ViewBag.Title = "Lokallag";
+    Layout = "_Layout";
+}
+
+<div class="main-container">
+    <div class="sidebar">
+        @Html.Partial("_PrivateUserSidebar")
+    </div>
+    <div>
+        <h2 class="centered-title">@Model.GroupName</h2>
+        <a class="custom-orange-btn" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="LocalGroupOverview"
+           asp-route-groupId="@Model.Id">Hjem</a>
+        <a class="custom-orange-btn" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="LocalGroupInformation"
+           asp-route-groupId="@Model.Id">Lokallaginfo</a>
+    </div>
+</div>

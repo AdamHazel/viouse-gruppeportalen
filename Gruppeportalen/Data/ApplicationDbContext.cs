@@ -108,13 +108,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(mp => mp.Membership)
             .WithMany(mp => mp.MembershipPayments)
             .HasForeignKey(mp => mp.MembershipId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.Entity<MembershipPayment>()
             .HasOne(mp => mp.Payment)
             .WithMany(mp => mp.MembershipPayments)
             .HasForeignKey(mp => mp.PaymentId)
-            .OnDelete(DeleteBehavior.NoAction);
-
+            .OnDelete(DeleteBehavior.Cascade);
+        
     }
 }
