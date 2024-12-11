@@ -12,7 +12,6 @@
                 <select name="membershipTypeChoice" id="membershipChoice" required>
                     <partial name="_MembershipChoices" model="@Model.Group"/>
                 </select> 
-                <div id="membershipTypeChoice-message"></div>
             </div>
         </div>
         <div class="form-group row mb-2">
@@ -23,7 +22,6 @@
                 <select name="personChoice" id="personChoice" required>
                     <partial name="_PersonChoice" model="@Model.User"></partial>
                 </select>
-                <div id="personChoice-message"></div>
             </div>
         </div>
         <button type="submit" class="btn btn-outline-dark">Gå til betaling</button>

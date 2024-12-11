@@ -1,7 +1,7 @@
 ﻿using System.Security.Principal;
+using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
-using Gruppeportalen.Models.MembershipsAndPayment;
 using Gruppeportalen.Models.ViewModels;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -77,6 +77,32 @@ public class PaymentService : IPaymentService
     {
         return _db.Payments.Any(p => p.Id == paymentId);
     }
+
+    private bool _removePayment(Payment p)
+    {
+        try
+        {
+            var user = p.PaidByUser;
+            if (user != null)
+            {
+                user.Payments.Remove(p);
+            }
+            _db.Payments.Remove(p);
+            if (_db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else throw new Exception("Failed to remove payment");
+        }
+        catch (DbUpdateException exception)
+        {
+            return false;
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+    }
     
     public ResultOfOperation? AddPayment(Payment p)
     {
@@ -134,6 +160,31 @@ public class PaymentService : IPaymentService
     {
         return _db.Payments
             .Include(p => p.MembershipPayments)
+            .Include(p => p.PaidByUser)
             .FirstOrDefault(p => p.Id == id);
+    }
+
+    public ResultOfOperation? RemovePaymentById(Guid paymentId)
+    {
+        var roo = new ResultOfOperation
+        {
+            Result = false,
+            Message = String.Empty
+        };
+        
+        var payment = GetPaymentById(paymentId);
+        if (payment == null)
+        {
+            roo.Message = "Det var ikke mulig å finne betalingsinfo";
+            return roo;
+        }
+
+        roo.Result = _removePayment(payment);
+        if (!roo.Result)
+        {
+            roo.Message = "Det var ikke mulig å fjerne betalingsdata";
+        }
+
+        return roo;
     }
 }

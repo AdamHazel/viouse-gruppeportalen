@@ -1,4 +1,5 @@
-﻿using Gruppeportalen.Models.MembershipsAndPayment;
+﻿using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
+
 
 namespace Gruppeportalen.Models.ViewModels;
 

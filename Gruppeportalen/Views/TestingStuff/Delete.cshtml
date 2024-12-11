@@ -1,0 +1,25 @@
+﻿@using Microsoft.IdentityModel.Tokens
+@model Gruppeportalen.Models.ViewModels.ResultOfOperation
+
+@{
+    ViewBag.Title = "TestingStuff";
+    Layout = "_Layout";
+}
+
+<h2>Delete</h2>
+
+<div style="height: 200px"></div>
+@if (Model.Result)
+{
+    for (var i = 0; i < 10; i++)
+    {
+        <p>success!</p>
+    }
+}
+else
+{
+    for (var i = 0; i < 10; i++)
+    {
+        <p>@Model.Message</p>
+    }
+}

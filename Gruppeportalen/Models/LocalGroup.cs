@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
 using Gruppeportalen.Areas.CentralOrganisation.Models;
-using Gruppeportalen.Models.MembershipsAndPayment;
+using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 

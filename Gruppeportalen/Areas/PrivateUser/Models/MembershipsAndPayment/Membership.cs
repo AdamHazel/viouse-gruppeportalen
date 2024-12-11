@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Gruppeportalen.Areas.PrivateUser.Models;
+using Gruppeportalen.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gruppeportalen.Models.MembershipsAndPayment;
+namespace Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 
 [PrimaryKey(nameof(Id))]
 public class Membership

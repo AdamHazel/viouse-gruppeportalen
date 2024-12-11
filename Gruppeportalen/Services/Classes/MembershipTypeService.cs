@@ -1,6 +1,6 @@
+using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 using Gruppeportalen.Data;
 using Gruppeportalen.Models;
-using Gruppeportalen.Models.MembershipsAndPayment;
 using Gruppeportalen.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

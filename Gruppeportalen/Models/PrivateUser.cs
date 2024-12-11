@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
 using Gruppeportalen.Areas.PrivateUser.Models;
+using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 using Gruppeportalen.Models;
-using Gruppeportalen.Models.MembershipsAndPayment;
 
 namespace Gruppeportalen.Models;
 

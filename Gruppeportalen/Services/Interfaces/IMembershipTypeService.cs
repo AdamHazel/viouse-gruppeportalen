@@ -1,5 +1,5 @@
+using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 using Gruppeportalen.Models;
-using Gruppeportalen.Models.MembershipsAndPayment;
 
 namespace Gruppeportalen.Services.Interfaces;
 

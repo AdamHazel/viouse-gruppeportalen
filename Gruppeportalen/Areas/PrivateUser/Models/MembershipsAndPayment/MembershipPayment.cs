@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gruppeportalen.Models.MembershipsAndPayment;
+namespace Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 
 [PrimaryKey(nameof(MembershipId), nameof(PaymentId))]
 public class MembershipPayment

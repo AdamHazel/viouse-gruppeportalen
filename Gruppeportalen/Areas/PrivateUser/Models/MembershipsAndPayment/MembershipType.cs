@@ -1,9 +1,10 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gruppeportalen.Models;
 using Newtonsoft.Json;
 
-namespace Gruppeportalen.Models.MembershipsAndPayment;
+namespace Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 
 public class MembershipType
 {

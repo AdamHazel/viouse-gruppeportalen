@@ -1,7 +1,7 @@
 ﻿using Gruppeportalen.Areas.CentralOrganisation.Models;
 using Gruppeportalen.Areas.PrivateUser.Models;
+using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 using Gruppeportalen.Models;
-using Gruppeportalen.Models.MembershipsAndPayment;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Connection = NuGet.Protocol.Plugins.Connection;

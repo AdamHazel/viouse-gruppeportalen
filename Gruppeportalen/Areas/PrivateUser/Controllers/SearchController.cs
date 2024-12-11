@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Gruppeportalen.Areas.PrivateUser.HelperClasses;
+using Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 using Gruppeportalen.Areas.PrivateUser.Models.ViewModels;
 using Gruppeportalen.Controllers;
-using Gruppeportalen.Models.MembershipsAndPayment;
 using Gruppeportalen.Services.Interfaces;
 
 namespace Gruppeportalen.Areas.PrivateUser.Controllers;
@@ -90,6 +90,17 @@ public class SearchController : Controller
     [Route("PrivateUser/Search/{groupId:guid}/addMember")]
     public IActionResult AddMembership(Guid localGroupId, Guid membershipTypeChoice, string personChoice)
     {
+        var allowedToAdd = _ms.AllowedToAddMembership(membershipTypeChoice, personChoice, localGroupId);
+        if (allowedToAdd == null)
+        {
+            return Json(new { success = false, message = "Det er ikke mulig å sjekke om du kan legge til dette medlemsskapet." });
+        }
+
+        if (!allowedToAdd.Result)
+        {
+            return Json(new { success = false, message = allowedToAdd.Message });
+        }
+        
         var result = _ms.AddMembershipToDatabase(membershipTypeChoice, personChoice, localGroupId);
         if (result == null)
         {
@@ -109,22 +120,28 @@ public class SearchController : Controller
         var resultOfAddingPayment = _pay.AddPayment(payment);
         if (resultOfAddingPayment == null)
         {
+            var r = _ms.RemoveMembershipById(result.M.Id);
             return Json(new { success = false, message = "Adding payment returned null" });
         }
 
         if (!resultOfAddingPayment.Result)
         {
+            var r = _ms.RemoveMembershipById(result.M.Id);
             return Json(new { success = false, message = resultOfAddingPayment.Message });
         }
 
         var resultOfAddingMemberPayment = _pay.AddMemberPayment(payment.Id, result.M.Id);
         if (resultOfAddingMemberPayment == null)
         {
+            var r = _ms.RemoveMembershipById(result.M.Id);
+            var r2 = _pay.RemovePaymentById(payment.Id);
             return Json(new { success = false, message = "Adding memberpayment returned null" });
         }
 
         if (!resultOfAddingMemberPayment.Result)
         {
+            var r = _ms.RemoveMembershipById(result.M.Id);
+            var r2 = _pay.RemovePaymentById(payment.Id);
             return Json(new { success = false, message = resultOfAddingPayment.Message });
         }
         

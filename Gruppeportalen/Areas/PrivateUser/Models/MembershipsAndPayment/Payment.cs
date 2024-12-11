@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gruppeportalen.Models.MembershipsAndPayment;
+namespace Gruppeportalen.Areas.PrivateUser.Models.MembershipsAndPayment;
 
 [PrimaryKey(nameof(Id))]
 public class Payment
@@ -13,7 +13,7 @@ public class Payment
     
     [ForeignKey(nameof(PaidByUserId))]
     public string? PaidByUserId { get; set; }
-    public PrivateUser? PaidByUser { get; set; }
+    public Gruppeportalen.Models.PrivateUser? PaidByUser { get; set; }
     
     public ICollection<MembershipPayment> MembershipPayments { get; set; } = new HashSet<MembershipPayment>();
 }

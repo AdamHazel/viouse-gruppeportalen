@@ -6,10 +6,16 @@ beMemberModal.addEventListener("show.bs.modal", function (event) {
     const button = event.relatedTarget;
     const groupName = button.getAttribute("data-group-name");
     const groupId = button.getAttribute("data-group-id");
-    const modalBody = beMemberModal.querySelector(".modal-body");
+    const formContent = beMemberModal.querySelector("#form-content");
+
+    const resultMessage = beMemberModal.querySelector("#result-message");
+    if (resultMessage) {
+        resultMessage.innerHTML = ""; 
+    }
     
     const url = button.getAttribute("data-url");
     console.log(url.toString());
+    
     
     document.getElementById("becomeMemberTitle").textContent = groupName;
     
@@ -21,9 +27,9 @@ beMemberModal.addEventListener("show.bs.modal", function (event) {
             return response.text();
         })
         .then(data => {
-            modalBody.innerHTML = data;
+            formContent.innerHTML = data;
             
-            const form = modalBody.querySelector("form");
+            const form = formContent.querySelector("form");
             if (form) {
                 attachFormHandler(form, beMemberModal);
             }
@@ -31,14 +37,15 @@ beMemberModal.addEventListener("show.bs.modal", function (event) {
         })
         .catch(error => {
             console.error("Error loading modal content: ", error);
-            modalBody.innerHTML = '<p class ="text-danger">Det skjedde en feil</p>';
+            formContent.innerHTML = '<p class ="text-danger">Det skjedde en feil</p>';
         })
+    
 });
 
 function attachFormHandler(form, modElement) {
     form.addEventListener("submit", function (e) {
         e.preventDefault();
-        
+
         const actionUrl = form.getAttribute("action");
         const formData = new FormData(form);
 
@@ -55,30 +62,42 @@ function attachFormHandler(form, modElement) {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Failed to submit form!");
+                    throw new Error("Det oppsto en feil.");
                 }
                 return response.json();
             })
             .then (result => {
                 const modalBody = modElement.querySelector(".modal-body");
+                const resultMessage = modElement.querySelector("#result-message");
                 if (result.success) {
-                    console.log("Successfully added form!");
-                    alert("Successfully added membership");
                     
-                    const instance = bootstrap.Modal.getInstance(modElement);
-                    if (instance) {
-                        instance.hide();
+                    if (resultMessage) {
+                        resultMessage.innerHTML = `<span class="text-success">Membership added successfully!</span>`;
                     }
+                    else
+                    {
+                        console.log("#result-message NOT found");
+                    }
+                    console.log("Successfully added form!");                    
                 }
                 else {
-                    console.log(result.message.toString());
-                    alert(result.message);
+                    const errorMessage = result.message.toString();
+                    console.log(errorMessage);
+                    if (resultMessage) {
+                        resultMessage.innerHTML = `<span class="text-danger">Error: ${errorMessage} </span>`;
+                    }
+                    else
+                    {
+                        console.log("#result-message NOT found");
+                    }
                 }
             })
             .catch(error => {
-                console.error("Error submitting form:", error);
-                const modalBody = modElement.querySelector(".modal-body");
-                modalBody.innerHTML = '<p class ="text-danger">Det skjedde en feil</p>';
+                console.error("Error:", error);
+                const resultMessage = modElement.querySelector("#result-message");
+                if (resultMessage) {
+                    resultMessage.innerHTML = `<span class="text-danger">${error}</span>`;
+                }
             });
     });
 }
