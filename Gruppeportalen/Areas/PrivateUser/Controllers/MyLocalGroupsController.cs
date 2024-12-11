@@ -131,4 +131,10 @@ public class MyLocalGroupsController : Controller
         return RedirectToAction("AdminGroupInformation", new { groupId = model.LocalGroupId });
     }
 
+    
+    public IActionResult AdminGroupMembers(Guid groupId)
+    {
+        var group = _lgs.GetLocalGroupById(groupId);
+        return View("AdminGroupMembers", group);
+    }
 }

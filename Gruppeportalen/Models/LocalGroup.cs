@@ -57,5 +57,5 @@ public class LocalGroup
     public ICollection<LocalGroupAdmin> LocalGroupAdmins { get; set; } = new List<LocalGroupAdmin>();
     public ICollection<MembershipType> MembershipTypes { get; set; } = new List<MembershipType>();
     
-    public ICollection<Membership> Memberships { get; set; } = new HashSet<Membership>();
+    public ICollection<Membership> Memberships { get; set; } = new List<Membership>();
 }
