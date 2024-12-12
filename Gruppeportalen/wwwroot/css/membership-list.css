@@ -1,107 +1,129 @@
-.table-responsive{
-    
-}
-
-.table thead {
-    background-color: #f4a261; /* Oransje bakgrunn */
-    color: black; /* Hvit tekst */
-}
-
-.table thead th {
-    padding: 15px; /* Juster padding for overskriftene */
-    text-align: left; /* Venstrejustering av teksten */
-    font-weight: bold; /* Gjør teksten fet */
-    background-color: #d3d3d3;
-    
-}
-
-/* Styling for search-box */
-.search-box {
-    background-color: #d3d3d3; /* Lys grå bakgrunn */
-    padding: 20px; /* Innvendig padding */
+/* Container for søkeboksen */
+.row.mb-3 {
+    background-color: #f5f9f9; /* Lys bakgrunnsfarge */
     border-radius: 10px; /* Runde hjørner */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Myk skygge */
-    margin: 20px 0; /* Margin over og under */
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Avstand mellom seksjonene */
+    padding: 20px; /* Innvendig padding */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Myk skygge */
+    margin-bottom: 30px; /* Avstand under søkeboksen */
+    display: flex; /* Flexbox for å styre innholdet */
+    flex-direction: column; /* Gjør alt vertikalt sentrert */
+    gap: 30px; /* Mellomrom mellom seksjonene */
 }
 
-/* Øverste seksjon med søkefelt */
-.search-top {
+/* Søkeseksjonen */
+.search-box {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column; /* Plasser label og input vertikalt */
+    gap: 10px; /* Avstand mellom label og input */
 }
 
-.search-top label {
+#searchMember {
+    width: 100%; /* Fyller containerens bredde */
+    max-width: 1250px; /* Begrens maks bredde */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#searchMember:focus {
+    border-color: #f4a261; /* Oransje kant ved fokus */
+    box-shadow: 0 0 5px rgba(244, 162, 97, 0.5); /* Glød-effekt */
+}
+
+label[for="searchMember"] {
     font-size: 14px;
     font-weight: bold;
-    color: #333;
+    color: #1a3550;
 }
 
-.search-top input {
-    flex: 1;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Rad med elementer under */
-.search-row {
+/* Filter-seksjonen */
+.filter-row {
     display: flex;
-    align-items: center;
-    justify-content: space-between; /* Jevn fordeling */
-    gap: 15px;
+    flex-wrap: wrap; /* Bryt til flere linjer om nødvendig */
+    gap: 20px; /* Mellomrom mellom elementene */
+    justify-content: space-between; /* Jevn fordeling av elementene */
 }
 
-/* Styling for form-check */
+/* Avkrysningsboksene */
 .form-check {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px; /* Avstand mellom boks og label */
 }
 
-.form-check label {
+.form-check-label {
     font-size: 14px;
-    color: #333;
+    font-weight: bold;
+    color: #1a3550;
 }
 
-/* Styling for dropdown og knapp */
+/* Standard stil for checkboxes */
+.form-check-input {
+    width: 20px;
+    height: 20px;
+    accent-color: #f4a261; /* Standardfarge */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Endre fargen når den er trykket på */
+.form-check-input:active {
+    background-color: #e76f51; /* Midlertidig farge når trykket */
+    border-color: #e76f51;
+}
+
+/* Endre fargen når checkboxen er valgt */
+.form-check-input:checked {
+    background-color: #1a3550; /* Farge når valgt */
+    border-color: #1a3550;
+    color: white; /* Tekstfarge, hvis relevant */
+}
+
+
+/* Dropdown-stil */
 .form-group {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column; /* Plasser label over dropdown */
     gap: 5px;
+    align-items: flex-start;
 }
 
 .form-group label {
     font-size: 14px;
     font-weight: bold;
-    color: #333;
+    color: #1a3550;
 }
 
-select.form-control {
-    width: 150px;
-    padding: 5px;
+.form-select {
+    padding: 10px;
+    border-radius: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.custom-orange-btn {
+.form-select:focus {
+    border-color: #f4a261;
+    box-shadow: 0 0 5px rgba(244, 162, 97, 0.5);
+}
+
+/* Knappene */
+.btn-primary {
     background-color: #f4a261;
     color: white;
     padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
+    border-radius: 8px;
     font-size: 14px;
     font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
     transition: background-color 0.3s ease;
 }
 
-.custom-orange-btn:hover {
-    background-color: #e76f51;
-}
 
+/* Justering av mellomrom */
+.customised-button-memberlist {
+    display: flex;
+    gap: 20px; /* Avstand mellom knappene */
+}
