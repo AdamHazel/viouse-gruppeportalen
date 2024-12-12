@@ -14,9 +14,14 @@ public class GenerateMemberListService:IGenerateMemberList
         _db = db;
     }
 
+    
+    public bool IsMembershipListEmpty(Guid localgroupid)
+    {
+        return !_db.Memberships.Any(m => m.IsActive && m.LocalGroupId == localgroupid);
+    }
+    
     public byte[] GenerateActiveMembershipsCsv(Guid localgroupid)
     {
-       
         Console.WriteLine($"Filtering memberships for LocalGroupId: {localgroupid}");
 
         var activeMemberships = _db.Memberships
@@ -26,34 +31,32 @@ public class GenerateMemberListService:IGenerateMemberList
             .Where(m => m.LocalGroupId == localgroupid)
             .ToList();
 
-        // Logg antall resultater
-        Console.WriteLine($"Found {activeMemberships.Count} active memberships for LocalGroupId: {localgroupid}");
-
-        if (!activeMemberships.Any())
-        {
-            throw new Exception($"Ingen aktive medlemskap funnet for LocalGroupId: {localgroupid}");
-        }
-
-        // Bygg CSV
         var csvBuilder = new StringBuilder();
         csvBuilder.AppendLine("ID;Fornavn;Etternavn;Adresse;Fødselsdato;Medlemskapstype;Startdato;Status Aktiv;Status Blokkert");
 
-        foreach (var membership in activeMemberships)
+        if (activeMemberships.Any())
         {
-            csvBuilder.AppendLine(
-                $"{membership.Id};" +
-                $"{membership.Person.Firstname};" +
-                $"{membership.Person.Lastname};" +
-                $"\"{membership.Person.Address}, {membership.Person.Postcode}, {membership.Person.City}\";" +
-                $"{membership.Person.DateOfBirth:dd.MM.yyyy};" +
-                $"{membership.MembershipType.MembershipName};" +
-                $"{membership.StartDate:dd.MM.yyyy};" +
-                $"{(membership.IsActive ? "Ja" : "Nei")};" +
-                $"{(membership.IsBlocked ? "Ja" : "Nei")}"
-            );
+            foreach (var membership in activeMemberships)
+            {
+                csvBuilder.AppendLine(
+                    $"{membership.Id};" +
+                    $"{membership.Person.Firstname};" +
+                    $"{membership.Person.Lastname};" +
+                    $"\"{membership.Person.Address}, {membership.Person.Postcode}, {membership.Person.City}\";" +
+                    $"{membership.Person.DateOfBirth:dd.MM.yyyy};" +
+                    $"{membership.MembershipType.MembershipName};" +
+                    $"{membership.StartDate:dd.MM.yyyy};" +
+                    $"{(membership.IsActive ? "Ja" : "Nei")};" +
+                    $"{(membership.IsBlocked ? "Ja" : "Nei")}"
+                );
+            }
+        }
+        else
+        {
+            Console.WriteLine("Ingen aktive medlemskap funnet. Genererer tom CSV med kun header.");
         }
 
-        // Konverter CSV til byte-array
+     
         var utf8Bom = Encoding.UTF8.GetPreamble();
         var csvBytes = Encoding.UTF8.GetBytes(csvBuilder.ToString());
 

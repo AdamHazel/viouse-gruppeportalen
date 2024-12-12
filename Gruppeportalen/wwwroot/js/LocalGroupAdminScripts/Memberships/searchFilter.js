@@ -9,22 +9,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const query = searchInput.value.toLowerCase();
         const showActive = activeCheckbox.checked;
         const showInactive = inactiveCheckbox.checked;
-        const selectedMembershipType = membershipTypeSelect.value;
+        const selectedMembershipType = membershipTypeSelect.value; 
 
         tableRows.forEach(row => {
-            const nameCell = row.children[1].textContent.toLowerCase(); 
-            const activeStatus = row.getAttribute("data-active-status") === "true"; 
-            const matchesQuery = nameCell.includes(query);
+            const nameCell = row.children[2].textContent.toLowerCase();
+            const activeStatus = row.getAttribute("data-active-status") === "true";
+            const membershipType = row.getAttribute("data-membership-type"); 
 
+            const matchesQuery = nameCell.includes(query);
             const matchesActive =
                 (showActive && activeStatus) ||
                 (showInactive && !activeStatus) ||
                 (!showActive && !showInactive);
 
-            if (matchesQuery && matchesActive) {
-                row.style.display = ""; 
+            const matchesMembershipType =
+                !selectedMembershipType || membershipType === selectedMembershipType; 
+
+            if (matchesQuery && matchesActive && matchesMembershipType) {
+                row.style.display = "";
             } else {
-                row.style.display = "none"; 
+                row.style.display = "none";
             }
         });
     }

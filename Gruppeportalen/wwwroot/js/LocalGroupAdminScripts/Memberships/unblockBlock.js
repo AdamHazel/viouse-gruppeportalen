@@ -1,11 +1,17 @@
-//Block members
+// Block members
 document.querySelector(".block-member-btn").addEventListener("click", function () {
     const selectedIds = Array.from(document.querySelectorAll(".select-member:checked"))
         .map(checkbox => checkbox.value);
 
     if (selectedIds.length === 0) {
-        alert("Please select at least one member to block.");
+        alert("Ingen personer valgt.");
         return;
+    }
+
+
+    const confirmBlock = confirm("Er du sikker på at du ønsker å blokke de valgte medlemmene?");
+    if (!confirmBlock) {
+        return; 
     }
 
     fetch("/PrivateUser/MyLocalGroups/BlockMember", {
@@ -13,7 +19,7 @@ document.querySelector(".block-member-btn").addEventListener("click", function (
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(selectedIds) 
+        body: JSON.stringify(selectedIds)
     })
         .then(response => {
             if (!response.ok) {
@@ -26,10 +32,9 @@ document.querySelector(".block-member-btn").addEventListener("click", function (
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("An error occurred while blocking members.");
+            alert("En feil oppstod da man prøvde å blokke medlem.");
         });
 });
-
 
 // Unblock members
 document.querySelector(".unblock-member-btn").addEventListener("click", function () {
@@ -37,7 +42,7 @@ document.querySelector(".unblock-member-btn").addEventListener("click", function
         .map(checkbox => checkbox.value);
 
     if (selectedIds.length === 0) {
-        alert("Please select at least one member to unblock.");
+        alert("Ingen personer valgt.");
         return;
     }
 
@@ -46,7 +51,7 @@ document.querySelector(".unblock-member-btn").addEventListener("click", function
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(selectedIds) 
+        body: JSON.stringify(selectedIds)
     })
         .then(response => {
             if (!response.ok) {
@@ -59,6 +64,6 @@ document.querySelector(".unblock-member-btn").addEventListener("click", function
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("An error occurred while unblocking members.");
+            alert("En feil oppstod under blokkering av medlem.");
         });
 });

@@ -2,5 +2,6 @@ namespace Gruppeportalen.Services.Interfaces;
 
 public interface IGenerateMemberList
 {
-    byte[] GenerateActiveMembershipsCsv(Guid localgroupid);
+    public byte[] GenerateActiveMembershipsCsv(Guid localgroupid);
+    bool IsMembershipListEmpty(Guid localgroupid);
 }

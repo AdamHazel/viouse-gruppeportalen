@@ -170,13 +170,21 @@ public class MyLocalGroupsController : Controller
     [HttpGet]
     public IActionResult ExportActiveMembershipsToCsv(Guid groupId)
     {
-    
+     
         var csvBytes = _gml.GenerateActiveMembershipsCsv(groupId);
         var fileName = $"AktiveMedlemskap_{DateTime.Now:yyyy.MM}.csv";
 
         return File(csvBytes, "application/octet-stream", fileName);
-        
     }
+
+    
+    [HttpGet]
+    public IActionResult CheckIfMembershipListIsEmpty(Guid groupId)
+    {
+        var isEmpty = _gml.IsMembershipListEmpty(groupId); 
+        return Json(new { isEmpty }); 
+    }
+    
 
     [HttpPost]
     public IActionResult BlockMember([FromBody] List<Guid> memberIds)

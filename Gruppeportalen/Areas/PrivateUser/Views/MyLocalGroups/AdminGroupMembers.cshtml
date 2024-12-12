@@ -42,9 +42,10 @@
                         <option value="2024">2024</option>
                     </select>
                 </div>
-                <a asp-action="ExportActiveMembershipsToCsv" asp-controller="MyLocalGroups" asp-route-groupId="@Model.Id"  class="btn btn-primary">
+                <a href="javascript:void(0);" onClick="exportMemberships(this)" class="btn btn-primary" data-group-id="@Model.Id">
                     Eksporter medlemsliste
                 </a>
+
             </div>
         </div>
     </div>
@@ -104,13 +105,14 @@
         </tbody>
     </table>
     
-        <!-- Handling-knapper -->
-        <div class="d-flex justify-content-end mt-3">
-            <button class="btn btn-danger me-2 block-member-btn">Blokker medlem</button>
-            <button class="btn btn-warning unblock-member-btn">Opphev blokkering</button>
-        </div>
+    <div class="d-flex justify-content-end mt-3">
+        <button class="btn btn-danger me-2 block-member-btn">Blokker medlem</button>
+        <button class="btn btn-warning unblock-member-btn">Opphev blokkering</button>
+    </div>
     
 </div>
- 
+
+
+<script src="~/js/LocalGroupAdminScripts/Memberships/membershipListEmpty.js"></script>
 <script src="~/js/LocalGroupAdminScripts/Memberships/searchFilter.js"></script>
 <script src="~/js/LocalGroupAdminScripts/Memberships/unblockBlock.js"></script>
