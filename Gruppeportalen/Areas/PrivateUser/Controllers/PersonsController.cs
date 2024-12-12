@@ -30,9 +30,11 @@ public class PersonsController : Controller
     private readonly IUserPersonConnectionsService _upc;
     private readonly IPersonService _ps;
     private readonly IApplicationUserService _aus;
+    private readonly IMembershipService _ms;
 
     public PersonsController(ApplicationDbContext db, UserManager<ApplicationUser> um,
-        IPrivateUserOperations puo, IUserPersonConnectionsService upc, IPersonService ps, IApplicationUserService aus)
+        IPrivateUserOperations puo, IUserPersonConnectionsService upc, IPersonService ps, IApplicationUserService aus,
+        IMembershipService ms)
     {
         _db = db;
         _um = um;
@@ -40,6 +42,7 @@ public class PersonsController : Controller
         _upc = upc;
         _ps = ps;
         _aus = aus;
+        _ms = ms;
     }
 
     [HttpGet]
@@ -237,5 +240,29 @@ public class PersonsController : Controller
                 return Json(new { success = false, errorMessage = "Det oppsto en feil. Feil melding:" + " " + resultOfAddingConnection.Message }); 
             }
         }
+    }
+
+    [HttpPost]
+    public IActionResult CancelMembership(Guid membershipId)
+    {
+        var membership = _ms.GetMembershipById(membershipId);
+        if (membership == null)
+        {
+            return Json(new { success = false, message = "Fant ikke medlemsskapet" });
+        }
+
+        membership.ToBeRenewed = !membership.ToBeRenewed;
+        var resultOfUpdating = _ms.UpdateMembership(membership);
+        if (resultOfUpdating == null)
+        {
+            return Json(new { success = false, message = "Error" });
+        }
+
+        if (!resultOfUpdating.Result)
+        {
+            return Json(new { success = false, message = resultOfUpdating.Message });
+        }
+        
+        return Json(new {success = true, message ="Success!" });
     }
 }

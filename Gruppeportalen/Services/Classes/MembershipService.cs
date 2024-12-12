@@ -121,6 +121,27 @@ public class MembershipService : IMembershipService
             return false;
         }
     }
+    
+    private bool _updateMembership(Membership m)
+    {
+        try
+        {
+            _db.Memberships.Update(m);
+            if (_db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else throw new Exception("Failed to update membership");
+        }
+        catch (DbUpdateException exception)
+        {
+            return false;
+        }
+        catch (Exception exception)
+        {
+            return false;
+        }
+    }
 
     private bool _addMembershipPayment(Membership m, Payment p)
     {
@@ -278,5 +299,36 @@ public class MembershipService : IMembershipService
         }
         
         return roo;
+    }
+
+    public Membership? GetMembershipById(Guid membershipId)
+    {
+        var m = _getMembershipById(membershipId);
+        return m;
+    }
+
+    public ResultOfOperation? UpdateMembership(Membership membership)
+    {
+        var roo = new ResultOfOperation
+        {
+            Result = false,
+            Message = string.Empty,
+        };
+        var m = _getMembershipById(membership.Id);
+        if (m == null)
+        {
+            roo.Message = "Fant ikke medlemsskapet";
+            return roo;
+        }
+        else
+        {
+            m.ToBeRenewed = membership.ToBeRenewed;
+            roo.Result = _updateMembership(m);
+            if (!roo.Result)
+            {
+                roo.Message = "Error updating membership";
+            }
+            return roo;
+        }
     }
 }

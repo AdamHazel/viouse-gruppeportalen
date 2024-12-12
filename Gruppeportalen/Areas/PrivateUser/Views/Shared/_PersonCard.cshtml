@@ -41,7 +41,17 @@
                         <p>
                             <strong>@m.MembershipType.MembershipName</strong> 
                             <span>@m.LocalGroup.GroupName</span>
-                            <button class="btn btn-outline-dark">Test</button>
+                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-membership-id="@m.Id"
+                                    data-bs-target="#cancelModal" data-group-name="@m.LocalGroup.GroupName" data-status = "@m.ToBeRenewed">
+                                @if (m.ToBeRenewed)
+                                {
+                                    <span>Meld ut</span>
+                                }
+                                else
+                                {
+                                    <span>Forny</span>
+                                }
+                            </button>
                         </p>
                     }
                 </div>
@@ -149,6 +159,30 @@
     </div>
 </div>
 
+<!-- Modal for å kansellere medlemsskap -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fs-5" id="cancelModalLabel"></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="cancelInfo"></p>
+                <div class="modal-footer">
+                    <p id="informationText" class="fs-6"></p>
+                    <form asp-action="" id="cancelMembershipForm">
+                        <input type="hidden" id="membershipId" name="membershipId" value=""/>
+                        <button type="submit" id="cancelButton" class="custom-orange-btn">Ok</button>
+                    </form>
+                    <button type="button" id="avbrytButton" class="custom-blue-btn" data-bs-dismiss="modal">Avbryt</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/PersonScripts/cancellingMembership.js"></script>
 <script src="/js/PersonScripts/deletingPerson.js"></script>
 <script src="/js/PersonScripts/sharingPerson.js"></script>
 <script src="/js/PersonScripts/transferringPerson.js"></script>
