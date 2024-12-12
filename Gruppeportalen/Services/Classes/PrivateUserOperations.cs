@@ -216,7 +216,10 @@ public class PrivateUserOperations : IPrivateUserOperations
         
     public IEnumerable<LocalGroup> SearchLocalGroups(string query, string county)
     {
-        var localGroups = _db.LocalGroups.Where(g => g.Active).AsQueryable();
+        var localGroups = _db.LocalGroups
+            .Include(g => g.MembershipTypes)
+            .OrderBy(g => g.GroupName)
+            .Where(g => g.Active).AsQueryable();
 
         if (!string.IsNullOrEmpty(query))
         {
