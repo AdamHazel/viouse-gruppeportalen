@@ -71,7 +71,7 @@ public class MembershipService : IMembershipService
             {
                 StartDate = DateTime.Now,
                 EndDate = new DateTime(yearForReset, mt.MonthReset, mt.DayReset, 23, 59, 59, DateTimeKind.Utc),
-                IsActive = true,
+                IsActive = false,
                 IsBlocked = false,
                 ToBeRenewed = true,
             };
