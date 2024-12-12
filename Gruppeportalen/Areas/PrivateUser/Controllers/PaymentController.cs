@@ -124,7 +124,9 @@ public class PaymentController : Controller
             .Include(mp => mp.Membership)
             .ThenInclude(m => m.MembershipType)
             .Include(mp => mp.Membership.Person)
-            .Where(mp => mp.Membership.PersonId == currentUser.Id)
+            .ThenInclude(p=>p.UserPersonConnections)
+            .Where(mp => mp.Membership.Person.UserPersonConnections
+                .Any(upc=>upc.PrivateUser.Id == currentUser.Id))
             .Select(mp => new PaymentListViewModel
             {
                 PaymentId = mp.PaymentId,

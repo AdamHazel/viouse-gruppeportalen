@@ -122,6 +122,7 @@ public class LocalgroupController : Controller
         
         if (adminCreator.LocalGroupId == Guid.Empty)
             return BadRequest("Id empty");
+        ViewBag.Counties = _norwayInfo.GetAllCounties();
         
         if (!ModelState.IsValid)
         {

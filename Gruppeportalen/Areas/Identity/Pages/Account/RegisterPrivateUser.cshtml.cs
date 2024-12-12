@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
+using Gruppeportalen.Areas.CentralOrganisation.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -44,6 +46,10 @@ namespace Gruppeportalen.Areas.Identity.Pages.Account
             public string Telephone { get; set; }
             public string Address { get; set; }
             public string City { get; set; }
+            
+            [MinLength(4)]
+            [StringLength(4)]
+            [PostcodeFormatNumbersValidation]
             public string Postcode { get; set; }
         }
 

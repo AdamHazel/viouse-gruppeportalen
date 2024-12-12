@@ -14,32 +14,32 @@ public class ApplicationDbInitializer
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
         
-        var user = new ApplicationUser {UserName = "user@uia.no", Email = "user@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
+        var user = new ApplicationUser {UserName = "football@lag.no", Email = "football@lag.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
         um.CreateAsync(user, "Password1.").Wait();
         
-        var user1 = new ApplicationUser {UserName = "user1@uia.no", Email = "user1@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Privateuser};
+        var user1 = new ApplicationUser {UserName = "hans@uia.no", Email = "hans@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Privateuser};
         um.CreateAsync(user1, "Password1.").Wait();
         
-        var user2 = new ApplicationUser {UserName = "user2@uia.no", Email = "user2@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
+        var user2 = new ApplicationUser {UserName = "bjj@sport.no", Email = "bjj@sport.no", EmailConfirmed = true, TypeOfUser = Constants.Centralorg};
         um.CreateAsync(user2, "Password1.").Wait();
         
-        var user3 = new ApplicationUser {UserName = "user3@uia.no", Email = "user3@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Privateuser};
+        var user3 = new ApplicationUser {UserName = "lisa@uia.no", Email = "lisa@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Privateuser};
         um.CreateAsync(user3, "Password1.").Wait();
         
-        var user4 = new ApplicationUser {UserName = "user4@uia.no", Email = "user4@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Privateuser};
+        var user4 = new ApplicationUser {UserName = "kari@uia.no", Email = "kari@uia.no", EmailConfirmed = true, TypeOfUser = Constants.Privateuser};
         um.CreateAsync(user4, "Password1.").Wait();
         
-        var cUser = new CentralOrganisation {Id = user.Id, OrganisationName = "Test Org", OrganisationNumber = "12345678"};
+        var cUser = new CentralOrganisation {Id = user.Id, OrganisationName = "Grimstad Fotballklubb", OrganisationNumber = "12345678"};
         db.CentralOrganisations.Add(cUser);
         
-        var cUser2 = new CentralOrganisation {Id = user2.Id, OrganisationName = "Test Org", OrganisationNumber = "1111111"};
+        var cUser2 = new CentralOrganisation {Id = user2.Id, OrganisationName = "Sirdal Håndballklubb", OrganisationNumber = "1111111"};
         db.CentralOrganisations.Add(cUser2);
         db.SaveChanges();
 
         var Adam = new PrivateUser
         {
-            Id = user3.Id, Firstname = "Adam", Lastname = "Hazel", DateOfBirth = new DateTime(1992, 01, 01),
-            Telephone = "40567892", Address = "Random address", City = "Homborsund", Postcode = "9999",
+            Id = user3.Id, Firstname = "Lisa", Lastname = "Larsen", DateOfBirth = new DateTime(1992, 01, 01),
+            Telephone = "40567892", Address = "Holvikaholsen 45", City = "Grimstad", Postcode = "4879",
             ApplicationUser = user3};
         db.PrivateUsers.Add(Adam);
         db.SaveChanges();
@@ -57,13 +57,23 @@ public class ApplicationDbInitializer
             PrimaryPerson = true
         };
         db.Persons.Add(person);
-        /*pUser.Persons.Add(person);*/
         db.SaveChanges();
-
+        
+        var upc1 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person.Id };
+        Adam.UserPersonConnections.Add(upc1);
+        person.UserPersonConnections.Add(upc1);
+        db.SaveChanges();
         
         var Blah = new PrivateUser
         {
-            Id = user1.Id, ApplicationUser = user1, Address = "Snarveien17 B", City = "Grimstad", Postcode = "4885", DateOfBirth = DateTime.Parse("1994-01-20"), Lastname = "Blah", Firstname = "Blah"
+            Id = user1.Id, 
+            ApplicationUser = user1, 
+            Address = "Snarveien 17B", 
+            City = "Grimstad", 
+            Postcode = "4885", 
+            DateOfBirth = DateTime.Parse("1994-01-20"), 
+            Lastname = "Hansen", 
+            Firstname = "Hans"
         };
         db.PrivateUsers.Add(Blah);
         db.SaveChanges();
@@ -81,14 +91,25 @@ public class ApplicationDbInitializer
             PrimaryPerson = true
         };
         db.Persons.Add(person1);
-        /*puser1.Persons.Add(person1);*/
+        db.SaveChanges();
+        
+        var upc2 = new UserPersonConnection { PrivateUserId = Blah.Id, PersonId = person1.Id };
+        Blah.UserPersonConnections.Add(upc2);
+        person1.UserPersonConnections.Add(upc2);
         db.SaveChanges();
         
         var Kathe = new PrivateUser
         {
-            Id = user4.Id, Firstname = "Kathe", Lastname = "Hazel", DateOfBirth = new DateTime(1993, 01, 01),
-            Telephone = "91567892", Address = "Another address", City = "Sandefjord", Postcode = "9999",
-            ApplicationUser = user4};
+            Id = user4.Id, 
+            Firstname = "Kari", 
+            Lastname = "Nordmann", 
+            DateOfBirth = new DateTime(1993, 01, 01),
+            Telephone = "91567892", 
+            Address = "Solveien 30", 
+            City = "Sandefjord", 
+            Postcode = "3217",
+            ApplicationUser = user4,
+        };
         db.PrivateUsers.Add(Kathe);
         db.SaveChanges();
         
@@ -105,30 +126,6 @@ public class ApplicationDbInitializer
             PrimaryPerson = true
         };
         db.Persons.Add(person2);
-        /*pUser2.Persons.Add(person2);*/
-        db.SaveChanges();
-        
-        var person3 = new Person
-        {
-            Firstname = "Miles",
-            Lastname = "Testing",
-            Address = "Doesn't matter",
-            City = "Nowhere",
-            Postcode = "1234",
-            DateOfBirth = new DateTime(2003, 01, 01),
-        };
-        db.Persons.Add(person3);
-        /*pUser2.Persons.Add(person2);*/
-        db.SaveChanges();
-        
-        var upc1 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person.Id };
-        Adam.UserPersonConnections.Add(upc1);
-        person.UserPersonConnections.Add(upc1);
-        db.SaveChanges();
-        
-        var upc2 = new UserPersonConnection { PrivateUserId = Blah.Id, PersonId = person1.Id };
-        Blah.UserPersonConnections.Add(upc2);
-        person1.UserPersonConnections.Add(upc2);
         db.SaveChanges();
         
         var upc3 = new UserPersonConnection { PrivateUserId = Kathe.Id, PersonId = person2.Id };
@@ -136,52 +133,113 @@ public class ApplicationDbInitializer
         person2.UserPersonConnections.Add(upc3);
         db.SaveChanges();
         
-        var upc4 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person2.Id };
-        Adam.UserPersonConnections.Add(upc4);
-        person2.UserPersonConnections.Add(upc4);
+        var person3 = new Person
+        {
+            Firstname = "Nansi",
+            Lastname = "Nordmann",
+            Address = "Dagveien 76",
+            City = "Homborsund",
+            Postcode = "4888",
+            DateOfBirth = new DateTime(2003, 01, 01),
+        };
+        db.Persons.Add(person3);
         db.SaveChanges();
         
-        var upc5 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person1.Id };
-        Adam.UserPersonConnections.Add(upc5);
-        person1.UserPersonConnections.Add(upc5);
+        var person4 = new Person
+        {
+            Firstname = "Tirill",
+            Lastname = "Eckhoff",
+            Address = "Fjellveien 26",
+            City = "Oslo",
+            Postcode = "0001",
+            DateOfBirth = new DateTime(2003, 01, 01),
+        };
+        db.Persons.Add(person4);
         db.SaveChanges();
         
-        var upc7 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person3.Id };
-        Adam.UserPersonConnections.Add(upc7);
-        person3.UserPersonConnections.Add(upc7);
+        var person5 = new Person
+        {
+            Firstname = "Tarjei",
+            Lastname = "Bø",
+            Address = "Stryneveien 205",
+            City = "Stryn",
+            Postcode = "6259",
+            DateOfBirth = new DateTime(1988, 05, 3),
+        };
+        db.Persons.Add(person5);
         db.SaveChanges();
         
-        var upc8 = new UserPersonConnection { PrivateUserId = Kathe.Id, PersonId = person3.Id };
-        Kathe.UserPersonConnections.Add(upc8);
-        person3.UserPersonConnections.Add(upc8);
+        
+        var upc4 = new UserPersonConnection { PrivateUserId = Blah.Id, PersonId = person3.Id };
+        Blah.UserPersonConnections.Add(upc4);
+        person3.UserPersonConnections.Add(upc4);
+        db.SaveChanges();
+        
+        var upc5 = new UserPersonConnection { PrivateUserId = Blah.Id, PersonId = person4.Id };
+        Blah.UserPersonConnections.Add(upc5);
+        person4.UserPersonConnections.Add(upc5);
+        db.SaveChanges();
+        
+        var upc7 = new UserPersonConnection { PrivateUserId = Kathe.Id, PersonId = person5.Id };
+        Kathe.UserPersonConnections.Add(upc7);
+        person5.UserPersonConnections.Add(upc7);
+        db.SaveChanges();
+        
+        var upc8 = new UserPersonConnection { PrivateUserId = Adam.Id, PersonId = person1.Id };
+        Adam.UserPersonConnections.Add(upc8);
+        person1.UserPersonConnections.Add(upc8);
         db.SaveChanges();
         
 
         var lg1 = new LocalGroup
         {
-            Address = "Address 1", GroupName = "Group 1", City = "City 1", Postcode = "1111", County = "County 1",
-            CentralOrganisationId = cUser.Id, Active = true, Description = "This is group 1. Welcome to this group!",
+            Address = "Svingen 1", 
+            GroupName = "Grimstad 15+", 
+            City = "Grimstad", 
+            Postcode = "4887", 
+            County = "Agder",
+            CentralOrganisationId = cUser.Id, 
+            Active = true, 
+            Description = "Ukentlig fotballtrening for alle som er over 15.",
         };
         db.LocalGroups.Add(lg1);
         
         var lg2 = new LocalGroup
         {
-            Address = "Address 2", GroupName = "Group 2", City = "City 2", Postcode = "2222", County = "County 2",
-            CentralOrganisationId = cUser.Id, Active = true, Description = "This is group 2. Welcome to this group!"
+            Address = lg1.Address, 
+            GroupName = "Grimstad 6+", 
+            City = lg1.City, 
+            Postcode = lg1.Postcode, 
+            County = lg1.County,
+            CentralOrganisationId = cUser.Id, 
+            Active = true, 
+            Description = "Ukentlig fotballtrening for alle mellom 6 og 15."
         };
         db.LocalGroups.Add(lg2);
         
         var lg3 = new LocalGroup
         {
-            Address = "Address 3", GroupName = "Group 3", City = "City 3", Postcode = "3333", County = "County 3",
-            CentralOrganisationId = cUser.Id, Active = true, Description = "This is group 3. Welcome to this group!"
+            Address = "Bølgeveien 5", 
+            GroupName = "Turneringsklubben", 
+            City = "Arendal", 
+            Postcode = "3111", 
+            County = "Agder",
+            CentralOrganisationId = cUser2.Id, 
+            Active = true, 
+            Description = "En gruppe for alle som ønsker å konkurrere i BJJ turneringer."
         };
         db.LocalGroups.Add(lg3);
         
         var lg4 = new LocalGroup
         {
-            Address = "Address 4", GroupName = "Group 4", City = "City 4", Postcode = "4444", County = "County 4",
-            CentralOrganisationId = cUser2.Id, Active = true, Description = "This is group 4. Welcome to this group!"
+            Address = lg3.Address, 
+            GroupName = "Pensjonistklubben", 
+            City = lg3.City, 
+            Postcode = lg3.Postcode, 
+            County = lg3.County,
+            CentralOrganisationId = cUser2.Id, 
+            Active = true, 
+            Description = "Morsom trening for alle som er over 65."
         };
         db.LocalGroups.Add(lg4);
         
@@ -229,7 +287,7 @@ public class ApplicationDbInitializer
 
         var mtp1 = new MembershipType
         {
-            MembershipName = "New membership",
+            MembershipName = "Enkeltmedlemskap",
             DayReset = 15,
             MonthReset = 9,
             Price = 150,
@@ -239,7 +297,7 @@ public class ApplicationDbInitializer
         
         var mtp2 = new MembershipType
         {
-            MembershipName = "New membership 2",
+            MembershipName = "Premiummedlemskap",
             DayReset = 27,
             MonthReset = 9,
             Price = 100,
@@ -249,7 +307,7 @@ public class ApplicationDbInitializer
         
         var mtp3 = new MembershipType
         {
-            MembershipName = "Another one",
+            MembershipName = "Studentmedlemskap",
             DayReset = 11,
             MonthReset = 12,
             Price = 100,
@@ -259,13 +317,33 @@ public class ApplicationDbInitializer
         
         var mtp4 = new MembershipType
         {
-            MembershipName = "Best membership ever",
+            MembershipName = "Enkeltmedlemskap",
             DayReset = 15,
             MonthReset = 12,
             Price = 1000,
             LocalGroupId = lg2.Id,
         };
         db.MembershipTypes.Add(mtp4);
+        
+        var mtp5 = new MembershipType
+        {
+            MembershipName = "Enkeltmedlemskap",
+            DayReset = 15,
+            MonthReset = 12,
+            Price = 1000,
+            LocalGroupId = lg3.Id,
+        };
+        db.MembershipTypes.Add(mtp5);
+        
+        var mtp6 = new MembershipType
+        {
+            MembershipName = "Supermedlemskap",
+            DayReset = 15,
+            MonthReset = 12,
+            Price = 1000,
+            LocalGroupId = lg3.Id,
+        };
+        db.MembershipTypes.Add(mtp6);
         
         db.SaveChanges();
     }

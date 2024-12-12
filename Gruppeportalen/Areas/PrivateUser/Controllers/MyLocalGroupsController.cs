@@ -145,7 +145,6 @@ public class MyLocalGroupsController : Controller
     }
     
     [Route("normal/group/{groupId:guid}/overview")]
-    [AdminForThisGroupCheckFactory]
     public IActionResult LocalGroupOverview(Guid groupId)
     {
         var group = _lgs.GetLocalGroupById(groupId);
@@ -156,7 +155,6 @@ public class MyLocalGroupsController : Controller
     }
 
     [Route("normal/group/{groupId:guid}/information")]
-    [AdminForThisGroupCheckFactory]
     public IActionResult LocalGroupInformation(Guid groupId)
     { 
         ViewBag.Counties = _norwayInfo.GetAllCounties();

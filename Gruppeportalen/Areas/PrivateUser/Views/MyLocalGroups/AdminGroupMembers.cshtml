@@ -8,6 +8,20 @@
 
 <link rel="stylesheet" href="~/css/membership-list.css" />
 
+<div class="main-container">
+    <div class="sidebar">
+        @Html.Partial("_PrivateUserSidebar")
+    </div>
+    <div>
+        <h2 class="centered-title">@Model.GroupName</h2>
+        <a class="custom-orange-btn" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupOverview"
+           asp-route-groupId="@Model.Id">Hjem</a>
+        <a class="custom-orange-btn" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupInformation"
+           asp-route-groupId="@Model.Id">Lokallaginfo</a>
+        <a class="custom-orange-btn" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="AdminGroupMembers"
+           asp-route-groupId="@Model.Id">Medlemsliste</a>
+    </div>
+    
 <div class="container mt-4" style="background-color: #f5fff5; padding: 20px; border-radius: 8px;">
 
     <div class="row mb-3">
@@ -34,7 +48,7 @@
                         <option value="">Alle</option>
                         @foreach (var membershipType in Model.MembershipTypes)
                         {
-                        <option value="@membershipType.Id">@membershipType.MembershipName</option>
+                            <option value="@membershipType.Id">@membershipType.MembershipName</option>
                         }
                     </select>
                 </div>
@@ -112,7 +126,8 @@
         <button class="custom-blue-btn">Blokker medlem</button>
         <button class="custom-blue-btn">Opphev blokkering</button>
     </div>
-    
+        
+</div>
 </div>
 
 

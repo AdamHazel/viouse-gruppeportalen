@@ -48,7 +48,7 @@ public class LocalGroup
     public CentralOrganisation? Organisation { get; set; }
     
     // Values that are possible to be null
-    [StringLength(50)]
+    [StringLength(200)]
     public string? Description { get; set; }
     
     // Values for running of local group
