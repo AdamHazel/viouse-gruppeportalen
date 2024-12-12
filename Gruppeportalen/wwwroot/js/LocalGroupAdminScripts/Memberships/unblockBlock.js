@@ -1,5 +1,6 @@
 // Block members
-document.querySelector(".block-member-btn").addEventListener("click", function () {
+document.getElementById("block-member-btn").addEventListener("click", function () {
+    console.log("button clicked");
     const selectedIds = Array.from(document.querySelectorAll(".select-member:checked"))
         .map(checkbox => checkbox.value);
 
@@ -37,7 +38,7 @@ document.querySelector(".block-member-btn").addEventListener("click", function (
 });
 
 // Unblock members
-document.querySelector(".unblock-member-btn").addEventListener("click", function () {
+document.getElementById("unblock-member-btn").addEventListener("click", function () {
     const selectedIds = Array.from(document.querySelectorAll(".select-member:checked"))
         .map(checkbox => checkbox.value);
 
