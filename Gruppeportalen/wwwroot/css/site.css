@@ -17,6 +17,15 @@ body {
   min-height: 100vh;
 }
 
+.search-filter-section {
+  margin-left: 225px;
+  margin-top: 40px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .main-container {
   margin-left: 225px; 
   margin-top: 60px; 
@@ -88,8 +97,8 @@ body {
 }
 
 .custom-button {
-  background-color: #f4a261; 
-  color: white; 
+  background-color: #f4a261;
+  color: white;
   text-decoration: none;
   padding: 50px 100px;
   width: 400px;
@@ -102,9 +111,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+
+  margin-top: -500px; /* Flytter knappene opp */
 }
+
 
 .add-button-container
 {

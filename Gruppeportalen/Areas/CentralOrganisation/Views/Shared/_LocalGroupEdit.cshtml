@@ -29,9 +29,11 @@
             <option value="Alle fylker">Alle fylker</option>
             @foreach (var county in ViewBag.Counties as List<string>)
             {
-            <option value="@county">@county</option>
+                <option value="@county">@county</option>
             }
         </select>
     </div>
-    <button type="submit" class="btn btn-primary mt-3">Lagre endringer</button>
+    <div class="center-container">
+    <button type="submit" class="custom-orange-btn">Lagre endringer</button>
+    </div>
 </form>

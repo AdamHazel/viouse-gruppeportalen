@@ -1,0 +1,58 @@
+/* Admin-list-container */
+.admin-list {
+    margin-top: 20px; /* Plass over admin-listen */
+}
+
+/* Flex-container for hver admin-rad */
+.admin-row {
+    display: flex; /* Sett elementene på én linje */
+    align-items: center; /* Vertikal sentrering */
+    gap: 15px; /* Avstand mellom e-postfelt og knapp */
+    margin-bottom: 10px; /* Avstand mellom rader */
+    max-width: 600px; /* Begrens bredde for hver rad */
+}
+
+/* Styling for e-postfeltet */
+.admin-email {
+    flex: 1; /* Fyll tilgjengelig plass */
+    max-width: 400px; /* Sett en maks bredde for tekstfeltet */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #555;
+    font-size: 14px;
+    box-sizing: border-box; /* Sikrer at padding er inkludert i bredden */
+}
+
+.admin-btn {
+    padding: 10px 20px;
+    height: 42px; /* Høyde matcher tekstfeltet */
+    background-color: #f4a261;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.admin-btn:hover {
+    background-color: #e76f51; /* Mørkere oransje ved hover */
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Mellomrom mellom input og knapp */
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+

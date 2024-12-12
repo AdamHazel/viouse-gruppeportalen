@@ -1,19 +1,23 @@
 ﻿@model Gruppeportalen.Areas.CentralOrganisation.Models.ViewModels.EditLocalGroupViewModel
 
-@{
-    ViewBag.Title = "Rediger lokallag";
-    Layout = "_Layout";
-}
+<div class="main-container">
+
+     @{
+         ViewBag.Title = "Rediger lokallag";
+         Layout = "_Layout";
+     }
 
 <div class="sidebar">
     @Html.Partial("_CentralOrganisationSidebar")
 </div>
-
-<h2>Rediger Lokallag</h2>
+<div class="center-container">
+    <h2>Rediger Lokallag</h2>
+</div>
 <partial name="_LocalGroupEdit" model="@Model.LocalGroup"/>
 
-<h2>Admins</h2>
+<h2>Admin(s)</h2>
 <partial name="_LocalGroupAdminOverview" model="@Model.LocalGroupAdmins"/>
 
 <h2>Legg til admin</h2>
 <partial name="_LocalGroupAddAdmin" model="@Model.AdminCreator"/>
+</div>

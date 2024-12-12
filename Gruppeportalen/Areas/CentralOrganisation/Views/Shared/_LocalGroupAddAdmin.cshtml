@@ -1,15 +1,15 @@
 ﻿@model AdminCreator
 
-<form asp-action="AddAdmin" id="adminForm">
-    <div class="form-group">
+<form asp-action="AddAdmin" id="adminForm" class="admin-form">
+    <div class="form-row">
+        <!-- Tekstfelt for e-post -->
         <input type="hidden" class="form-control" asp-for="LocalGroupId">
         <span asp-validation-for="LocalGroupId"></span>
-    </div>
-    <div class="form-group">
-        <input type="text" class="form-control emailInput" asp-for="AdminEmail">
+
+        <input type="text" class="form-control email-input" asp-for="AdminEmail" placeholder="E-postadresse">
         <span asp-validation-for="AdminEmail"></span>
+
+        <!-- Knapp på samme linje -->
+        <button type="submit" class="custom-orange-btn">Legg til admin</button>
     </div>
-    <button type="submit" class="btn btn-primary mt-3">Legg til admin</button>
 </form>
-
-

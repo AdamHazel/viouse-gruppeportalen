@@ -17,6 +17,7 @@
     font-family: Arial, sans-serif; /* Standard font */
 }
 
+
 .localGroupMiniBox {
     width: 300px; /* Original bredde */
     background-color: #d3d3d3 !important; /* Lys grå bakgrunn */
@@ -107,3 +108,4 @@ footer {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Myk skygge */
     transition: background-color 0.3s ease;
 }
+

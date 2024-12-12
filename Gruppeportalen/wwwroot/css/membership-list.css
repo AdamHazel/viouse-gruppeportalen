@@ -1,0 +1,107 @@
+.table-responsive{
+    
+}
+
+.table thead {
+    background-color: #f4a261; /* Oransje bakgrunn */
+    color: black; /* Hvit tekst */
+}
+
+.table thead th {
+    padding: 15px; /* Juster padding for overskriftene */
+    text-align: left; /* Venstrejustering av teksten */
+    font-weight: bold; /* Gjør teksten fet */
+    background-color: #d3d3d3;
+    
+}
+
+/* Styling for search-box */
+.search-box {
+    background-color: #d3d3d3; /* Lys grå bakgrunn */
+    padding: 20px; /* Innvendig padding */
+    border-radius: 10px; /* Runde hjørner */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Myk skygge */
+    margin: 20px 0; /* Margin over og under */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Avstand mellom seksjonene */
+}
+
+/* Øverste seksjon med søkefelt */
+.search-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-top label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.search-top input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Rad med elementer under */
+.search-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Jevn fordeling */
+    gap: 15px;
+}
+
+/* Styling for form-check */
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-check label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Styling for dropdown og knapp */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+select.form-control {
+    width: 150px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.custom-orange-btn {
+    background-color: #f4a261;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.custom-orange-btn:hover {
+    background-color: #e76f51;
+}
+

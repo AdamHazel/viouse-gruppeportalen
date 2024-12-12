@@ -1,5 +1,5 @@
 .navbar {
-    position: absolute !important; 
+    position: fixed !important; 
     top: 0;
     left: 0;
     width: 100%; 
@@ -33,10 +33,6 @@ body {
     text-decoration: none;
 }
 
-.navbar .navbar-nav .nav-link:hover {
-    background-color: #e76f51;
-}
-
 .navbar .btn-logout {
     background-color: #f4a261;
     color: white !important;
@@ -44,8 +40,4 @@ body {
     padding: 8px 20px;
     margin-left: auto; 
     text-transform: uppercase;
-}
-
-.navbar .btn-logout:hover {
-    background-color: #e76f51;
 }

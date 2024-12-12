@@ -1,4 +1,5 @@
 ﻿@model List<LocalGroup>
+<link rel="stylesheet" href="~/css/informationcard.css" />
 
 @{
     ViewBag.Title = "Mine Lokallag";
@@ -8,19 +9,20 @@
 <div class="sidebar">
     @Html.Partial("_CentralOrganisationSidebar")
 </div>
-<div class="center-container">
+<div class="main-container">
 <h2>Mine lokallag</h2>
 </div>
 
-<div class="groupContainer">
+
+<div class="cards-container">
     @foreach (var group in Model)
-    {   
-        <div class="localGroupBox p-3 m-2">
+    {
+        <div class="card">
             <partial name="_LocalgroupOverviewPartial" model="group"/>
         </div>
     }
 </div>
 
-<div class="center-container">
+<div class="find-localgroup-container">
     <a asp-action="Add" class="add-local-group-btn">Legg til nytt lokallag</a>
 </div>

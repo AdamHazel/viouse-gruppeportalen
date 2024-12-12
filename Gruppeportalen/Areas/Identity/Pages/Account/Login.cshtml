@@ -5,6 +5,8 @@
     ViewData["Title"] = "Logg inn";
 }
 
+<link rel="stylesheet" href="~/css/login.css" />
+
 @{
     string message = Request.Query["message"];
     string popupMessage = null;
@@ -36,10 +38,13 @@
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
+                <div class="center-container">
+                <h2>Logg inn</h2>
+                </div>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
                     <label asp-for="Input.Email" class="form-label">E-post</label>
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>

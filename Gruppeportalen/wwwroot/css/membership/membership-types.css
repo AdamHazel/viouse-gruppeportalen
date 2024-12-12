@@ -1,33 +1,92 @@
-﻿.membership-outer-box {
+﻿/* Ytre container for tabellen */
+.membership-outer-box {
+    text-align: center; /* Sentrer innholdet i containeren */
+    margin: auto; /* Sentraliser tabellen */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Stil for tabellen */
+.membership-outer-box table {
+    width: 80%; /* Sett bredden til tabellen */
+    margin: auto; /* Sentraliser tabellen */
+    border-collapse: collapse;
+}
+
+/* Stil for tabellens celler */
+.membership-outer-box th,
+.membership-outer-box td {
+    padding: 15px 10px; /* Øk mellomrom mellom cellene */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle; /* Juster vertikalt for knappene */
+}
+
+/* Overskrifter */
+.membership-outer-box th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+/* Knappen for sletting */
+.membership-outer-box .btn-close {
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    margin-right: 5px;
+}
+
+.membership-outer-box .btn-close:hover {
+    color: #e76f51;
+}
+
+/* Rediger-knappen */
+.membership-outer-box .custom-orange-btn {
+    background-color: #f4a261;
+    color: white;
+    padding: 7px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* Avstand mellom celler */
+}
+
+.membership-outer-box .custom-orange-btn:hover {
+    background-color: #e76f51;
+}
+
+/* Pluss-knappen */
+.membership-outer-box .custom-plus-button {
+    position: absolute;
+    background-color: #1a3550;
+    color: white;
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 1rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 20px auto 0; /* Plasser knappen under tabellen */
 }
 
-.membership-type-box {
-    width: 100%;
-}
-
-.membership-type-line-headers {
+.plus-btn-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; /* Sørger for at knappen plasseres helt til høyre */
+    margin-top: 20px;
+    margin-right: 16% /* Øker avstanden fra høyrekanten */
 }
 
-.membership-type-line {
-    display: block;
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    padding: 2px;
-    text-decoration: none;
-    color: black;
-}
-
-.membership-in-line {
-    display: flex;
-    justify-content: space-between;
-}
-
-.membership-in-line div, .membership-type-line-headers div {
-    width: 33%;
+.membership-outer-box .custom-plus-button:hover {
+    background-color: #f4a261;
 }

@@ -1,19 +1,26 @@
 ﻿@using Microsoft.IdentityModel.Tokens
-@model List<(ApplicationUser,Guid)>
+@model List<(ApplicationUser, Guid)>
+
+<link rel="stylesheet" href="~/css/admin.css" />
 
 @if (Model.IsNullOrEmpty())
 {
-    <p> Dette lokallaget har ingen admins</p>
+    <p>Dette lokallaget har ingen admins</p>
 }
 else
 {
-    foreach (var user in Model)
-    {
-        <div>
-            <span>@user.Item1.Email</span>
-            <span><a asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="RemoveAdmin" 
-                     asp-route-userId="@user.Item1.Id" asp-route-groupId="@user.Item2" 
-                     class="btn btn-danger mt-3">Fjern admin</a></span>
-        </div>
-    }
+    <div class="admin-list">
+        @foreach (var user in Model)
+        {
+            <div class="form-row">
+                <!-- E-postfelt -->
+                <input type="text" class="admin-email" value="@user.Item1.Email" readonly />
+                
+                <!-- Fjern admin-knapp -->
+                <a asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="RemoveAdmin" 
+                   asp-route-userId="@user.Item1.Id" asp-route-groupId="@user.Item2" 
+                   class="custom-blue-btn">Fjern admin</a>
+            </div>
+        }
+    </div>
 }

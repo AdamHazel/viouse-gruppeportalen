@@ -10,9 +10,14 @@
 
 .cards-container {
     display: grid; /* Aktiver Grid */
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Gjør boksene responsive */
-    gap: 10px; /* Avstand mellom boksene */
+    grid-template-columns: repeat(auto-fit, 400px); /* Bruk fast bredde på kortene */
+    justify-content: center; /* Sentér innholdet horisontalt */
+    gap: 20px; /* Avstand mellom kortene */
+    margin-left: 225px; /* Sørg for at innholdet ikke overlapper sidebaren */
+    padding: 20px; /* Valgfritt: legg til litt innvendig avstand */
+    box-sizing: border-box;
 }
+
 
 .card-header {
     text-align: center;

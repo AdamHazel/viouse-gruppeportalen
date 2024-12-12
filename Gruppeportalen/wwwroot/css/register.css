@@ -1,0 +1,75 @@
+/* Sørg for at hele siden bruker Flexbox for sentrering */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Sørg for at høyden fyller hele vinduet */
+    display: flex;
+    justify-content: center; /* Horisontal sentrering */
+    align-items: center; /* Vertikal sentrering */
+    background-color: #f8fef8; /* Bakgrunnsfarge */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Form-container styling */
+.form-container {
+    background-color: #1a3550; /* Mørk blå bakgrunn */
+    padding: 30px 40px;
+    border-radius: 12px;
+    width: 400px; /* Fiksert bredde */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Myk skygge */
+    color: #ffffff; /* Hvit tekst */
+    text-align: center;
+}
+
+/* Form-title styling */
+.form-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+
+
+/* Form-felter */
+.form-container .form-control {
+    border: 1px solid #ccc; /* Tynn grå kant */
+    border-radius: 8px; /* Runde hjørner */
+    background-color: #edf4ff; /* Lys blå bakgrunn */
+    padding: 15px 20px; /* Ekstra padding for større klikkbarhet */
+    font-size: 14px; /* Konsistent tekststørrelse */
+    color: #333; /* Mørk tekstfarge */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Innvendig skygge */
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.form-floating label {
+    color: black; /* Lysere tekst for etiketter */
+    font-size: 14px;
+}
+
+/* Knapper */
+.custom-orange-btn {
+    background-color: #f4a261; /* Oransje farge */
+    color: white; /* Hvit tekst */
+    border: none;
+    border-radius: 8px; /* Runde hjørner */
+    padding: 10px 20px;
+    font-size: 16px;
+    text-transform: uppercase; /* Gjør tekst til store bokstaver */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px 5px; /* Mellomrom mellom knapper */
+}
+
+.custom-orange-btn:hover {
+    background-color: #e76f51; /* Mørkere oransje ved hover */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Effekt */
+}
+
+/* Knappene som er plassert på samme linje */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+

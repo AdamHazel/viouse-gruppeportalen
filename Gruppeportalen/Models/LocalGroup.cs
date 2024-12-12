@@ -17,7 +17,7 @@ public class LocalGroup
     
     [Required]
     [StringLength(50)]
-    [DisplayName("Navn av lokallag")]
+    [DisplayName("Lokallagsnavn")]
     public string GroupName { get; set; } = string.Empty;
     
     [Required]

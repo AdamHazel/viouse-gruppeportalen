@@ -8,6 +8,7 @@
 ViewBag.Title = "Lokallaginformasjon";
 Layout = "_Layout";
 }
+
 <link rel="stylesheet" href="~/css/togglebutton.css" />
 <link rel="stylesheet" href="~/css/membership/membership-types.css" />
 
@@ -74,13 +75,16 @@ Layout = "_Layout";
 
             <button type="submit" class="custom-save-changes-button">Lagre endringer</button>
         </form>
-        <h3 class= "mt-4">Medlemskapstyper</h3>
+        <div class="center-container">
+            <h3 class= "mt-4">Medlemskapstyper</h3>
+        </div>
         <div class="membership-outer-box mt-4">
             @if (!Model.MembershipTypes.IsNullOrEmpty())
             {
                 <table>
                     <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col">Medlemsskapsnavn</th>
                         <th scope="col">Pris (kr)</th>
@@ -129,14 +133,18 @@ Layout = "_Layout";
             }
             else
             {
-                <p>You have no memberships.</p>
+                <p>Du har ingen medlemskap</p>
             }
-           
-            <div>
-                <button class="custom-plus-button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addMembershipModal"
-                        data-localgroup-id="@Model.Id"> +</button></div>
+            
+
+            
+                <div class="plus-btn-container">
+                    <button class="custom-plus-button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addMembershipModal"
+                            data-localgroup-id="@Model.Id"> +</button>
+                </div>
+            
         </div>
     </div>
     <partial name="_AddNewMembershipType" model="@new MembershipType { LocalGroupId = Model.Id }"/>

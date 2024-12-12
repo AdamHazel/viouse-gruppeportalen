@@ -32,7 +32,7 @@
                         <li class="nav-item">
                             @if (!User.Identity.IsAuthenticated)
                             {
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">HJEM</a>
                             }
                         </li>
                         <li class="nav-item">
@@ -52,7 +52,7 @@
                                 var currentUser = await UserService.GetCurrentUserAsync(User);
                                 if (currentUser != null && currentUser.TypeOfUser == Constants.Privateuser)
                                 {
-                                    <a class="nav-link text-danger" asp-area="PrivateUser" asp-controller="MyLocalGroups" asp-action="Index">LOKALLAG</a>   
+                                    <a class="nav-link text-danger" asp-area="PrivateUser" asp-controller="Search" asp-action="Index">LOKALLAG</a>   
                                 }
                             }
                         </li>
@@ -74,16 +74,6 @@
                                 {
                                     <a class="nav-link text-dark" asp-area="CentralOrganisation" asp-controller="Home" asp-action="Index">MIN SIDE</a>
                                 }
-                            }
-                        </li>
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                            var currentUser = await UserService.GetCurrentUserAsync(User);
-                            if (currentUser != null && currentUser.TypeOfUser == Constants.Centralorg)
-                            {
-                            <a class="nav-link text-dark" asp-area="CentralOrganisation" asp-controller="Localgroup" asp-action="Index">LOKALLAG</a>
-                            }
                             }
                         </li>
                     </ul>
