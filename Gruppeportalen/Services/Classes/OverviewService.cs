@@ -48,10 +48,10 @@ public class OverviewService : IOverviewService
         var overviews = new List<PersonLocalGroupOverview>();
         var user = _puo.GetPrivateUserByIdWithConnectedPersons(userId);
         
-        var listOfGroups = new HashSet<LocalGroup>();
         var connections = user.UserPersonConnections;
         if (!connections.IsNullOrEmpty())
         {
+            var listOfGroups = new HashSet<LocalGroup>();
             foreach (var upc in connections)
             {
                 var person = upc.Person;

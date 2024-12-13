@@ -245,7 +245,6 @@ public class MembershipService : IMembershipService
             resultOfOperation.Message = "Could not add MembershipPayment";
             return resultOfOperation;
         }
-            
     }
     public ResultOfOperation? AllowedToAddMembership(Guid membershipTypeId, string personId, Guid localGroupId)
     {
